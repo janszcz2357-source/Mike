@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Unofficial, sourced career file on British racing driver Mike Wilds: Formula One 1974-76, Le Mans, historic racing, titles and his memoir.">
+<meta property="og:title" content="Mike Wilds Career File">
+<meta property="og:description" content="Unofficial, sourced career file on British racing driver Mike Wilds: Formula One 1974-76, Le Mans, historic racing, titles and his memoir.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#F5C400">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F5C400' stroke='%23121108' stroke-width='2'/%3E%3Cpath d='M16 6 21 16 16 26 11 16Z' fill='%23121108'/%3E%3C/svg%3E">
+<title>Mike Wilds Career File</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: helmet-stripe masthead and timing-tower fact board, then one reading column; timing-sheet tables break out to the wide measure. */
+:root{
+  --paper:#FAF9F5; --panel:#FFFFFF; --band:#F2F0E8; --ink:#17160F; --muted:#5E5B50; --rule:#DCD9CE;
+  --helmet:#F5C400; --helmet-ink:#121108; --shine:rgba(255,255,255,.38);
+  --tower-bg:#0E0D0A; --tower-fg:#F5C400; --tower-label:#C9C5B3; --tower-line:#2A2920; --tower-edge:transparent;
+  --ret:#A8231B; --fin:#1F6B43; --dnq:#6E6A5D;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s-1:.25rem; --s0:.5rem; --s1:1rem; --s2:1.5rem; --s3:2.5rem; --s4:4rem; --s5:6rem;
+  --measure:66ch; --wide:72rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121210; --panel:#1B1A16; --band:#191915; --ink:#ECEAE1; --muted:#A9A597; --rule:#33312A;
+    --tower-edge:#3A3830; --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121210; --panel:#1B1A16; --band:#191915; --ink:#ECEAE1; --muted:#A9A597; --rule:#33312A;
+  --tower-edge:#3A3830; --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;}
+a{color:inherit;text-decoration-color:var(--helmet);text-decoration-thickness:.18em;text-underline-offset:.18em;}
+a:hover{text-decoration-color:currentColor;}
+:focus-visible{outline:3px solid var(--helmet);outline-offset:3px;box-shadow:0 0 0 6px var(--helmet-ink);}
+.wrap{max-width:var(--wide);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+.skip{position:absolute;left:-999px;top:0;background:var(--helmet);color:var(--helmet-ink);padding:var(--s0) var(--s1);font-family:var(--f-data);z-index:2;}
+.skip:focus{left:max(16px,env(safe-area-inset-left,0px));top:env(safe-area-inset-top,0px);}
+
+/* Helmet stripe */
+.stripe{
+  height:30px;background-color:var(--helmet);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='30'%3E%3Cpath d='M17 5 27 15 17 25 7 15Z' fill='%23121108'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;background-size:34px 30px;background-position:0 50%;
+  border-block:3px solid var(--helmet-ink);
+  animation:run 1.6s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes run{from{background-position:-680px 50%}to{background-position:0 50%}}
+
+/* Masthead */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,24vw,300px);gap:var(--s3);align-items:center;padding-block:var(--s4) var(--s3);}
+.hero-text{min-width:0;}
+.eyebrow,.label{font-family:var(--f-data);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;}
+.name{font-family:var(--f-display);font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:clamp(4.5rem,21vw,12rem);line-height:.8;letter-spacing:-.005em;margin:var(--s1) 0 var(--s2);display:flex;flex-direction:column;}
+.lede{font-size:clamp(1.15rem,2.2vw,1.4rem);line-height:1.5;max-width:44ch;margin:0;text-wrap:pretty;}
+.crest{margin:0;display:grid;gap:var(--s0);justify-items:center;text-align:center;}
+.crest svg{width:100%;max-width:300px;height:auto;display:block;}
+.crest figcaption{font-family:var(--f-data);font-size:.75rem;color:var(--muted);max-width:26ch;}
+.shell{fill:var(--helmet);stroke:var(--helmet-ink);stroke-width:4;}
+.shine{fill:var(--shine);}
+.ring{fill:var(--helmet-ink);transform-box:fill-box;transform-origin:center;animation:turn 1.6s cubic-bezier(.2,.7,.2,1) both;}
+@keyframes turn{from{transform:rotate(-90deg)}to{transform:rotate(0)}}
+
+/* Timing tower fact board */
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;background:var(--tower-bg);border:1px solid var(--tower-edge);}
+.board div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:var(--s-1);padding:var(--s1);border-top:1px solid var(--tower-line);border-left:1px solid var(--tower-line);}
+.board dt{font-family:var(--f-data);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--tower-label);line-height:1.35;}
+.board dd{margin:0;font-family:var(--f-data);font-weight:600;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1;color:var(--tower-fg);font-variant-numeric:tabular-nums;}
+@media (min-width:560px){.board{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media (min-width:980px){.board{grid-template-columns:repeat(6,minmax(0,1fr));}}
+
+.toc{padding-block:var(--s2);}
+.toc ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s0) var(--s2);font-family:var(--f-data);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;}
+
+/* Sections */
+.section{padding-block:var(--s4);border-top:1px solid var(--rule);}
+.section > *{max-width:var(--measure);}
+.section > .wide{max-width:none;}
+h2{font-family:var(--f-display);font-weight:900;font-stretch:72%;text-transform:uppercase;font-size:clamp(2.3rem,6vw,3.6rem);line-height:.95;margin:0 0 var(--s2);display:flex;align-items:center;gap:.4em;text-wrap:balance;}
+h2::before{content:"";flex:none;width:.42em;height:.42em;background:var(--helmet);border:3px solid var(--helmet-ink);transform:rotate(45deg);}
+h3{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:1.45rem;line-height:1.15;margin:0 0 var(--s0);text-wrap:balance;}
+p{margin:0 0 var(--s1);text-wrap:pretty;}
+.section p:last-child{margin-bottom:0;}
+
+/* Timing sheets */
+.sheet{overflow-x:auto;margin-block:var(--s2);border:1px solid var(--rule);background:var(--panel);}
+table{border-collapse:collapse;width:100%;min-width:44rem;font-family:var(--f-data);font-size:.85rem;font-variant-numeric:tabular-nums;}
+caption{caption-side:top;text-align:left;padding:var(--s0) var(--s1);font-family:var(--f-data);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);}
+th,td{text-align:left;padding:.55rem var(--s1);vertical-align:top;}
+thead th{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:2px solid var(--ink);white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--band);}
+tbody td{border-bottom:1px solid var(--rule);}
+td.nowrap,th.nowrap{white-space:nowrap;}
+td .note{display:block;color:var(--muted);font-size:.78rem;margin-top:2px;}
+tfoot td{font-weight:600;padding-block:var(--s0);}
+.res{display:inline-block;min-width:3.4em;text-align:center;font-weight:600;padding:1px 6px;border:1.5px solid currentColor;line-height:1.5;}
+.res.dnq{color:var(--dnq);}
+.res.ret{color:var(--ret);}
+.res.nc{color:var(--ink);}
+.res.fin{color:var(--fin);}
+.sheet.compact table{min-width:30rem;}
+.legend{font-family:var(--f-data);font-size:.75rem;color:var(--muted);}
+
+/* Stories */
+.stories{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--s2);margin-top:var(--s3);}
+.story{background:var(--panel);border:1px solid var(--rule);padding:var(--s2);min-width:0;}
+.story .label{margin-bottom:var(--s0);}
+
+/* Timeline */
+.timeline{list-style:none;margin:var(--s2) 0 0;padding:0;display:grid;gap:0;}
+.timeline li{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:var(--s1);padding-block:var(--s1);border-bottom:1px solid var(--rule);}
+.timeline li:first-child{border-top:1px solid var(--rule);}
+.yr{font-family:var(--f-data);font-weight:600;font-variant-numeric:tabular-nums;padding-top:.1em;}
+.timeline p{margin:0;}
+
+/* Titles */
+.titles{list-style:none;margin:var(--s2) 0;padding:0;display:grid;}
+.titles li{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:var(--s1);padding-block:.7rem;border-bottom:1px solid var(--rule);}
+.titles .yr{color:var(--ink);}
+.titles small{display:block;color:var(--muted);font-family:var(--f-data);font-size:.78rem;margin-top:2px;}
+.aside{font-size:.95rem;color:var(--muted);}
+
+/* Accidents */
+.hurt{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:var(--s2);margin-top:var(--s2);}
+.hurt article{border-top:4px solid var(--ink);padding-top:var(--s1);min-width:0;}
+.hurt .label{color:var(--ink);font-weight:600;margin-bottom:var(--s0);}
+.hurt p{font-size:.98rem;}
+
+/* Quotes */
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:var(--s3) var(--s2);margin-top:var(--s2);}
+.quotes figure{margin:0;min-width:0;}
+.quotes blockquote{margin:0 0 var(--s0);font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:clamp(1.5rem,3vw,2rem);line-height:1.1;text-wrap:balance;}
+.quotes blockquote::before{content:"\201C";color:var(--muted);}
+.quotes blockquote::after{content:"\201D";color:var(--muted);}
+.quotes figcaption{font-family:var(--f-data);font-size:.78rem;color:var(--muted);}
+
+/* Off track */
+.facts{list-style:none;margin:var(--s2) 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--s2);}
+.facts li{min-width:0;}
+.facts p{font-size:.98rem;}
+
+/* Book */
+.book{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s2);background:var(--panel);border:1px solid var(--rule);padding:var(--s2);margin-top:var(--s2);}
+.book dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:var(--s0) var(--s2);margin:0;font-size:.95rem;}
+.book dt{font-family:var(--f-data);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:.2em;}
+.book dd{margin:0;}
+.booktitle{font-family:var(--f-display);font-weight:900;font-stretch:70%;text-transform:uppercase;font-size:clamp(1.8rem,5vw,2.6rem);line-height:.95;margin:0;}
+
+/* Sources */
+.sources{margin:var(--s2) 0 0;padding-left:1.4em;display:grid;gap:var(--s0);font-size:.95rem;}
+.sources li::marker{font-family:var(--f-data);color:var(--muted);}
+.sources span{color:var(--muted);}
+.notes{margin-top:var(--s3);}
+.notes ul{margin:0;padding-left:1.2em;display:grid;gap:var(--s0);font-size:.95rem;}
+
+footer{padding-block:var(--s3) var(--s4);}
+footer p{font-family:var(--f-data);font-size:.78rem;color:var(--muted);max-width:72ch;}
+
+@media (max-width:700px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s3) var(--s2);}
+  .crest{grid-template-columns:96px minmax(0,1fr);justify-items:start;text-align:left;align-items:center;gap:var(--s1);}
+  .crest figcaption{max-width:none;}
+  .timeline li{grid-template-columns:minmax(0,1fr);gap:var(--s-1);}
+  .titles li{grid-template-columns:minmax(0,1fr);gap:0;}
+  .book dl{grid-template-columns:minmax(0,1fr);gap:0;}
+  .book dd{margin-bottom:var(--s0);}
+}
+@media (prefers-reduced-motion:reduce){
+  .stripe,.ring{animation:none;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the career file</a>
+
+<header class="masthead">
+  <div class="stripe" aria-hidden="true"></div>
+  <div class="wrap hero">
+    <div class="hero-text">
+      <p class="eyebrow">British racing driver · Born Chiswick, 7 January 1946</p>
+      <h1 class="name"><span>Mike</span><span>Wilds</span></h1>
+      <p class="lede">Eight Grand Prix entries in the 1970s, seven Le Mans 24 Hours, more than 150 kinds of racing car, and a career that began at Snetterton in May 1965 and was still running in 2022.</p>
+    </div>
+    <figure class="crest">
+      <svg viewBox="-100 -100 200 200" role="img" aria-label="Drawing of a yellow racing helmet seen from above, ringed with black diamonds">
+        <defs><path id="dmd" d="M0-84 8-72 0-60-8-72Z"/></defs>
+        <circle class="shell" r="95"/>
+        <ellipse class="shine" cx="-30" cy="-34" rx="34" ry="20" transform="rotate(-35 -30 -34)"/>
+        <g class="ring">
+          <use href="#dmd"/>
+          <use href="#dmd" transform="rotate(22.5)"/>
+          <use href="#dmd" transform="rotate(45)"/>
+          <use href="#dmd" transform="rotate(67.5)"/>
+          <use href="#dmd" transform="rotate(90)"/>
+          <use href="#dmd" transform="rotate(112.5)"/>
+          <use href="#dmd" transform="rotate(135)"/>
+          <use href="#dmd" transform="rotate(157.5)"/>
+          <use href="#dmd" transform="rotate(180)"/>
+          <use href="#dmd" transform="rotate(202.5)"/>
+          <use href="#dmd" transform="rotate(225)"/>
+          <use href="#dmd" transform="rotate(247.5)"/>
+          <use href="#dmd" transform="rotate(270)"/>
+          <use href="#dmd" transform="rotate(292.5)"/>
+          <use href="#dmd" transform="rotate(315)"/>
+          <use href="#dmd" transform="rotate(337.5)"/>
+        </g>
+      </svg>
+      <figcaption>His colours: a yellow helmet with a ring of black diamonds.</figcaption>
+    </figure>
+  </div>
+  <div class="wrap">
+    <dl class="board" aria-label="Career at a glance">
+      <div><dt>First race</dt><dd>1965</dd></div>
+      <div><dt>Grand Prix entries</dt><dd>8</dd></div>
+      <div><dt>Grand Prix starts</dt><dd>3</dd></div>
+      <div><dt>Le Mans starts</dt><dd>7</dd></div>
+      <div><dt>Kinds of racing car</dt><dd>150+</dd></div>
+      <div><dt>Still racing in</dt><dd>2022</dd></div>
+    </dl>
+  </div>
+  <nav class="wrap toc" aria-label="Sections">
+    <ul>
+      <li><a href="#origins">Origins</a></li>
+      <li><a href="#grand-prix">Grand Prix</a></li>
+      <li><a href="#le-mans">Le Mans</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#titles">Titles</a></li>
+      <li><a href="#accidents">Accidents</a></li>
+      <li><a href="#off-track">Off track</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="wrap section" id="origins" aria-labelledby="origins-h">
+  <h2 id="origins-h">Chiswick High Road</h2>
+  <p>William Michael Wilds grew up in Chiswick, west London. As a teenager he cycled to the showroom of The Chequered Flag, a racing-car dealer on Chiswick High Road, and ended up with a Saturday job washing the cars. Chas Beattie, who built Gemini Formula Junior cars there, took him to Brands Hatch. "That was it for me," he told <i>Motor Sport</i> in 2005. "I knew that my future had to be in motor racing."</p>
+  <p>At the end of 1964 he borrowed £280, with his mother guaranteeing the loan, and bought a DRW Mk1 to race in the 750 Motor Club's 1172 Formula. His first race, at Snetterton in May 1965, ended in third place. A win at Silverstone followed later that year.</p>
+  <p>The climb was slow and always short of money. He sold the DRW to pay debts, won Formula 4 races in a Vixen, and in 1971 took a job as a Firestone tyre technician. That put him in the paddock at international meetings and helped find him a Formula Ford drive in a Titan. In 1973 he raced in all three British Formula 3 championships, winning at Croft ahead of Tony Brise and at Mallory Park ahead of Jacques Laffite.</p>
+</section>
+
+<section class="wrap section" id="grand-prix" aria-labelledby="gp-h">
+  <h2 id="gp-h">Grand Prix, 1974 to 1976</h2>
+  <p>In 1974 Wilds moved up to Formula 5000 in Dempster's March 74A and finished second at Brands Hatch and Mallory Park. March picked him to stand in for the injured Hans Stuck at the Swedish Grand Prix, but he hurt his wrist in a crash at Thruxton the next day and Reine Wisell took the seat. What followed was eight World Championship entries in three seasons, always in modest machinery.</p>
+
+  <div class="sheet wide">
+    <table>
+      <caption>World Championship entries · Formula One</caption>
+      <thead>
+        <tr><th scope="col">Date</th><th scope="col">Grand Prix</th><th scope="col">Circuit</th><th scope="col">Entrant</th><th scope="col">Car</th><th scope="col">Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="nowrap">20 Jul 1974</td><td>British</td><td>Brands Hatch</td><td>Dempster International Racing Team</td><td>March 731 · Ford Cosworth DFV</td><td><span class="res dnq">DNQ</span></td></tr>
+        <tr><td class="nowrap">18 Aug 1974</td><td>Austrian</td><td>Österreichring</td><td>Team Ensign</td><td>Ensign N174 · Ford Cosworth DFV</td><td><span class="res dnq">DNQ</span></td></tr>
+        <tr><td class="nowrap">8 Sep 1974</td><td>Italian</td><td>Monza</td><td>Team Ensign</td><td>Ensign N174 · Ford Cosworth DFV</td><td><span class="res dnq">DNQ</span></td></tr>
+        <tr><td class="nowrap">22 Sep 1974</td><td>Canadian</td><td>Mosport Park</td><td>Team Ensign</td><td>Ensign N174 · Ford Cosworth DFV</td><td><span class="res dnq">DNQ</span></td></tr>
+        <tr><td class="nowrap">6 Oct 1974</td><td>United States</td><td>Watkins Glen</td><td>Team Ensign</td><td>Ensign N174 · Ford Cosworth DFV</td><td><span class="res nc">NC</span><span class="note">Long stop for fuel pressure</span></td></tr>
+        <tr><td class="nowrap">12 Jan 1975</td><td>Argentine</td><td>Buenos Aires</td><td>Stanley-BRM</td><td>BRM P201 · BRM V12</td><td><span class="res ret">RET</span><span class="note">Engine, after 24 laps</span></td></tr>
+        <tr><td class="nowrap">26 Jan 1975</td><td>Brazilian</td><td>Interlagos</td><td>Stanley-BRM</td><td>BRM P201 · BRM V12</td><td><span class="res ret">RET</span><span class="note">Clutch, after 22 laps</span></td></tr>
+        <tr><td class="nowrap">18 Jul 1976</td><td>British</td><td>Brands Hatch</td><td>Team P.R. Reilly</td><td>Shadow DN3B · Ford Cosworth DFV</td><td><span class="res dnq">DNQ</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="6">8 entries · 3 starts · 0 points</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class="legend">DNQ: did not qualify · NC: not classified · RET: retired</p>
+
+  <div class="stories wide">
+    <article class="story">
+      <p class="label">Watkins Glen · 6 October 1974</p>
+      <h3>First start, and a word from Scheckter</h3>
+      <p>Mo Nunn's Ensign team saved a fresh set of tyres for him, and Wilds made a Grand Prix grid for the first time, sharing it with Ronnie Peterson, "my absolute hero". After qualifying, Ken Tyrrell told him Jody Scheckter wanted a word. Wilds expected to be told off for being slow. Scheckter wanted to praise how he had handled the old Ensign N174.</p>
+      <p>In the race a fuel-pressure problem cost him a long pit stop. His friend Helmuth Koinigg was killed in the same race.</p>
+    </article>
+    <article class="story">
+      <p class="label">Stanley-BRM · January 1975</p>
+      <h3>Two races and out</h3>
+      <p>After testing a BRM P160, Wilds drove the P201 in the first two rounds of 1975. The V12 failed in Argentina and the clutch in Brazil. When he criticised the engine and argued the team would be better off with a Ford Cosworth DFV, Louis Stanley dropped him. Bob Evans had the car for South Africa.</p>
+      <p>In 1976 he tried once more, at Brands Hatch in Team P.R. Reilly's Shadow DN3B, and did not qualify. He looked back plainly: "To be honest I wasn't the best driver in the world."</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap section" id="le-mans" aria-labelledby="lm-h">
+  <h2 id="lm-h">Le Mans and Ecurie Ecosse</h2>
+  <p>Wilds raced the 24 Hours seven times between 1981 and 1988 and saw the flag once. His best sports-car years came with the Scottish team Ecurie Ecosse in Group C2. He called the C2 class win at the 1985 Silverstone 1000km, shared with Ray Mallock, the greatest achievement of his career. In 1986 Ecosse won the C2 teams' world title, which he lists among his honours.</p>
+
+  <div class="sheet compact wide">
+    <table>
+      <caption>24 Hours of Le Mans</caption>
+      <thead>
+        <tr><th scope="col">Year</th><th scope="col">Entrant</th><th scope="col">Car</th><th scope="col">Result</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1981</td><td>Tuff Kote Dinol Racing</td><td>Porsche 935</td><td><span class="res ret">DNF</span><span class="note">After 49 laps</span></td></tr>
+        <tr><td>1982</td><td>Dorset Racing Associates</td><td>De Cadenet-Lola</td><td><span class="res ret">DNF</span><span class="note">Ran out of fuel</span></td></tr>
+        <tr><td>1984</td><td>Ecurie Ecosse</td><td>Ecosse C284</td><td><span class="res ret">DNF</span></td></tr>
+        <tr><td>1985</td><td>Ecurie Ecosse</td><td>Ecosse C285</td><td><span class="res ret">DNF</span><span class="note">After 45 laps</span></td></tr>
+        <tr><td>1986</td><td>Ecurie Ecosse</td><td>Ecosse C286</td><td><span class="res dnq">DSQ</span></td></tr>
+        <tr><td>1987</td><td>Ecurie Ecosse</td><td>Ecosse C286</td><td><span class="res ret">DNF</span><span class="note">Electrical, after 135 laps</span></td></tr>
+        <tr><td>1988</td><td>Nissan Motorsports</td><td>Nissan R88C<span class="note">With Win Percy and Allan Grice</span></td><td><span class="res fin">14th</span><span class="note">13th in class, despite gearbox trouble</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend">DNF: did not finish · DSQ: disqualified</p>
+  <p>The 1988 race with Nissan was his last professional World Championship event. Asked about it in 2005, he said: "I would love to do the 24 Hours again."</p>
+</section>
+
+<section class="wrap section" id="timeline" aria-labelledby="tl-h">
+  <h2 id="tl-h">Timeline</h2>
+  <ol class="timeline">
+    <li><span class="yr">1965</span><p>First race, in May, at Snetterton in a DRW Mk1: third place. A win at Silverstone follows.</p></li>
+    <li><span class="yr">1966</span><p>Heavy crash at Brands Hatch. Fractured pelvis and broken nose. Tiny Littler repairs the chassis for free.</p></li>
+    <li><span class="yr">1970</span><p>Formula 4 wins in a Vixen, two of them at Mallory Park.</p></li>
+    <li><span class="yr">1971</span><p>Formula Ford in a Titan, with support from his employer, Firestone.</p></li>
+    <li><span class="yr">1973</span><p>First Formula 3 win, at Croft. Wins again at Mallory Park in October, ahead of Jacques Laffite and Brian Henton.</p></li>
+    <li><span class="yr">1974</span><p>Formula 5000 with Dempster's March 74A. First Grand Prix entry at Brands Hatch in July; first Grand Prix start at Watkins Glen in October.</p></li>
+    <li><span class="yr">1975</span><p>Two Grands Prix for Stanley-BRM. Also works as sales director for a friend's helicopter company.</p></li>
+    <li><span class="yr">1976</span><p>Fifth in the ShellSport 5000 European Championship. Fails to qualify for the British Grand Prix.</p></li>
+    <li><span class="yr">1978</span><p>Wins the Formula 2 class of the Aurora AFX British F1 Championship in Graham Eden's Ralt RT1.</p></li>
+    <li><span class="yr">1981</span><p>Le Mans debut, in a Porsche 935.</p></li>
+    <li><span class="yr">1983</span><p>Pole and victory in a Williams FW07 on 1 April, in the only round the British F1 series ran that year. Later, at Donington, his Lola T280 catches fire and he spends two weeks in hospital with burns.</p></li>
+    <li><span class="yr">1984</span><p>Thoroughbred Sports Cars champion in an Aston Martin DB4. Joins Ecurie Ecosse in Group C2.</p></li>
+    <li><span class="yr">1985</span><p>C2 class win in the Silverstone 1000km with Ray Mallock.</p></li>
+    <li><span class="yr">1988</span><p>Last Le Mans: 14th in a Nissan R88C.</p></li>
+    <li><span class="yr">1992–98</span><p>Four RJB Mining Historic Sports Car titles, in 1992, 1993, 1996 and 1998.</p></li>
+    <li><span class="yr">1994</span><p>Breaks both legs and both ankles when the ex-Gilles Villeneuve Ferrari 312T3 he is demonstrating crashes at the Goodwood Festival of Speed. Later returns to win at Donington in a Chevron B8.</p></li>
+    <li><span class="yr">2008</span><p>Britcar champion with his son Anthony and Ian Lawson in a BMW. Wins the Group C Enduro Trophy with Henry Pearman in a Porsche 962.</p></li>
+    <li><span class="yr">2013</span><p>Britcar Production Cup champion again, with Anthony and Ian Lawson.</p></li>
+    <li><span class="yr">2016</span><p>Britcar Endurance Class 2 champion with Anthony in a Ferrari 458 GTC.</p></li>
+    <li><span class="yr">2018</span><p>Aged 72, races in the Porsche Carrera Cup GB finale at Brands Hatch with Redline Racing. Voted MsD Pro-Am Instructor of the Year.</p></li>
+    <li><span class="yr">2022</span><p>Racing the ex-Mario Andretti Kenwood Porsche 956 in Peter Auto's Classic Group C series. Publishes his memoir, <i>Life on the Wilds Side!</i></p></li>
+    <li><span class="yr">2023</span><p>The memoir wins the SAHB Michael Sedgwick Award.</p></li>
+  </ol>
+</section>
+
+<section class="wrap section" id="titles" aria-labelledby="ti-h">
+  <h2 id="ti-h">Titles</h2>
+  <p>These are the championships named in the sources below. For nine seasons he also drove Richard Budge's Chevron B31/36 in historic racing: "I did 49 races in that car and won 45 of them."</p>
+  <ul class="titles">
+    <li><span class="yr">1978</span><div>British F1 Championship (Aurora AFX), Formula 2 class<small>Ralt RT1 · Graham Eden Racing</small></div></li>
+    <li><span class="yr">1984</span><div>Thoroughbred Sports Cars<small>Aston Martin DB4</small></div></li>
+    <li><span class="yr">1986</span><div>World Championship C2 teams' title, as an Ecurie Ecosse driver<small>Ecosse C286 · a team title</small></div></li>
+    <li><span class="yr">1992</span><div>RJB Mining Historic Sports Car Championship</div></li>
+    <li><span class="yr">1993</span><div>RJB Mining Historic Sports Car Championship</div></li>
+    <li><span class="yr">1996</span><div>RJB Mining Historic Sports Car Championship</div></li>
+    <li><span class="yr">1998</span><div>RJB Mining Historic Sports Car Championship</div></li>
+    <li><span class="yr">2008</span><div>Britcar, with Anthony Wilds and Ian Lawson<small>BMW 320i · ING Sport</small></div></li>
+    <li><span class="yr">2008</span><div>Group C Enduro Trophy, with Henry Pearman<small>Porsche 962</small></div></li>
+    <li><span class="yr">2013</span><div>Britcar Production Cup, with Anthony Wilds and Ian Lawson<small>BMW 320i WTC · ING Sport</small></div></li>
+    <li><span class="yr">2016</span><div>Britcar Endurance, Class 2, with Anthony Wilds<small>Ferrari 458 GTC</small></div></li>
+  </ul>
+  <p class="aside">Counts differ. His own website lists 12 British championships, his driving-school instructor profile says 13, and OldRacingCars.com called the 2016 title his fourteenth.</p>
+</section>
+
+<section class="wrap section" id="accidents" aria-labelledby="ac-h">
+  <h2 id="ac-h">Accidents</h2>
+  <p>When Wilds started, British circuit tickets carried the warning "Motor Racing is dangerous" on the back. He found out several times.</p>
+  <div class="hurt wide">
+    <article>
+      <p class="label">Brands Hatch · 1966</p>
+      <p>A fractured pelvis and a broken nose in his second season. The review of his memoir describes an early crash at Paddock Hill Bend that left him unconscious for a week.</p>
+    </article>
+    <article>
+      <p class="label">Thruxton · 1974</p>
+      <p>A Formula 5000 crash the day after March chose him for the Swedish Grand Prix. The wrist injury cost him the drive.</p>
+    </article>
+    <article>
+      <p class="label">Donington Park · 1983</p>
+      <p>The fuel tank of his Lola T280 split during a Thundersports race and the car caught fire. Two weeks in hospital with burns.</p>
+    </article>
+    <article>
+      <p class="label">Goodwood · 1994</p>
+      <p>Demonstrating the ex-Gilles Villeneuve Ferrari 312T3 at the Festival of Speed, he crashed and broke both legs and both ankles. His legs nearly had to be amputated.</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap section" id="words" aria-labelledby="wo-h">
+  <h2 id="wo-h">In his words</h2>
+  <div class="quotes wide">
+    <figure>
+      <blockquote>I just love racing.</blockquote>
+      <figcaption>Motor Sport, July 2005, at 59. Still his passion "after 40 years".</figcaption>
+    </figure>
+    <figure>
+      <blockquote>To be honest I wasn't the best driver in the world.</blockquote>
+      <figcaption>On his Formula One years. Motor Sport called him perhaps the most self-deprecating driver to sit in an F1 car.</figcaption>
+    </figure>
+    <figure>
+      <blockquote>I did 49 races in that car and won 45 of them.</blockquote>
+      <figcaption>On Richard Budge's Chevron B31/36, his historic-racing drive for nine years.</figcaption>
+    </figure>
+    <figure>
+      <blockquote>I'm so proud of him, I can't tell you.</blockquote>
+      <figcaption>On his son Anthony, three years before they won Britcar together.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap section" id="off-track" aria-labelledby="ot-h">
+  <h2 id="ot-h">Off the track</h2>
+  <ul class="facts wide">
+    <li>
+      <h3>Instructor</h3>
+      <p>He has taught on track since the early 1970s. He holds a Grade A instructor licence with the Association of Racing Driver Schools and was voted the 2018 MsD Pro-Am Instructor of the Year. He offers driving tuition and after-dinner talks through his own website.</p>
+    </li>
+    <li>
+      <h3>Pilot</h3>
+      <p>He learned to fly both fixed-wing aircraft and helicopters, and went on to instruct on helicopters. In 1975 he was sales director for a friend's helicopter company.</p>
+    </li>
+    <li>
+      <h3>Organiser</h3>
+      <p>He worked as Competitions Manager for the British Racing and Sports Car Club, one of the main clubs that run British circuit racing.</p>
+    </li>
+    <li>
+      <h3>Family and home</h3>
+      <p>He has two sons. Anthony shared his Britcar titles in 2008, 2013 and 2016. Wilds lives on England's south coast and spends his spare time on the water.</p>
+    </li>
+  </ul>
+
+  <div class="book wide">
+    <div>
+      <p class="label">The memoir · 2022</p>
+      <p class="booktitle">Life on the Wilds Side!</p>
+      <p>Subtitled <i>My Half Century-Plus As A Professional Racing Driver</i>. He wrote it partly so his grandchildren would know what he had done. It won the 2023 Society of Automotive Historians in Britain Michael Sedgwick Award.</p>
+    </div>
+    <dl>
+      <dt>Written with</dt><dd>Geoff Thomas, of <i>Motoring News</i></dd>
+      <dt>Publisher</dt><dd>Douglas Loveridge Publications, 2022</dd>
+      <dt>Format</dt><dd>Hardback, 240 pages, limited to 400 copies</dd>
+      <dt>Contributors</dt><dd>Derek Bell, Brian Redman, Ian Flux, Mark Blundell</dd>
+      <dt>ISBN</dt><dd>9781900113205</dd>
+      <dt>Where to get it</dt><dd><a href="https://mikewilds.com/">mikewilds.com</a></dd>
+    </dl>
+  </div>
+</section>
+
+<section class="wrap section" id="sources" aria-labelledby="so-h">
+  <h2 id="so-h">Sources</h2>
+  <p>Every fact on this page comes from one of these published sources. Quotes are from the 2005 <i>Motor Sport</i> interview unless noted.</p>
+  <ol class="sources">
+    <li><a href="https://www.motorsportmagazine.com/archive/article/july-2005/106/talk-curve-historic-motorsport-insight-why-wilds-thing-is-racing/">"Why Wilds' thing is racing", Motor Sport, July 2005</a> <span>— interview, quotes, early career, Chevron record</span></li>
+    <li><a href="https://www.f1forgottendrivers.com/drivers/mike-wilds/">F1 Forgotten Drivers: Mike Wilds</a> <span>— season-by-season career history</span></li>
+    <li><a href="https://en.wikipedia.org/wiki/Mike_Wilds">Wikipedia: Mike Wilds</a> <span>— results tables, later racing</span></li>
+    <li><a href="https://speedreaders.info/32261-life-on-the-wilds-side-my-half-century-plus-as-a-professional-racing-driver/">Speedreaders review of <i>Life on the Wilds Side!</i></a> <span>— book details, accidents, BRSCC role</span></li>
+    <li><a href="https://www.oldracingcars.com/driver/Mike_Wilds">OldRacingCars.com: Mike Wilds</a> <span>— Britcar titles, later life</span></li>
+    <li><a href="https://ards.co.uk/instructors/77a769/mike-wilds/">Association of Racing Driver Schools instructor profile</a> <span>— licence, instructor award, 2022 racing</span></li>
+    <li><a href="https://mikewilds.com/">mikewilds.com</a> <span>— his own site: tuition, memoir, book award</span></li>
+    <li><a href="https://humansideofracing.com/portraits/mike-wilds/">The Human Side of Racing: Mike Wilds</a> <span>— 1974 Grand Prix accounts</span></li>
+    <li><a href="https://www.motorsportmagazine.com/database/drivers/mike-wilds">Motor Sport database: Mike Wilds</a> <span>— results cross-check</span></li>
+  </ol>
+  <div class="notes">
+    <h3>Where the sources disagree</h3>
+    <ul>
+      <li>Wikipedia's text says he raced at Le Mans eight times, but its own table, and F1 Forgotten Drivers, list seven starts. This page uses seven.</li>
+      <li>Wikipedia calls him a 1986 C2 world champion. His own site and instructor profile describe it as the C2 teams' title won with Ecurie Ecosse, which is how it appears here.</li>
+      <li>Some accounts say he retired on lap 50 at Watkins Glen in 1974; Wikipedia's results table records him as not classified, as this page does.</li>
+      <li>His total of British titles is given as 12, 13 or 14 depending on the source and the year it was written.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <p>An unofficial research page, compiled in October 2026 from the public sources listed above. It is not affiliated with or endorsed by Mike Wilds. No photographs are reproduced; the helmet drawing is an illustration.</p>
+</footer>
+</body>
+</html>
