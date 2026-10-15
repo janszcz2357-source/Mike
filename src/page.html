@@ -55,7 +55,6 @@ a:hover{text-decoration-color:currentColor;}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,24vw,300px);gap:var(--s3);align-items:center;padding-block:var(--s4) var(--s3);}
 .hero-text{min-width:0;}
 .eyebrow,.label{font-family:var(--f-data);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;}
-.name{font-family:var(--f-display);font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:clamp(4.5rem,21vw,12rem);line-height:.8;letter-spacing:-.005em;margin:var(--s1) 0 var(--s2);display:flex;flex-direction:column;}
 .lede{font-size:clamp(1.15rem,2.2vw,1.4rem);line-height:1.5;max-width:44ch;margin:0;text-wrap:pretty;}
 .crest{margin:0;display:grid;gap:var(--s0);justify-items:center;text-align:center;}
 .crest svg{width:100%;max-width:300px;height:auto;display:block;}
@@ -172,8 +171,6 @@ footer p{font-family:var(--f-data);font-size:.78rem;color:var(--muted);max-width
 @keyframes row-flash{0%,35%{background-color:var(--flash);}100%{background-color:transparent;}}
 @keyframes bar{from{transform:scaleX(0);}to{transform:scaleX(1);}}
 
-.name span{display:block;animation:drive-in 1s cubic-bezier(.16,.84,.3,1) both;}
-.name span + span{animation-delay:.14s;}
 .eyebrow{animation:rise .7s .05s cubic-bezier(.2,.7,.2,1) both;}
 .lede{animation:rise .8s .35s cubic-bezier(.2,.7,.2,1) both;}
 .toc{animation:rise .7s 1s cubic-bezier(.2,.7,.2,1) both;}
@@ -216,7 +213,7 @@ tbody tr:hover td:first-child{box-shadow:inset 4px 0 0 var(--helmet);}
 /* ---------- Showpieces ---------- */
 /* Lights-out intro */
 html.intro-on{overflow:hidden;}
-html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board div){animation:none;}
+html.intro-on :is(.stripe,.ring,.name .ch,.eyebrow,.lede,.toc,.crest svg,.board div){animation:none;}
 .intro{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:hidden;cursor:pointer;color:#F4F2EA;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
 .intro::before,.intro::after{content:"";position:absolute;left:0;right:0;height:50.5%;background:var(--tower-bg);border:0 solid transparent;transition:transform .75s cubic-bezier(.75,0,.2,1),border-color .2s;}
 .intro::before{top:0;border-bottom-width:8px;}
@@ -435,6 +432,111 @@ html.driving body{cursor:crosshair;}
 .gbtn[aria-pressed="true"]{background:var(--helmet);color:var(--helmet-ink);border-color:var(--helmet-ink);}
 .gbtn:disabled{opacity:.5;cursor:default;}
 
+/* ---------- Round 5 ---------- */
+/* Cinematic hero */
+.cine{position:relative;height:min(88vh,900px);min-height:520px;margin:8px max(8px,env(safe-area-inset-right,0px)) 0 max(8px,env(safe-area-inset-left,0px));border-radius:18px;overflow:hidden;background:#07080C;color:#F4F2EA;isolation:isolate;}
+@media (min-width:1200px){html.has-track .cine{margin-right:calc(var(--track-w) + 8px);}}
+.cine-bg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.cine-inner{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:var(--s1);padding:var(--s3) max(16px,4vw);text-align:center;will-change:transform;}
+.cine .eyebrow{color:#C9C5B3;}
+.name{margin:0;font-family:var(--f-display);font-weight:900;font-stretch:62%;text-transform:uppercase;font-size:clamp(4.2rem,15vw,14rem);line-height:.9;letter-spacing:-.005em;white-space:nowrap;}
+.name .w{display:inline-block;overflow:hidden;padding:.04em .02em 0;vertical-align:top;}
+.name .w + .w{margin-left:.18em;color:var(--helmet);}
+.name .ch{display:inline-block;animation:rise-ch .95s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(.15s + var(--i,0) * 55ms);}
+@keyframes rise-ch{from{transform:translateY(105%) skewY(8deg);}to{transform:none;}}
+.cine-sub{margin:0;font-family:var(--f-data);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:#C9C5B3;}
+.cine-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:grid;justify-items:center;gap:8px;font:600 .68rem/1 var(--f-data);letter-spacing:.16em;text-transform:uppercase;color:#C9C5B3;pointer-events:none;}
+.cine-cue::after{content:"";width:10px;height:10px;background:var(--helmet);transform:rotate(45deg);animation:cue 1.6s ease-in-out infinite;}
+@keyframes cue{0%,100%{translate:0 0;opacity:1;}50%{translate:0 8px;opacity:.4;}}
+.cine-cta{position:absolute;right:0;bottom:0;z-index:3;display:inline-flex;align-items:center;gap:8px;padding:14px 18px 12px 20px;background:var(--paper);color:var(--ink);border-top-left-radius:16px;font:600 .74rem/1 var(--f-data);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;}
+.cine-cta::before,.cine-cta::after{content:"";position:absolute;width:16px;height:16px;background:radial-gradient(circle at 0 0,transparent 15.5px,var(--paper) 16px);}
+.cine-cta::before{right:0;top:-16px;}
+.cine-cta::after{left:-16px;bottom:0;}
+.cine-cta:hover{color:var(--ink);background:var(--helmet);}
+.cine-cta:hover::before,.cine-cta:hover::after{background:radial-gradient(circle at 0 0,transparent 15.5px,var(--helmet) 16px);}
+.cine-pause{position:absolute;left:16px;bottom:16px;z-index:3;padding:7px 10px;border:1px solid rgba(244,242,234,.35);background:rgba(7,8,12,.55);color:#C9C5B3;font:600 .66rem/1 var(--f-data);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+.cine-pause:hover{color:#F4F2EA;border-color:#F4F2EA;}
+.cine-strips{position:absolute;inset:0;z-index:4;pointer-events:none;display:grid;grid-template-rows:repeat(8,1fr);}
+.cine-strips i{display:block;background:var(--paper);transform:translateX(calc((1 - var(--k,0)) * 101%));box-shadow:inset 6px 0 0 var(--helmet);}
+
+/* Brand tab and chapters, fixed */
+.brand{position:fixed;z-index:9;top:calc(8px + env(safe-area-inset-top,0px));left:max(8px,env(safe-area-inset-left,0px));display:inline-flex;align-items:center;gap:8px;padding:10px 16px 10px 12px;background:var(--paper);color:var(--ink);border-bottom-right-radius:16px;font:900 1.05rem/1 var(--f-display);font-stretch:70%;letter-spacing:.02em;text-decoration:none;text-transform:uppercase;transition:background-color .3s,color .3s;}
+.brand svg{width:26px;height:26px;}
+.brand::after{content:"";position:absolute;right:-16px;top:0;width:16px;height:16px;background:radial-gradient(circle at 100% 100%,transparent 15.5px,var(--paper) 16px);transition:background .3s;}
+.brand.solid{background:var(--tower-bg);color:var(--helmet);}
+.brand.solid::after{background:radial-gradient(circle at 100% 100%,transparent 15.5px,var(--tower-bg) 16px);}
+.chapters{position:fixed;z-index:9;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));}
+@media (min-width:1200px){html.has-track .chapters{right:calc(var(--track-w) + 14px);}}
+.chapters-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid #3A3830;background:var(--tower-bg);color:#F4F2EA;font:600 .72rem/1 var(--f-data);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
+.chapters-btn svg{width:12px;height:12px;transition:transform .25s;}
+.chapters-btn[aria-expanded="true"] svg{transform:rotate(180deg);}
+.chapters-menu{position:absolute;right:0;top:calc(100% + 6px);width:min(300px,calc(100vw - 28px));max-height:min(70vh,560px);overflow:auto;background:var(--tower-bg);border:1px solid #3A3830;box-shadow:0 20px 50px rgba(0,0,0,.35);transform-origin:100% 0;animation:menu-in .22s cubic-bezier(.2,.9,.2,1);}
+@keyframes menu-in{from{opacity:0;transform:translateY(-6px) scale(.98);}to{opacity:1;transform:none;}}
+.chapters-menu ol{list-style:none;margin:0;padding:6px 0;counter-reset:ch;}
+.chapters-menu li{counter-increment:ch;}
+.chapters-menu a{display:flex;align-items:baseline;gap:12px;padding:9px 16px;color:#E8E5DA;text-decoration:none;font:600 .78rem/1.2 var(--f-data);letter-spacing:.06em;text-transform:uppercase;}
+.chapters-menu a::before{content:counter(ch,decimal-leading-zero);color:#6E6A5D;font-size:.7rem;}
+.chapters-menu a:hover,.chapters-menu a:focus-visible{background:#1D1C17;color:#FFF;}
+.chapters-menu a[aria-current="true"]{color:var(--helmet);}
+.chapters-menu a[aria-current="true"]::before{color:var(--helmet);}
+
+/* Intro: the crest builds itself, then a diamond mosaic opens the page */
+.intro-crest{width:72px;height:72px;overflow:visible;}
+.ic-ring path{fill:var(--helmet);transform-box:fill-box;transform-origin:center;animation:ic-fly .75s cubic-bezier(.2,.9,.25,1.1) both;animation-delay:calc(var(--i,0) * 28ms);}
+.ic-disc{fill:none;stroke:var(--helmet);stroke-width:5;stroke-dasharray:600;stroke-dashoffset:600;animation:ic-draw .6s .45s ease-out forwards;}
+@keyframes ic-fly{from{opacity:0;transform:translate(var(--sx,0),var(--sy,0)) rotate(var(--sr,0deg)) scale(.3);}to{opacity:1;transform:none;}}
+@keyframes ic-draw{to{stroke-dashoffset:0;}}
+.mosaic{position:absolute;inset:0;width:100%;height:100%;z-index:5;}
+.intro.open::before,.intro.open::after{opacity:0;transition:none;}
+
+/* Stripe wipes and sliding quotes */
+.words > .ride{max-width:none;}
+.slab{display:none;}
+.ride-count,.ride-bg{display:none;}
+.ride-on .ride{position:relative;height:calc(var(--n,4) * 115vh + 100vh);margin-top:var(--s2);}
+@media (min-width:1200px){html.has-track .ride-on .ride,html.has-track .fly-on .fly-run{margin-right:var(--track-w);}}
+.ride-on .ride-stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#07080C;color:#F4F2EA;}
+.ride-on .ride-bg{display:block;position:absolute;inset:0;width:100%;height:100%;}
+.ride-on .quotes{position:absolute;inset:0;margin:0;display:block;max-width:none;}
+.ride-on .quotes figure{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;}
+.ride-on .quotes figure.on{opacity:1;visibility:visible;}
+.ride-on .quotes blockquote{position:absolute;left:0;top:47%;margin:0;white-space:nowrap;font-size:clamp(4rem,19vh,13rem);font-stretch:62%;line-height:1;transform:translate3d(var(--x,100vw),-50%,0);will-change:transform;}
+.ride-on .quotes blockquote::before,.ride-on .quotes blockquote::after{color:var(--helmet);}
+.ride-on .quotes figcaption{position:absolute;left:max(16px,5vw);bottom:12vh;max-width:min(46ch,80vw);color:#C9C5B3;font-size:.8rem;}
+.ride-on .ride-count{display:block;position:absolute;z-index:2;left:max(16px,5vw);top:12vh;font:600 .8rem/1 var(--f-data);letter-spacing:.16em;color:var(--helmet);}
+.ride-on .slab{display:block;position:absolute;z-index:3;top:-10%;bottom:-10%;width:42%;transform:translateX(var(--sx,140vw)) skewX(-18deg);will-change:transform;}
+.slab:nth-child(1){left:-12%;background:var(--helmet);}
+.slab:nth-child(2){left:18%;background:#121108;}
+.slab:nth-child(3){left:48%;background:var(--helmet);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='30'%3E%3Cpath d='M17 5 27 15 17 25 7 15Z' fill='%23121108'/%3E%3C/svg%3E");}
+.slab:nth-child(4){left:78%;background:#2A2920;}
+
+/* Night flythrough of his cars */
+.fly > .fly-run{max-width:none;}
+.fly-art{position:absolute;width:0;height:0;overflow:hidden;}
+.fly-cards{list-style:none;margin:var(--s2) auto 0;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));max-width:var(--wide);display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,14rem),1fr));gap:var(--s1);}
+.car-card{display:grid;gap:6px;padding:12px 14px 14px;background:var(--panel);border:2px solid var(--ink);color:var(--ink);transition:background-color .25s,color .25s;}
+.car-card:hover{background:var(--helmet);color:var(--helmet-ink);}
+.cc-year{font:900 2.4rem/1 var(--f-display);font-stretch:62%;}
+.cc-art{width:100%;height:auto;aspect-ratio:400/112;color:var(--ink);}
+.car-card:hover .cc-art{color:var(--helmet-ink);}
+.cc-name{font:900 1.35rem/1.05 var(--f-display);font-stretch:72%;text-transform:uppercase;}
+.cc-note{font:400 .76rem/1.4 var(--f-data);}
+.fly-bg,.fly-caption,.fly-car{display:none;}
+.fly-on .fly-run{position:relative;height:calc(var(--n,15) * 34vh + 100vh);margin-top:var(--s2);}
+.fly-on .fly-stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#07080C;perspective:900px;}
+.fly-on .fly-bg{display:block;position:absolute;inset:0;width:100%;height:100%;}
+.fly-on .fly-cards{position:absolute;inset:0;margin:0;padding:0;max-width:none;display:block;transform-style:preserve-3d;}
+.fly-on .car-card{position:absolute;left:50%;top:44%;width:min(300px,64vw);margin-left:calc(min(300px,64vw) / -2);margin-top:-130px;transform:translate3d(var(--x,0),var(--y,0),var(--z,-3000px));opacity:var(--o,0);visibility:var(--v,hidden);box-shadow:0 30px 60px rgba(0,0,0,.45);will-change:transform,opacity;}
+.fly-on .fly-caption{display:block;position:absolute;left:50%;bottom:9vh;transform:translateX(-50%);margin:0;width:max-content;max-width:90%;text-align:center;font:600 .76rem/1.4 var(--f-data);letter-spacing:.1em;text-transform:uppercase;color:#C9C5B3;}
+.fly-on .fly-car{display:block;position:absolute;bottom:4vh;left:0;width:54px;height:30px;transform:translateX(var(--cx,0));}
+.fly-on .fly-car svg{width:100%;height:100%;display:block;}
+.words > .wrap,.fly > .wrap{max-width:var(--wide);}
+.words > .wrap > *,.fly > .wrap > *{max-width:var(--measure);}
+.ride-stage{max-width:var(--wide);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+.ride-on .ride-stage{max-width:none;padding:0;}
+.slabs{display:none;}
+.ride-on .slabs{display:block;position:absolute;inset:0;z-index:3;pointer-events:none;}
+
 @media (max-width:700px){
   .hero{grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s3) var(--s2);}
   .crest{grid-template-columns:96px minmax(0,1fr);justify-items:start;text-align:left;align-items:center;gap:var(--s1);}
@@ -447,6 +549,12 @@ html.driving body{cursor:crosshair;}
   .rt{grid-template-columns:minmax(0,1fr);}
   .rt-pad{min-height:220px;}
   .garage-stage{aspect-ratio:1/1;}
+  .name{font-size:24vw;white-space:normal;line-height:.86;}
+  .name .w{display:block;}
+  .name .w + .w{margin-left:0;}
+  .cine{min-height:480px;}
+  .cine-pause{bottom:56px;}
+  .corner-call{top:calc(env(safe-area-inset-top,0px) + 60px);}
   .s1{height:120px;}
   .s2{height:88px;}
   .s3{height:68px;}
@@ -467,6 +575,7 @@ html.driving body{cursor:crosshair;}
 <div class="progress" aria-hidden="true"><div class="progress-track"><div class="progress-bar"></div><span class="progress-car"><svg viewBox="-18 -10 36 20"><g fill="#121108"><rect x="-17" y="-9" width="4" height="18"/><rect x="-13" y="-10" width="8" height="5"/><rect x="-13" y="5" width="8" height="5"/><rect x="7" y="-9" width="6" height="4"/><rect x="7" y="5" width="6" height="4"/><rect x="14" y="-8" width="3" height="16"/></g><g fill="#F5C400" stroke="#121108" stroke-width="1"><rect x="-9" y="-7" width="10" height="14"/><path d="M-12-4.5 6-3.5 15-1.5 15 1.5 6 3.5-12 4.5Z"/><circle cx="-1" cy="0" r="2.6" stroke-width="1.4"/></g></svg></span></div></div>
 <div class="intro" hidden aria-hidden="true">
   <div class="intro-stage">
+    <svg class="intro-crest" viewBox="-100 -100 200 200" aria-hidden="true"><circle class="ic-disc" r="94"/><g class="ic-ring"><g transform="rotate(0.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:0;--sx:-53px;--sy:-105px;--sr:-55deg"/></g><g transform="rotate(22.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:1;--sx:109px;--sy:110px;--sr:-260deg"/></g><g transform="rotate(45.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:2;--sx:71px;--sy:72px;--sr:148deg"/></g><g transform="rotate(67.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:3;--sx:-52px;--sy:34px;--sr:119deg"/></g><g transform="rotate(90.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:4;--sx:-23px;--sy:80px;--sr:124deg"/></g><g transform="rotate(112.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:5;--sx:-15px;--sy:-118px;--sr:206deg"/></g><g transform="rotate(135.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:6;--sx:19px;--sy:-142px;--sr:10deg"/></g><g transform="rotate(157.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:7;--sx:-150px;--sy:46px;--sr:208deg"/></g><g transform="rotate(180.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:8;--sx:126px;--sy:-38px;--sr:255deg"/></g><g transform="rotate(202.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:9;--sx:-1px;--sy:52px;--sr:-150deg"/></g><g transform="rotate(225.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:10;--sx:145px;--sy:-72px;--sr:78deg"/></g><g transform="rotate(247.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:11;--sx:-118px;--sy:-86px;--sr:165deg"/></g><g transform="rotate(270.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:12;--sx:105px;--sy:15px;--sr:-52deg"/></g><g transform="rotate(292.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:13;--sx:-103px;--sy:34px;--sr:116deg"/></g><g transform="rotate(315.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:14;--sx:148px;--sy:65px;--sr:101deg"/></g><g transform="rotate(337.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:15;--sx:-63px;--sy:-33px;--sr:99deg"/></g></g></svg>
     <p class="intro-kicker">Brands Hatch · British Grand Prix · 20 July 1974</p>
     <div class="gantry"><div class="pod"><span></span><span class="lamp"></span></div><div class="pod"><span></span><span class="lamp"></span></div><div class="pod"><span></span><span class="lamp"></span></div><div class="pod"><span></span><span class="lamp"></span></div><div class="pod"><span></span><span class="lamp"></span></div></div>
     <p class="intro-go">Lights out</p>
@@ -496,6 +605,8 @@ html.driving body{cursor:crosshair;}
 </script>
 <div class="track" aria-hidden="true"><canvas></canvas></div>
 <div class="corner-call" aria-hidden="true"><b></b><span></span></div>
+<a class="brand" href="#top" aria-label="Mike Wilds, back to the top"><svg viewBox="-100 -100 200 200" aria-hidden="true"><circle r="95" fill="#F5C400" stroke="#121108" stroke-width="8"/><g fill="#121108"><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(0)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(45)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(90)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(135)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(180)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(225)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(270)"/><path d="M0-84 8-72 0-60-8-72Z" transform="rotate(315)"/></g></svg><span>MW</span></a>
+<div class="chapters" hidden><button type="button" class="chapters-btn" id="chapters-btn" aria-expanded="false" aria-controls="chapters-menu">Chapters <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><nav class="chapters-menu" id="chapters-menu" aria-label="Chapters" hidden><ol></ol></nav></div>
 <canvas class="rain" aria-hidden="true"></canvas>
 <canvas class="drive" aria-hidden="true"></canvas>
 <canvas class="fx" aria-hidden="true"></canvas>
@@ -507,12 +618,22 @@ html.driving body{cursor:crosshair;}
   <button type="button" class="dock-btn" id="rain-btn" aria-pressed="false" title="Make it rain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.3 1.5A3.3 3.3 0 0 0 7 15z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Rain</span></button>
 </div>
 
-<header class="masthead">
+<header class="masthead" id="top">
+  <div class="cine">
+    <canvas class="cine-bg" aria-hidden="true"></canvas>
+    <div class="cine-inner">
+      <p class="eyebrow">British racing driver · Born Chiswick, 7 January 1946</p>
+      <h1 class="name" aria-label="Mike Wilds"><span class="w" aria-hidden="true"><span class="ch" style="--i:0">M</span><span class="ch" style="--i:1">i</span><span class="ch" style="--i:2">k</span><span class="ch" style="--i:3">e</span></span> <span class="w" aria-hidden="true"><span class="ch" style="--i:4">W</span><span class="ch" style="--i:5">i</span><span class="ch" style="--i:6">l</span><span class="ch" style="--i:7">d</span><span class="ch" style="--i:8">s</span></span></h1>
+      <p class="cine-sub">Grand Prix driver · Le Mans racer · Racing since 1965</p>
+    </div>
+    <span class="cine-cue" aria-hidden="true">Scroll to explore</span>
+    <button type="button" class="cine-pause" aria-pressed="false">Pause motion</button>
+    <a class="cine-cta" href="#start-test">Beat the lights <span aria-hidden="true">→</span></a>
+    <div class="cine-strips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
   <div class="stripe" aria-hidden="true"></div>
   <div class="wrap hero">
     <div class="hero-text">
-      <p class="eyebrow">British racing driver · Born Chiswick, 7 January 1946</p>
-      <h1 class="name"><span>Mike</span><span>Wilds</span></h1>
       <p class="lede">Eight Grand Prix entries in the 1970s, seven Le Mans 24 Hours, more than 150 kinds of racing car, and a career that began at Snetterton in May 1965 and was still running in 2022.</p>
     </div>
     <figure class="crest">
@@ -560,8 +681,10 @@ html.driving body{cursor:crosshair;}
       <li><a href="#garage">Garage</a></li>
       <li><a href="#le-mans">Le Mans</a></li>
       <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#cars">Cars</a></li>
       <li><a href="#titles">Titles</a></li>
       <li><a href="#accidents">Accidents</a></li>
+      <li><a href="#words">In his words</a></li>
       <li><a href="#off-track">Off track</a></li>
       <li><a href="#start-test">Beat the lights</a></li>
       <li><a href="#pit-stop">Pit stop</a></li>
@@ -706,6 +829,42 @@ html.driving body{cursor:crosshair;}
   </ol>
 </section>
 
+<section class="section fly" id="cars" aria-labelledby="ca-h">
+  <div class="wrap">
+    <h2 id="ca-h">Fifteen of the 150</h2>
+    <p>Wilds has raced more than 150 kinds of car. Here are fifteen named in the sources on this page, from his first race in 1965 to the Porsche 956 he raced in 2022. The drawings show the type of car, not the exact model.</p>
+  </div>
+  <svg class="fly-art" aria-hidden="true">
+  <symbol id="art-single" viewBox="0 0 400 112"><rect x="16" y="12" width="66" height="10" rx="2" fill="currentColor"/><rect x="44" y="20" width="7" height="34" fill="currentColor"/><path d="M28 62 60 50 150 46 175 30 205 28 222 44 330 54 392 66 392 76 330 80 60 82 28 78Z" fill="#F5C400" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M150 46 160 10 196 10 205 28 175 30Z" fill="#F5C400" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><circle cx="214" cy="33" r="11" fill="#F5C400" stroke="currentColor" stroke-width="4"/><circle cx="92" cy="80" r="27" fill="currentColor"/><circle cx="318" cy="84" r="21" fill="currentColor"/></symbol>
+  <symbol id="art-proto" viewBox="0 0 400 112"><path d="M16 84 20 64C40 52 92 46 140 44L196 26C236 18 286 24 316 38L380 60 392 84Z" fill="#F5C400" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M200 30 232 26 268 30 256 44 206 44Z" fill="currentColor"/><path d="M60 84a34 34 0 0 1 68 0M270 84a34 34 0 0 1 68 0" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="94" cy="86" r="24" fill="currentColor"/><circle cx="304" cy="86" r="24" fill="currentColor"/></symbol>
+  <symbol id="art-gt" viewBox="0 0 400 112"><path d="M18 84 24 64C56 54 104 50 136 48 164 28 220 22 258 38L352 50C378 54 392 66 392 84Z" fill="#F5C400" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M150 48 170 34C196 26 226 26 246 38L250 48Z" fill="currentColor"/><circle cx="96" cy="86" r="24" fill="currentColor"/><circle cx="306" cy="86" r="24" fill="currentColor"/></symbol>
+</svg>
+  <div class="fly-run">
+    <div class="fly-stage">
+      <canvas class="fly-bg" aria-hidden="true"></canvas>
+      <ol class="fly-cards">
+        <li class="car-card"><span class="cc-year">1965</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-proto"/></svg><b class="cc-name">DRW Mk1</b><span class="cc-note">1172 Formula · First race, Snetterton: third</span></li>
+        <li class="car-card"><span class="cc-year">1971</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">Titan</b><span class="cc-note">Formula Ford · With support from his employer, Firestone</span></li>
+        <li class="car-card"><span class="cc-year">1974</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">March 74A</b><span class="cc-note">Formula 5000 · Second at Brands Hatch and Mallory Park</span></li>
+        <li class="car-card"><span class="cc-year">1974</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">Ensign N174</b><span class="cc-note">Formula One · First Grand Prix start, Watkins Glen</span></li>
+        <li class="car-card"><span class="cc-year">1975</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">BRM P201</b><span class="cc-note">Formula One · Argentina and Brazil for Stanley-BRM</span></li>
+        <li class="car-card"><span class="cc-year">1976</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">Shadow DN3B</b><span class="cc-note">Formula One · British Grand Prix, did not qualify</span></li>
+        <li class="car-card"><span class="cc-year">1978</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">Ralt RT1</b><span class="cc-note">British F1 Championship · Formula 2 class winner</span></li>
+        <li class="car-card"><span class="cc-year">1981</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-gt"/></svg><b class="cc-name">Porsche 935</b><span class="cc-note">Le Mans · His Le Mans debut</span></li>
+        <li class="car-card"><span class="cc-year">1983</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-single"/></svg><b class="cc-name">Williams FW07</b><span class="cc-note">British F1 · Pole and victory on 1 April</span></li>
+        <li class="car-card"><span class="cc-year">1984</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-gt"/></svg><b class="cc-name">Aston Martin DB4</b><span class="cc-note">Thoroughbred Sports Cars · Champion</span></li>
+        <li class="car-card"><span class="cc-year">1985</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-proto"/></svg><b class="cc-name">Ecosse C285</b><span class="cc-note">Le Mans · Ecurie Ecosse, Group C2</span></li>
+        <li class="car-card"><span class="cc-year">1988</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-proto"/></svg><b class="cc-name">Nissan R88C</b><span class="cc-note">Le Mans · 14th, his last Le Mans</span></li>
+        <li class="car-card"><span class="cc-year">2008</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-proto"/></svg><b class="cc-name">Porsche 962</b><span class="cc-note">Group C Enduro Trophy · Winner, with Henry Pearman</span></li>
+        <li class="car-card"><span class="cc-year">2016</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-gt"/></svg><b class="cc-name">Ferrari 458 GTC</b><span class="cc-note">Britcar Endurance · Class 2 champion with his son Anthony</span></li>
+        <li class="car-card"><span class="cc-year">2022</span><svg class="cc-art" viewBox="0 0 400 112" aria-hidden="true"><use href="#art-proto"/></svg><b class="cc-name">Porsche 956</b><span class="cc-note">Peter Auto Classic Group C · The ex-Mario Andretti Kenwood car</span></li>
+      </ol>
+      <p class="fly-caption" aria-hidden="true"></p>
+      <span class="fly-car" aria-hidden="true"><svg viewBox="-18 -10 36 20"><g fill="#121108"><rect x="-17" y="-9" width="4" height="18"/><rect x="-13" y="-10" width="8" height="5"/><rect x="-13" y="5" width="8" height="5"/><rect x="7" y="-9" width="6" height="4"/><rect x="7" y="5" width="6" height="4"/><rect x="14" y="-8" width="3" height="16"/></g><g fill="#F5C400" stroke="#121108" stroke-width="1"><rect x="-9" y="-7" width="10" height="14"/><path d="M-12-4.5 6-3.5 15-1.5 15 1.5 6 3.5-12 4.5Z"/><circle cx="-1" cy="0" r="2.6" stroke-width="1.4"/></g></svg></span>
+    </div>
+  </div>
+</section>
+
 <section class="wrap section" id="titles" aria-labelledby="ti-h">
   <h2 id="ti-h">Titles</h2>
   <p>These are the championships named in the sources below. For nine seasons he also drove Richard Budge's Chevron B31/36 in historic racing: "I did 49 races in that car and won 45 of them."</p>
@@ -748,9 +907,13 @@ html.driving body{cursor:crosshair;}
   </div>
 </section>
 
-<section class="wrap section" id="words" aria-labelledby="wo-h">
-  <h2 id="wo-h">In his words</h2>
-  <div class="quotes wide">
+<section class="section words" id="words" aria-labelledby="wo-h">
+  <div class="wrap"><h2 id="wo-h">In his words</h2></div>
+  <div class="ride">
+    <div class="ride-stage">
+      <canvas class="ride-bg" aria-hidden="true"></canvas>
+      <span class="ride-count" aria-hidden="true">01 / 04</span>
+      <div class="quotes wide">
     <figure>
       <blockquote>I just love racing.</blockquote>
       <figcaption>Motor Sport, July 2005, at 59. Still his passion "after 40 years".</figcaption>
@@ -767,6 +930,9 @@ html.driving body{cursor:crosshair;}
       <blockquote>I'm so proud of him, I can't tell you.</blockquote>
       <figcaption>On his son Anthony, three years before they won Britcar together.</figcaption>
     </figure>
+  </div>
+      <div class="slabs" aria-hidden="true"><span class="slab"></span><span class="slab"></span><span class="slab"></span><span class="slab"></span></div>
+    </div>
   </div>
 </section>
 
@@ -902,7 +1068,7 @@ html.driving body{cursor:crosshair;}
   // Brands Hatch corner names, one per section, in lap order.
   const CORNERS = [
     ["origins", "Paddock Hill Bend"], ["grand-prix", "Druids"], ["le-mans", "Graham Hill Bend"],
-    ["timeline", "Surtees"], ["titles", "Hawthorn Bend"], ["accidents", "Westfield"],
+    ["timeline", "Surtees"], ["cars", "Pilgrim's Drop"], ["titles", "Hawthorn Bend"], ["accidents", "Westfield"],
     ["words", "Sheene Curve"], ["off-track", "Stirlings"], ["start-test", "Clearways"], ["sources", "Clark Curve"],
   ];
   const docTop = (el) => el.getBoundingClientRect().top + scrollY;
@@ -999,19 +1165,46 @@ html.driving body{cursor:crosshair;}
     const timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
     const skipEvents = ["pointerdown", "keydown", "wheel", "touchstart"];
+    // Helmet-diamond tiles cover the screen, flash yellow and shrink away in a wave from the centre.
+    const mosaic = (fast, done) => {
+      const cv = document.createElement("canvas"), W = innerWidth, H = innerHeight, d = Math.min(2, devicePixelRatio || 1);
+      cv.className = "mosaic"; cv.width = Math.round(W * d); cv.height = Math.round(H * d);
+      intro.append(cv);
+      const g = cv.getContext("2d"), r = Math.max(26, Math.min(W, H) / 13), tiles = [];
+      for (let row = -1; row * r <= H + r; row++) for (let col = -1; col * 2 * r <= W + 2 * r; col++) {
+        const x = col * 2 * r + (row % 2 ? r : 0), y = row * r;
+        tiles.push({ x, y, dist: Math.hypot(x - W / 2, y - H / 2) });
+      }
+      const maxD = Math.hypot(W / 2, H / 2) + r, dur = fast ? 450 : 950, spread = 0.6, dark = token("--tower-bg"), yellow = token("--helmet"), t0 = performance.now();
+      const frame = (now) => {
+        const T = (now - t0) / dur;
+        g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, W, H);
+        let alive = false;
+        for (const t of tiles) {
+          const k = clamp((T - (t.dist / maxD) * spread) / (1 - spread), 0, 1);
+          if (k >= 1) continue;
+          alive = true;
+          const rr = r * 1.03 * (k < 0.35 ? 1 : 1 - (k - 0.35) / 0.65);
+          g.fillStyle = k > 0 && k < 0.6 ? yellow : dark;
+          g.beginPath(); g.moveTo(t.x, t.y - rr); g.lineTo(t.x + rr, t.y); g.lineTo(t.x, t.y + rr); g.lineTo(t.x - rr, t.y); g.closePath(); g.fill();
+        }
+        if (alive) raf(frame); else done();
+      };
+      frame(t0);
+    };
     const open = (fast) => {
       if (intro.classList.contains("open")) return;
       timers.forEach(clearTimeout);
       skipEvents.forEach((e) => removeEventListener(e, skip));
+      mosaic(fast, () => intro.remove());
       intro.classList.add("open");
       if (fast) intro.classList.add("fast");
       root.classList.remove("intro-on");
       startHero();
-      setTimeout(() => intro.remove(), fast ? 450 : 760);
     };
     const skip = () => open(true);
-    intro.querySelectorAll(".lamp").forEach((lamp, i) => at(250 + i * 380, () => lamp.classList.add("on")));
-    const lightsOut = 250 + 4 * 380 + 650;
+    intro.querySelectorAll(".lamp").forEach((lamp, i) => at(700 + i * 360, () => lamp.classList.add("on")));
+    const lightsOut = 700 + 4 * 360 + 600;
     at(lightsOut, () => intro.classList.add("out"));
     at(lightsOut + 700, () => open(false));
     skipEvents.forEach((e) => addEventListener(e, skip, { passive: true }));
@@ -1019,7 +1212,7 @@ html.driving body{cursor:crosshair;}
 
   /* ---------- Scroll reveals (only content below the first screen is ever hidden) ---------- */
   if (!reduce && "IntersectionObserver" in window) {
-    const selector = ".section h2, .section > p, .lm-main > p, .sheet, .rt, .story, .timeline li, .titles li, .hurt article, .quotes figure, .facts li, .book, .sources li, .notes";
+    const selector = ".section h2, .section > p, .lm-main > p, .sheet, .rt, .story, .timeline li, .titles li, .hurt article, .facts li, .book, .sources li, .notes";
     const fold = innerHeight * 0.92;
     document.querySelectorAll(".sheet tbody tr").forEach((tr) => tr.style.setProperty("--r", tr.sectionRowIndex));
     const io = new IntersectionObserver((entries) => {
@@ -1951,6 +2144,179 @@ html.driving body{cursor:crosshair;}
     } else load();
   }
 
+  /* ---------- Night race backdrop: floodlights and motion-blurred streaks, drawn live ---------- */
+  const motion = { paused: false, scenes: [] };
+  const nightScene = (cv, { car = false } = {}) => {
+    const g = cv.getContext("2d");
+    let W = 0, H = 0, d = 1, streaks = [], lamps = [], visible = false, looping = false, carX = -80, last = performance.now();
+    const streak = (anywhere) => ({ x: anywhere ? Math.random() * W : W + Math.random() * W * 0.4, y: H * (0.16 + Math.random() * 0.62), len: 40 + Math.random() * 240, z: 0.25 + Math.random() * 0.75, gold: Math.random() < 0.16 });
+    const size = () => {
+      const r = cv.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height); d = Math.min(1.75, devicePixelRatio || 1);
+      cv.width = Math.round(W * d); cv.height = Math.round(H * d);
+      streaks = Array.from({ length: clamp(Math.round(W / 12), 30, 140) }, () => streak(true));
+      lamps = Array.from({ length: 7 }, (_, i) => ({ x: (i + 0.3 + Math.random() * 0.4) / 7, y: 0.05 + Math.random() * 0.1, r: 0.04 + Math.random() * 0.05, bars: 2 + Math.floor(Math.random() * 3) }));
+      draw(performance.now(), 0);
+    };
+    const draw = (now, dt) => {
+      g.setTransform(d, 0, 0, d, 0, 0);
+      const bg = g.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, "#04050A"); bg.addColorStop(0.55, "#0A0C15"); bg.addColorStop(0.82, "#12131A"); bg.addColorStop(1, "#08090D");
+      g.fillStyle = bg; g.fillRect(0, 0, W, H);
+      for (const l of lamps) {
+        const x = l.x * W, y = l.y * H, r = l.r * Math.max(W, H);
+        const glow = g.createRadialGradient(x, y, 0, x, y, r);
+        glow.addColorStop(0, "rgba(255,255,250,.55)"); glow.addColorStop(0.25, "rgba(220,225,255,.16)"); glow.addColorStop(1, "rgba(0,0,0,0)");
+        g.fillStyle = glow; g.fillRect(x - r, y - r, r * 2, r * 2);
+        g.fillStyle = "rgba(255,255,255,.85)";
+        for (let b = 0; b < l.bars; b++) g.fillRect(x - r * 0.18, y - 6 + b * 7, r * 0.36, 3);
+      }
+      const boost = 1 + Math.min(6, Math.abs(speed.v) * 0.12);
+      g.lineCap = "round";
+      for (const s of streaks) {
+        s.x -= (2 + 9 * s.z) * boost * (dt / 16.7);
+        if (s.x + s.len < 0) Object.assign(s, streak(false));
+        const grad = g.createLinearGradient(s.x, 0, s.x + s.len, 0);
+        const c = s.gold ? "245,196,0" : "236,238,255";
+        grad.addColorStop(0, `rgba(${c},0)`); grad.addColorStop(0.7, `rgba(${c},${(0.12 + s.z * 0.5).toFixed(2)})`); grad.addColorStop(1, `rgba(${c},0)`);
+        g.strokeStyle = grad; g.lineWidth = 1 + s.z * 2.6;
+        g.beginPath(); g.moveTo(s.x, s.y); g.lineTo(s.x + s.len, s.y); g.stroke();
+      }
+      const track = g.createLinearGradient(0, H * 0.84, 0, H);
+      track.addColorStop(0, "rgba(40,90,110,.0)"); track.addColorStop(0.35, "rgba(60,120,140,.28)"); track.addColorStop(0.6, "rgba(160,40,60,.22)"); track.addColorStop(1, "rgba(10,10,14,.9)");
+      g.fillStyle = track; g.fillRect(0, H * 0.84, W, H * 0.16);
+      if (car) {
+        carX += (1.6 * boost) * (dt / 16.7);
+        if (carX > W + 80) carX = -80;
+        g.save(); g.translate(carX, H * 0.93); g.scale(1.1, 1.1); paintCar(g, "#121108", "#F5C400"); g.restore();
+      }
+    };
+    const loop = (now) => {
+      if (!visible || motion.paused || reduce) { looping = false; return; }
+      const dt = Math.min(50, now - last); last = now;
+      draw(now, dt);
+      raf(loop);
+    };
+    const api = {
+      size,
+      kick: () => { if (visible && !looping && !motion.paused && !reduce) { looping = true; last = performance.now(); raf(loop); } },
+    };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; api.kick(); }).observe(cv);
+    new ResizeObserver(size).observe(cv);
+    motion.scenes.push(api);
+    return api;
+  };
+
+  /* ---------- Cinematic hero: night backdrop, rising letters, strip-by-strip exit ---------- */
+  const cine = document.querySelector(".cine");
+  const cineInner = cine && cine.querySelector(".cine-inner");
+  const strips = cine ? [...cine.querySelectorAll(".cine-strips i")] : [];
+  const stripOrder = [0.0, 0.26, 0.1, 0.36, 0.04, 0.3, 0.16, 0.42];
+  if (cine) {
+    nightScene(cine.querySelector(".cine-bg"), { car: true });
+    const pauseBtn = cine.querySelector(".cine-pause");
+    if (reduce) pauseBtn.hidden = true;
+    pauseBtn.addEventListener("click", () => {
+      motion.paused = !motion.paused;
+      pauseBtn.setAttribute("aria-pressed", String(motion.paused));
+      pauseBtn.textContent = motion.paused ? "Play motion" : "Pause motion";
+      motion.scenes.forEach((s) => s.kick());
+    });
+  }
+  const updateCine = () => {
+    if (!cine || reduce) return;
+    const p = clamp(scrollY / (cine.offsetHeight * 0.85), 0, 1);
+    strips.forEach((s, i) => s.style.setProperty("--k", clamp(p * 1.7 - stripOrder[i], 0, 1).toFixed(3)));
+    cineInner.style.transform = `translate3d(0, ${(p * 70).toFixed(1)}px, 0)`;
+    cineInner.style.opacity = (1 - p * 0.9).toFixed(3);
+  };
+
+  /* ---------- Brand tab and Chapters menu ---------- */
+  const brand = document.querySelector(".brand");
+  const chapters = document.querySelector(".chapters");
+  let chapterLinks = [];
+  if (chapters) {
+    const btn = chapters.querySelector(".chapters-btn"), menu = chapters.querySelector(".chapters-menu"), list = menu.querySelector("ol");
+    document.querySelectorAll(".toc a").forEach((a) => {
+      const li = document.createElement("li"), link = document.createElement("a");
+      link.href = a.getAttribute("href"); link.textContent = a.textContent;
+      li.append(link); list.append(li); chapterLinks.push(link);
+    });
+    chapters.hidden = false;
+    const setOpen = (open) => { btn.setAttribute("aria-expanded", String(open)); menu.hidden = !open; };
+    btn.addEventListener("click", () => setOpen(menu.hidden));
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+    document.addEventListener("click", (e) => { if (!menu.hidden && !chapters.contains(e.target)) setOpen(false); });
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { setOpen(false); btn.focus(); } });
+  }
+  const updateChrome = () => {
+    if (brand) brand.classList.toggle("solid", !cine || scrollY > cine.offsetHeight - 60);
+    if (!chapterLinks.length) return;
+    let current = null;
+    for (const a of chapterLinks) { const el = document.querySelector(a.getAttribute("href")); if (el && el.getBoundingClientRect().top < innerHeight * 0.4) current = a; }
+    chapterLinks.forEach((a) => (a === current ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
+  };
+
+  /* ---------- In his words: stripe wipes and quotes that glide sideways ---------- */
+  const words = document.getElementById("words");
+  let updateRide = () => {};
+  if (words && !reduce) {
+    words.classList.add("ride-on");
+    const ride = words.querySelector(".ride"), stage = words.querySelector(".ride-stage");
+    const figs = [...words.querySelectorAll(".quotes figure")], slabs = [...stage.querySelectorAll(".slab")], counter = stage.querySelector(".ride-count");
+    const N = figs.length;
+    ride.style.setProperty("--n", N);
+    nightScene(stage.querySelector(".ride-bg"));
+    updateRide = () => {
+      const r = ride.getBoundingClientRect(), span = r.height - innerHeight;
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      const seg = clamp(-r.top / span, 0, 1) * N, k = Math.min(N - 1, Math.floor(seg)), t = seg - k, vw = stage.clientWidth;
+      figs.forEach((f, i) => {
+        if (i !== k) { f.classList.remove("on"); return; }
+        f.classList.add("on");
+        const bq = f.firstElementChild, u = clamp((t - 0.1) / 0.8, 0, 1);
+        f.style.setProperty("--x", `${(vw * 0.92 - u * (bq.scrollWidth + vw * 0.84)).toFixed(1)}px`);
+      });
+      counter.textContent = `${String(k + 1).padStart(2, "0")} / ${String(N).padStart(2, "0")}`;
+      // A wipe runs across each boundary between quotes, and in and out at the ends.
+      const b = Math.round(seg), local = seg - b, wp = Math.abs(local) < 0.14 ? (local + 0.14) / 0.28 : local < 0 ? 0 : 1;
+      slabs.forEach((s, j) => {
+        const q = Math.abs(local) < 0.14 ? clamp(wp * 1.35 - j * 0.1, 0, 1) : wp;
+        s.style.setProperty("--sx", `${((1 - 2 * q) * 140).toFixed(1)}vw`);
+      });
+    };
+  }
+
+  /* ---------- Night flythrough: his cars come at you out of the dark ---------- */
+  const fly = document.getElementById("cars");
+  let updateFly = () => {};
+  if (fly && !reduce) {
+    fly.classList.add("fly-on");
+    const run = fly.querySelector(".fly-run"), cards = [...fly.querySelectorAll(".car-card")], caption = fly.querySelector(".fly-caption"), carEl = fly.querySelector(".fly-car");
+    const N = cards.length, GAP = 700;
+    const xs = [-20, 18, -6, 24, -16, 8, -24, 14, -10, 22, -18, 4, -22, 16, -4], ys = [-6, 4, -10, 6, 0, -4, 8, -8, 2, -2, 6, -6, 4, -10, 0];
+    run.style.setProperty("--n", N);
+    nightScene(fly.querySelector(".fly-bg"));
+    updateFly = () => {
+      const r = run.getBoundingClientRect(), span = r.height - innerHeight;
+      if (r.bottom < -200 || r.top > innerHeight + 200) return;
+      const p = clamp(-r.top / span, 0, 1), cam = p * (N - 1 + 1.2) - 0.6;
+      let near = null, nearD = Infinity;
+      cards.forEach((c, i) => {
+        const dz = (cam - i) * GAP;
+        const o = clamp((dz + 3200) / 900, 0, 1) * clamp((520 - dz) / 300, 0, 1);
+        c.style.setProperty("--z", `${dz.toFixed(0)}px`);
+        c.style.setProperty("--x", `${xs[i % xs.length]}vw`);
+        c.style.setProperty("--y", `${ys[i % ys.length]}vh`);
+        c.style.setProperty("--o", o.toFixed(3));
+        c.style.setProperty("--v", o > 0.01 ? "visible" : "hidden");
+        if (Math.abs(dz) < nearD && dz > -900 && dz < 520) { nearD = Math.abs(dz); near = c; }
+      });
+      caption.textContent = near ? `${near.querySelector(".cc-name").textContent} · ${near.querySelector(".cc-year").textContent} · ${near.querySelector(".cc-note").textContent}` : "";
+      carEl.style.setProperty("--cx", `${(p * (run.clientWidth - 54)).toFixed(1)}px`);
+    };
+  }
+
   /* ---------- Reading progress, the timeline's lap line, and everything scroll-driven ---------- */
   const progress = document.querySelector(".progress");
   const timeline = document.querySelector(".timeline");
@@ -1969,6 +2335,10 @@ html.driving body{cursor:crosshair;}
     }
     updateCall();
     updateLeMans();
+    updateCine();
+    updateChrome();
+    updateRide();
+    updateFly();
     kickTrack();
   };
   const relayout = () => { measureCalls(); layoutTrack(); update(); };
