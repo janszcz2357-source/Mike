@@ -25,4 +25,5 @@ Every fact on the page is drawn from the published sources listed in its **Sourc
 ## Notes
 
 - No photographs are included, because published photos of him belong to their photographers. The helmet drawing is an illustration of his yellow helmet with a ring of black diamonds.
+- The page opens in a 1970s TV look. The TV button in the bottom-left controls switches it off, and the browser remembers that choice. The results ticker along the bottom repeats results already given in the page's tables and titles list.
 - The page is not affiliated with or endorsed by Mike Wilds. His own site is <https://mikewilds.com/>.

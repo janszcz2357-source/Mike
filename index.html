@@ -548,18 +548,7 @@ html.driving body{cursor:crosshair;}
 .ride-on .slabs{display:block;position:absolute;inset:0;z-index:3;pointer-events:none;}
 
 /* ---------- Round 6 ---------- */
-/* Custom cursor and magnetic controls (mouse screens only) */
-.cursor{display:none;}
-html.has-cursor,html.has-cursor *{cursor:none!important;}
-html.has-cursor .cursor{display:block;position:fixed;left:0;top:0;z-index:40;pointer-events:none;opacity:0;transition:opacity .25s;}
-html.has-cursor .cursor.on{opacity:1;}
-.cursor-dot{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;background:var(--helmet);border:1.5px solid var(--helmet-ink);}
-.cursor-ring{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;display:grid;place-items:center;border:2px solid var(--helmet);border-radius:50%;box-shadow:0 0 0 1px rgba(18,17,8,.35);transition:width .25s,height .25s,margin .25s,background-color .25s,border-radius .25s,scale .15s;}
-.cursor.grow .cursor-ring{width:68px;height:68px;margin:-34px 0 0 -34px;background:rgba(245,196,0,.92);border-color:var(--helmet-ink);}
-.cursor.caret .cursor-ring{width:4px;height:26px;margin:-13px 0 0 -2px;border-radius:2px;background:var(--helmet);border-color:var(--helmet);box-shadow:none;}
-.cursor.down .cursor-ring{scale:.85;}
-.cursor-label{font:600 .66rem/1 var(--f-data);letter-spacing:.1em;text-transform:uppercase;color:var(--helmet-ink);opacity:0;transition:opacity .2s;}
-.cursor.grow .cursor-label{opacity:1;}
+/* Magnetic controls (mouse screens only) */
 .magnet{transition:translate .45s cubic-bezier(.2,.9,.3,1.4),background-color .3s,color .3s,border-color .2s;}
 .magnet.pull{transition:translate .12s ease-out,background-color .3s,color .3s,border-color .2s;}
 
@@ -609,9 +598,10 @@ body.speedy .ride-on .quotes blockquote{text-shadow:calc(var(--rgb,0) * 1.6px) 0
 .road-on .timeline p{font-size:.92rem;line-height:1.45;}
 
 /* 1970s TV mode */
-.tv-fx,.tv-boot{display:none;}
+.tv-fx,.tv-tint,.tv-boot{display:none;}
+/* The faded colour is a blend layer, not a backdrop filter: it looks much the same and costs far less to draw */
+html.tv .tv-tint{display:block;position:fixed;inset:0;z-index:30;pointer-events:none;background:#9C7A4E;mix-blend-mode:color;opacity:.32;}
 html.tv .tv-fx{display:block;position:fixed;inset:0;z-index:7;pointer-events:none;
-  -webkit-backdrop-filter:sepia(.35) saturate(1.3) contrast(1.06) brightness(1.02);backdrop-filter:sepia(.35) saturate(1.3) contrast(1.06) brightness(1.02);
   background:repeating-linear-gradient(0deg,rgba(0,0,0,.15) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.6) 100%);
   box-shadow:inset 0 0 100px 30px rgba(0,0,0,.55);animation:tv-flicker .12s steps(2) infinite;}
 html.tv .tv-fx::before{content:"MW · COLOUR";position:absolute;right:max(24px,env(safe-area-inset-right,0px));top:calc(64px + env(safe-area-inset-top,0px));font:900 1.1rem/1 var(--f-display);font-stretch:85%;letter-spacing:.08em;color:rgba(255,255,255,.85);text-shadow:0 0 6px rgba(255,255,255,.5),1px 0 rgba(229,50,43,.7),-1px 0 rgba(0,190,255,.7);}
@@ -626,6 +616,106 @@ html.tv-booting .tv-boot{display:block;position:fixed;inset:0;z-index:39;pointer
 html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#FFF;box-shadow:0 0 20px 6px rgba(255,255,255,.7);transform:scaleX(0);animation:tv-boot-line .75s cubic-bezier(.2,.8,.2,1) forwards;}
 @keyframes tv-boot-line{35%{transform:scaleX(1);}70%{transform:scaleX(1) scaleY(300);opacity:.6;}100%{transform:scaleX(1) scaleY(500);opacity:0;}}
 @keyframes tv-boot-bg{0%,45%{opacity:1;}100%{opacity:0;}}
+/* TV mode is the normal look: it sits over everything, the intro and the fixed controls included */
+html.tv .tv-fx{z-index:30;}
+/* The station ident steps aside for the corner captions and the open Chapters menu */
+html.tv .tv-fx::before{transition:opacity .3s;}
+html.tv:has(.chapters-btn[aria-expanded="true"],.corner-call.on) .tv-fx::before{opacity:0;}
+
+/* Test card, before the start lights */
+.testcard{position:absolute;inset:0;z-index:4;display:grid;place-items:center;align-content:center;gap:18px;padding:24px;background-color:#7D7D7D;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.55) 0 2px,transparent 2px 64px),repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 2px,transparent 2px 64px);background-position:center;}
+.testcard::before,.testcard::after{content:"";position:absolute;inset:0;pointer-events:none;}
+.testcard::before{background:repeating-linear-gradient(90deg,#000 0 32px,#FFF 32px 64px) top/100% 12px no-repeat,repeating-linear-gradient(90deg,#FFF 0 32px,#000 32px 64px) bottom/100% 12px no-repeat;}
+.testcard::after{background:repeating-linear-gradient(0deg,#000 0 32px,#FFF 32px 64px) left/12px 100% no-repeat,repeating-linear-gradient(0deg,#FFF 0 32px,#000 32px 64px) right/12px 100% no-repeat;}
+.tc-disc{position:relative;width:min(62vmin,460px);aspect-ratio:1;border-radius:50%;overflow:hidden;border:4px solid #FFF;box-shadow:0 0 0 3px #000;display:grid;grid-template-rows:34% 30% 18% 18%;}
+.tc-bars{background:linear-gradient(90deg,#FFF 0 14.3%,#FF0 0 28.6%,#0FF 0 42.9%,#0F0 0 57.1%,#F0F 0 71.4%,#F00 0 85.7%,#00F 0);}
+.tc-mid{display:flex;align-items:center;justify-content:center;gap:5%;background:#F5C400;color:#121108;font:900 clamp(2rem,9vmin,4.4rem)/1 var(--f-display);font-stretch:62%;letter-spacing:.02em;}
+.tc-mid i{width:.4em;height:.4em;background:#121108;transform:rotate(45deg);}
+.tc-wedge{background:linear-gradient(90deg,#000 0 16.7%,#333 0 33.3%,#666 0 50%,#999 0 66.7%,#CCC 0 83.3%,#FFF 0);}
+.tc-grate{background:repeating-linear-gradient(90deg,#FFF 0 2px,#000 2px 4px) left/34% 100% no-repeat,repeating-linear-gradient(90deg,#FFF 0 4px,#000 4px 8px) center/32% 100% no-repeat,repeating-linear-gradient(90deg,#FFF 0 7px,#000 7px 14px) right/34% 100% no-repeat;}
+.tc-cap{position:relative;margin:0;padding:6px 14px;background:#000;color:#FFF;font:600 clamp(.62rem,1.8vmin,.8rem)/1.3 var(--f-data);letter-spacing:.16em;text-transform:uppercase;text-align:center;}
+.intro.tuned .testcard{visibility:hidden;transition:visibility 0s .45s;animation:tc-off .45s cubic-bezier(.7,0,.85,.35) forwards;}
+.intro.open .testcard{visibility:hidden;animation:none;}
+@keyframes tc-off{0%{transform:none;filter:none;}55%{transform:scale(1,.006);filter:brightness(4);}100%{transform:scale(0,.006);filter:brightness(4);visibility:hidden;}}
+.ic-ring path{animation-delay:calc(1.1s + var(--i,0) * 28ms);}
+.ic-disc{animation-delay:1.55s;}
+
+/* Closedown: the picture shrinks to a dot when you stay at the very end */
+.closedown{position:fixed;inset:0;z-index:29;pointer-events:none;visibility:hidden;display:grid;place-items:center;}
+html:not(.tv) .closedown{display:none;}
+.closedown.on{visibility:visible;}
+.cd-half{position:absolute;left:0;right:0;height:50.5%;background:#050505;transform:scaleY(0);}
+.cd-half.t{top:0;transform-origin:50% 0;}
+.cd-half.b{bottom:0;transform-origin:50% 100%;}
+.closedown.on .cd-half{animation:cd-shut .34s cubic-bezier(.75,0,.9,.45) forwards;}
+.cd-dot{position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:#FFF;box-shadow:0 0 22px 8px rgba(255,255,255,.75);opacity:0;}
+.closedown.on .cd-dot{animation:cd-dot 1.3s .3s ease-in forwards;}
+.cd-msg{position:relative;display:grid;justify-items:center;gap:10px;margin:0;padding:0 16px;text-align:center;color:#D9D5C3;opacity:0;font:600 .76rem/1.5 var(--f-data);letter-spacing:.14em;text-transform:uppercase;}
+.cd-msg b{font:900 clamp(2.4rem,8vw,4.6rem)/.9 var(--f-display);font-stretch:62%;letter-spacing:.02em;color:#F5C400;}
+.closedown.on .cd-msg{animation:cd-msg .8s 1.5s ease-out forwards;}
+@keyframes cd-shut{to{transform:scaleY(1);}}
+@keyframes cd-dot{0%{opacity:1;transform:none;}35%{opacity:1;transform:scale(.004,1.6);}75%{opacity:1;transform:scale(.004,1.6);}100%{opacity:0;transform:scale(0,0);}}
+@keyframes cd-msg{to{opacity:1;}}
+
+/* Results ticker along the bottom */
+.ticker{display:none;}
+html.has-ticker body{padding-bottom:calc(34px + env(safe-area-inset-bottom,0px));}
+html.has-ticker .ticker{display:flex;position:fixed;z-index:6;left:0;right:0;bottom:0;box-sizing:border-box;height:calc(34px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);align-items:stretch;background:#121108;color:#F4F2EA;border-top:3px solid #F5C400;font:600 .74rem/1 var(--f-data);letter-spacing:.06em;text-transform:uppercase;}
+.ticker-tag{flex:none;display:inline-flex;align-items:center;gap:8px;margin:0;padding:0 12px 0 max(12px,env(safe-area-inset-left,0px));border:0;background:#F5C400;color:#121108;font:inherit;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
+.ticker-tag:hover{background:#FFD84A;}
+.ticker-tag svg{width:9px;height:9px;flex:none;}
+.ticker-tag .tk-play,.ticker-tag[aria-pressed="true"] .tk-pause{display:none;}
+.ticker-tag[aria-pressed="true"] .tk-play{display:block;}
+.ticker-track{position:relative;flex:1;min-width:0;display:flex;align-items:center;overflow:hidden;}
+.ticker-track::before,.ticker-track::after{content:"";position:absolute;z-index:1;top:0;bottom:0;width:24px;pointer-events:none;}
+.ticker-track::before{left:0;background:linear-gradient(90deg,#121108,rgba(18,17,8,0));}
+.ticker-track::after{right:0;background:linear-gradient(270deg,#121108,rgba(18,17,8,0));}
+.ticker-run{display:flex;flex:none;padding-left:24px;white-space:nowrap;will-change:transform;}
+.ticker-set{display:flex;flex:none;margin:0;padding:0;list-style:none;}
+.ticker-set li{display:inline-flex;align-items:center;gap:8px;padding-right:18px;}
+.ticker-set li::after{content:"";flex:none;width:7px;height:7px;margin-left:12px;background:#F5C400;transform:rotate(45deg);}
+.ticker-set b{color:#F5C400;font-weight:700;}
+.tk-res{padding:3px 6px;background:#F4F2EA;color:#121108;font-weight:700;}
+html.has-ticker .dock{bottom:calc(46px + env(safe-area-inset-bottom,0px));}
+html.has-ticker .cine-cue{bottom:56px;}
+html.has-ticker .cine-pause{left:auto;right:16px;bottom:50px;}
+@media (max-width:900px){html.has-ticker .lm-clock{bottom:calc(46px + env(safe-area-inset-bottom,0px));}}
+@media (prefers-reduced-motion:reduce){.ticker-track{overflow-x:auto;scrollbar-width:none;}.ticker-tag svg{display:none!important;}.ticker-tag:disabled{cursor:default;}}
+
+/* Timing tower: the chapter you are reading overtakes to P1 (wide screens) */
+.tower{display:none;}
+@media (min-width:1360px) and (min-height:600px){
+  .tower{display:block;position:fixed;z-index:5;left:max(10px,env(safe-area-inset-left,0px));top:50%;width:104px;background:rgba(18,17,8,.94);border:1px solid #3A3830;color:#F4F2EA;font-family:var(--f-data);box-shadow:0 14px 30px rgba(0,0,0,.3);
+    opacity:0;transform:translate(-130%,-50%);transition:transform .55s cubic-bezier(.2,.9,.2,1),opacity .3s;}
+  .tower.on{opacity:1;transform:translate(0,-50%);}
+}
+.tw-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 8px;border-bottom:3px solid #F5C400;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#C9C5B3;}
+.tw-mw{font:900 .95rem/1 var(--f-display);font-stretch:70%;letter-spacing:.02em;color:#F5C400;}
+.tw-lap b{color:#F4F2EA;}
+.tower-list{list-style:none;margin:0;padding:3px 0;}
+.tw-row{position:relative;transition:transform .6s cubic-bezier(.3,.9,.25,1);}
+.tw-row a{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:6px;height:23px;padding-right:7px;color:inherit;text-decoration:none;font-size:.68rem;letter-spacing:.06em;}
+.tw-row a:hover{background:#2A2922;}
+.tw-pos{display:grid;place-items:center;align-self:stretch;margin:2px 0;background:#F4F2EA;color:#121108;font-weight:700;font-size:.64rem;}
+.tw-row.lead .tw-pos{background:#F5C400;}
+.tw-code{font-weight:700;padding-left:6px;border-left:3px solid #3A3830;}
+.tw-row.read .tw-code{border-left-color:#F5C400;}
+.tw-time{color:#9C988A;font-size:.6rem;font-variant-numeric:tabular-nums;}
+.tw-row.lead .tw-time{color:#F4F2EA;}
+.tw-row.gain{z-index:2;}
+.tw-row.gain a{animation:tw-gain 1.4s ease-out;}
+@keyframes tw-gain{0%,15%{background:#F5C400;color:#121108;}100%{background:transparent;}}
+
+/* Channel flips: static and a rolling picture as you enter the big scenes */
+.chan{display:none;}
+.flipping > .chan{display:block;position:absolute;inset:0;z-index:30;pointer-events:none;overflow:hidden;}
+.chan::before{content:"";position:absolute;inset:-30%;background:#808080 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/200px 200px;filter:grayscale(1) contrast(1.8);animation:chan-static .7s ease-out forwards,tv-noise .18s steps(3) infinite;}
+.chan::after{content:"";position:absolute;left:0;right:0;top:0;height:26%;background:linear-gradient(180deg,rgba(0,0,0,0),#000 30%,#000 70%,rgba(0,0,0,0));animation:chan-roll .6s .05s cubic-bezier(.35,0,.6,1) both;}
+.chan-n{position:absolute;z-index:1;top:calc(74px + env(safe-area-inset-top,0px));left:max(28px,env(safe-area-inset-left,0px));display:grid;gap:4px;color:#46FF6A;font:700 2.8rem/1 var(--f-data);text-shadow:0 0 10px rgba(70,255,106,.75),2px 0 rgba(229,50,43,.5);}
+.chan-n small{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;}
+@keyframes chan-static{0%,20%{opacity:1;}65%{opacity:.4;}100%{opacity:0;}}
+@keyframes chan-roll{from{transform:translateY(-100%);}to{transform:translateY(400%);}}
 
 @media (max-width:700px){
   .hero{grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s3) var(--s2);}
@@ -667,6 +757,7 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
 <a class="skip" href="#main">Skip to the career file</a>
 <div class="progress" aria-hidden="true"><div class="progress-track"><div class="progress-bar"></div><span class="progress-car"><svg viewBox="-18 -10 36 20"><g fill="#121108"><rect x="-17" y="-9" width="4" height="18"/><rect x="-13" y="-10" width="8" height="5"/><rect x="-13" y="5" width="8" height="5"/><rect x="7" y="-9" width="6" height="4"/><rect x="7" y="5" width="6" height="4"/><rect x="14" y="-8" width="3" height="16"/></g><g fill="#F5C400" stroke="#121108" stroke-width="1"><rect x="-9" y="-7" width="10" height="14"/><path d="M-12-4.5 6-3.5 15-1.5 15 1.5 6 3.5-12 4.5Z"/><circle cx="-1" cy="0" r="2.6" stroke-width="1.4"/></g></svg></span></div></div>
 <div class="intro" hidden aria-hidden="true">
+  <div class="testcard"><div class="tc-disc"><span class="tc-bars"></span><span class="tc-mid">M<i></i>W</span><span class="tc-wedge"></span><span class="tc-grate"></span></div><p class="tc-cap">Test card W · Brands Hatch · 20 July 1974</p></div>
   <div class="intro-stage">
     <svg class="intro-crest" viewBox="-100 -100 200 200" aria-hidden="true"><circle class="ic-disc" r="94"/><g class="ic-ring"><g transform="rotate(0.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:0;--sx:-53px;--sy:-105px;--sr:-55deg"/></g><g transform="rotate(22.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:1;--sx:109px;--sy:110px;--sr:-260deg"/></g><g transform="rotate(45.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:2;--sx:71px;--sy:72px;--sr:148deg"/></g><g transform="rotate(67.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:3;--sx:-52px;--sy:34px;--sr:119deg"/></g><g transform="rotate(90.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:4;--sx:-23px;--sy:80px;--sr:124deg"/></g><g transform="rotate(112.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:5;--sx:-15px;--sy:-118px;--sr:206deg"/></g><g transform="rotate(135.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:6;--sx:19px;--sy:-142px;--sr:10deg"/></g><g transform="rotate(157.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:7;--sx:-150px;--sy:46px;--sr:208deg"/></g><g transform="rotate(180.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:8;--sx:126px;--sy:-38px;--sr:255deg"/></g><g transform="rotate(202.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:9;--sx:-1px;--sy:52px;--sr:-150deg"/></g><g transform="rotate(225.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:10;--sx:145px;--sy:-72px;--sr:78deg"/></g><g transform="rotate(247.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:11;--sx:-118px;--sy:-86px;--sr:165deg"/></g><g transform="rotate(270.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:12;--sx:105px;--sy:15px;--sr:-52deg"/></g><g transform="rotate(292.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:13;--sx:-103px;--sy:34px;--sr:116deg"/></g><g transform="rotate(315.0)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:14;--sx:148px;--sy:65px;--sr:101deg"/></g><g transform="rotate(337.5)"><path d="M0-84 8-72 0-60-8-72Z" style="--i:15;--sx:-63px;--sy:-33px;--sr:99deg"/></g></g></svg>
     <p class="intro-kicker">Brands Hatch · British Grand Prix · 20 July 1974</p>
@@ -693,6 +784,10 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
   const root = document.documentElement, intro = document.querySelector(".intro");
   let play = !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) && !location.hash;
   try { if (sessionStorage.getItem("mw-intro")) play = false; else sessionStorage.setItem("mw-intro", "1"); } catch (e) {}
+  let tv = true;
+  try { tv = localStorage.getItem("mw-tv") !== "off"; } catch (e) {}
+  root.classList.toggle("tv", tv);
+  root.classList.add("has-ticker");
   if (play) { intro.hidden = false; root.classList.add("intro-on"); } else intro.remove();
 })();
 </script>
@@ -703,17 +798,34 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
 <canvas class="rain" aria-hidden="true"></canvas>
 <canvas class="drive" aria-hidden="true"></canvas>
 <canvas class="fx" aria-hidden="true"></canvas>
+<div class="tv-tint" aria-hidden="true"></div>
 <div class="tv-fx" aria-hidden="true"></div>
 <div class="tv-boot" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"><b class="cursor-label"></b></span></div>
 <div class="dock" role="group" aria-label="Page effects" hidden>
   <button type="button" class="dock-btn" id="engine-btn" aria-pressed="false" title="Engine sound. Scroll to rev it"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16l5-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.8" fill="currentColor"/></svg><span>Engine</span></button>
   <span class="engine-pick" hidden><button type="button" data-engine="v8" aria-pressed="true"><span class="pre">DFV </span>V8</button><button type="button" data-engine="v12" aria-pressed="false"><span class="pre">BRM </span>V12</button></span>
   <span class="tach" hidden aria-hidden="true"><span class="tach-light"></span><span class="tach-bar"></span><span class="tach-read">G1 · 3,000 rpm</span></span>
   <button type="button" class="dock-btn" id="drive-btn" aria-pressed="false" title="Drive the page with the pointer or arrow keys. Esc to park"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M3.8 11h6M14.2 11h6M12 14v6.3" stroke="currentColor" stroke-width="2"/></svg><span>Drive</span></button>
-  <button type="button" class="dock-btn" id="tv-btn" aria-pressed="false" title="1970s TV mode"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>TV</span></button>
+  <button type="button" class="dock-btn" id="tv-btn" aria-pressed="true" title="1970s TV mode"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>TV</span></button>
   <button type="button" class="dock-btn" id="rain-btn" aria-pressed="false" title="Make it rain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.3 1.5A3.3 3.3 0 0 0 7 15z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Rain</span></button>
 </div>
+
+<div class="ticker" role="region" aria-label="Results ticker">
+  <button type="button" class="ticker-tag" aria-pressed="false" aria-label="Results ticker, pause"><svg class="tk-pause" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0h3v10H1zM6 0h3v10H6z" fill="currentColor"/></svg><svg class="tk-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0l9 5-9 5z" fill="currentColor"/></svg>Results</button>
+  <div class="ticker-track"><div class="ticker-run"><ul class="ticker-set">
+    <li><b>F1 1974</b> British GP · Brands Hatch · March 731 <span class="tk-res">DNQ</span></li>
+    <li><b>F1 1974</b> United States GP · Watkins Glen · first Grand Prix start <span class="tk-res">NC</span></li>
+    <li><b>F1 1975</b> Argentine GP · Buenos Aires · BRM P201 <span class="tk-res">RET</span> engine, after 24 laps</li>
+    <li><b>F1 1975</b> Brazilian GP · Interlagos · BRM P201 <span class="tk-res">RET</span> clutch, after 22 laps</li>
+    <li><b>1978</b> British F1 Championship, F2 class · Ralt RT1 <span class="tk-res">Champion</span></li>
+    <li><b>1986</b> World Championship C2 teams' title · Ecurie Ecosse <span class="tk-res">Title</span></li>
+    <li><b>Le Mans 1988</b> Nissan R88C · with Win Percy and Allan Grice <span class="tk-res">14th</span></li>
+    <li><b>Historic</b> Chevron B31/36 · 49 races <span class="tk-res">45 wins</span></li>
+    <li><b>1992 · 1993 · 1996 · 1998</b> RJB Mining Historic Sports Cars <span class="tk-res">Champion</span></li>
+    <li><b>2016</b> Britcar Endurance, Class 2 · Ferrari 458 GTC <span class="tk-res">Champion</span></li>
+  </ul></div></div>
+</div>
+<div class="closedown" aria-hidden="true"><span class="cd-half t"></span><span class="cd-half b"></span><span class="cd-dot"></span><p class="cd-msg"><b>Closedown</b><span>That is the end of the career file</span><span>Scroll up to switch back on</span></p></div>
 
 <header class="masthead" id="top">
   <div class="cine">
@@ -1321,8 +1433,9 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
       startHero();
     };
     const skip = () => open(true);
-    intro.querySelectorAll(".lamp").forEach((lamp, i) => at(700 + i * 360, () => lamp.classList.add("on")));
-    const lightsOut = 700 + 4 * 360 + 600;
+    at(1100, () => intro.classList.add("tuned"));
+    intro.querySelectorAll(".lamp").forEach((lamp, i) => at(1600 + i * 330, () => lamp.classList.add("on")));
+    const lightsOut = 1600 + 4 * 330 + 600;
     at(lightsOut, () => intro.classList.add("out"));
     at(lightsOut + 700, () => open(false));
     skipEvents.forEach((e) => addEventListener(e, skip, { passive: true }));
@@ -2188,14 +2301,17 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
       stage.prepend(renderer.domElement);
       const labels = parts.filter((p) => p.label).map((p) => { const el = document.createElement("span"); el.className = "garage-label"; el.textContent = p.label; stage.append(el); return { el, p, lw: el.offsetWidth, lh: el.offsetHeight }; });
       const look = new THREE.Vector3(0, 0.45, 0), v = new THREE.Vector3();
-      let w = 0, h = 0, yaw = -0.6, yawVel = 0, elev = 0.32, dist = 8.4, distT = 8.4, ex = 0, exTarget = 0, dragging = false, visible = false, looping = false;
+      let w = 0, h = 0, yaw = -0.6, yawVel = 0, elev = 0.32, dist = 8.4, distT = 8.4, ex = 0, exTarget = 0, dragging = false, visible = false, looping = false, last = 0;
       let auto = spinBtn.getAttribute("aria-pressed") === "true";
       const size = () => { w = stage.clientWidth; h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
-      const render = () => {
+      const render = (now) => {
+        // Zoom and the take-apart ease by elapsed time, so a slow device gets there as quickly as a fast one.
+        const f = Math.min(100, last ? now - last : 16.67) / 16.67;
+        last = now;
         if (!dragging) { yaw += yawVel; yawVel *= 0.94; if (auto && Math.abs(yawVel) < 0.002) yaw += 0.0045; }
         table.rotation.y = yaw;
-        dist += (distT - dist) * 0.12;
-        ex += reduce ? exTarget - ex : (exTarget - ex) * 0.08;
+        dist += (distT - dist) * (1 - Math.pow(0.88, f));
+        ex += reduce ? exTarget - ex : (exTarget - ex) * (1 - Math.pow(0.92, f));
         const e = ex * ex * (3 - 2 * ex);
         parts.forEach(({ g }) => g.position.copy(g.userData.base).addScaledVector(g.userData.off, e));
         camera.position.set(Math.cos(elev) * Math.cos(0.75) * dist, look.y + Math.sin(elev) * dist, Math.cos(elev) * Math.sin(0.75) * dist);
@@ -2211,7 +2327,7 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
           el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%)`;
           el.style.opacity = e.toFixed(2);
         });
-        if (visible) raf(render); else looping = false;
+        if (visible) raf(render); else { looping = false; last = 0; }
       };
       const kick = () => { if (visible && !looping) { looping = true; raf(render); } };
       const cv = renderer.domElement, pointers = new Map();
@@ -2435,47 +2551,18 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
     };
   }
 
-  /* ---------- Custom cursor and magnetic controls (mouse screens only) ---------- */
+  /* ---------- Magnetic controls (mouse screens only) ---------- */
   const fine = window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const cursor = document.querySelector(".cursor");
-  if (cursor && fine && !reduce) {
-    root.classList.add("has-cursor");
-    const dot = cursor.querySelector(".cursor-dot"), ring = cursor.querySelector(".cursor-ring"), label = cursor.querySelector(".cursor-label");
-    let mx = -100, my = -100, rx = -100, ry = -100, trailing = false, pulled = null;
-    const labelFor = (el) => {
-      if (!el || !el.closest) return null;
-      if (el.closest(".intro")) return "Skip";
-      if (el.closest(".garage-stage canvas")) return "Drag";
-      if (el.closest("#rt-pad")) return "Go";
-      if (el.closest(".pit-wheel:not(:disabled)")) return "Change";
-      if (el.closest("#pit-start")) return "Box";
-      if (el.closest(".helmet3d")) return "Spin";
-      const a = el.closest("a[href]");
-      if (a) return /^https?:/.test(a.getAttribute("href")) ? "Open" : "Read";
-      if (el.closest("button")) return "";
-      return null;
-    };
-    const overText = (el) => !!(el && el.closest && el.closest("p, li, dd, figcaption, td, h3") && !el.closest(".cine, .ride-on, .fly-on, .road-on"));
-    const trail = () => {
-      rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
-      ring.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`;
-      if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.3) raf(trail); else trailing = false;
-    };
+  if (fine && !reduce) {
+    let pulled = null;
     const MAG = ".dock-btn, .gbtn, .chapters-btn, .cine-cta, .cine-pause, .brand, .engine-pick button";
+    const release = () => { if (pulled) { pulled.classList.remove("pull"); pulled.style.translate = ""; pulled = null; } };
     document.querySelectorAll(MAG).forEach((m) => m.classList.add("magnet"));
     addEventListener("pointermove", (e) => {
       if (e.pointerType !== "mouse") return;
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px) rotate(45deg)`;
-      cursor.classList.add("on");
-      const l = labelFor(e.target);
-      cursor.classList.toggle("grow", l !== null);
-      label.textContent = l || "";
-      cursor.classList.toggle("caret", l === null && overText(e.target));
-      if (!trailing) { trailing = true; raf(trail); }
       // Controls lean toward the pointer, then spring back when it leaves.
       const m = e.target.closest && e.target.closest(MAG);
-      if (pulled && pulled !== m) { pulled.classList.remove("pull"); pulled.style.translate = ""; pulled = null; }
+      if (pulled !== m) release();
       if (m) {
         const r = m.getBoundingClientRect();
         m.classList.add("pull");
@@ -2483,9 +2570,7 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
         pulled = m;
       }
     }, { passive: true });
-    document.addEventListener("mouseleave", () => { cursor.classList.remove("on"); if (pulled) { pulled.classList.remove("pull"); pulled.style.translate = ""; pulled = null; } });
-    addEventListener("pointerdown", () => cursor.classList.add("down"));
-    addEventListener("pointerup", () => cursor.classList.remove("down"));
+    document.addEventListener("mouseleave", release);
   }
 
   /* ---------- Gliding scroll: the mouse wheel eases to where you aimed ---------- */
@@ -2553,14 +2638,157 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
     };
   }
 
-  /* ---------- 1970s TV mode ---------- */
+  /* ---------- 1970s TV mode: on by default, and switching it off is remembered ---------- */
   const tvBtn = document.getElementById("tv-btn");
-  if (tvBtn) tvBtn.addEventListener("click", () => {
-    const on = !root.classList.contains("tv");
-    root.classList.toggle("tv", on);
-    tvBtn.setAttribute("aria-pressed", String(on));
-    if (on && !reduce) { root.classList.add("tv-booting"); setTimeout(() => root.classList.remove("tv-booting"), 800); }
-  });
+  const tvBoot = () => { if (!reduce) { root.classList.add("tv-booting"); setTimeout(() => root.classList.remove("tv-booting"), 800); } };
+  if (tvBtn) {
+    tvBtn.setAttribute("aria-pressed", String(root.classList.contains("tv")));
+    tvBtn.addEventListener("click", () => {
+      const on = !root.classList.contains("tv");
+      root.classList.toggle("tv", on);
+      tvBtn.setAttribute("aria-pressed", String(on));
+      try { localStorage.setItem("mw-tv", on ? "on" : "off"); } catch (e) {}
+      if (on) tvBoot();
+    });
+  }
+
+  /* ---------- Results ticker: runs along the bottom, faster while you scroll ---------- */
+  const ticker = document.querySelector(".ticker");
+  if (ticker && root.classList.contains("has-ticker")) {
+    const run = ticker.querySelector(".ticker-run"), set = run.querySelector(".ticker-set"), tag = ticker.querySelector(".ticker-tag");
+    let paused = false, x = 0, last = 0, looping = false, w = 0;
+    const measure = () => (w = set.offsetWidth);
+    const step = (now) => {
+      if (paused) { looping = false; return; }
+      const dt = last ? Math.min(64, now - last) : 16;
+      last = now;
+      x -= (1.1 + Math.min(14, Math.abs(speed.v) * 0.35)) * dt / 16.67;
+      if (w && x <= -w) x += w;
+      run.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+      raf(step);
+    };
+    const start = () => { if (!looping && !reduce) { looping = true; last = 0; raf(step); } };
+    if (!reduce) {
+      const copy = set.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      run.append(copy);
+      measure();
+      addEventListener("resize", measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      start();
+    }
+    // With reduced motion the ticker stands still and scrolls by hand, so there is nothing to pause.
+    if (reduce) { tag.disabled = true; tag.setAttribute("aria-label", "Results"); tag.removeAttribute("aria-pressed"); }
+    tag.addEventListener("click", () => {
+      paused = !paused;
+      tag.setAttribute("aria-pressed", String(paused));
+      tag.setAttribute("aria-label", paused ? "Results ticker, play" : "Results ticker, pause");
+      if (!paused) start();
+    });
+  }
+
+  /* ---------- Timing tower: the chapter you are reading overtakes to P1 (wide screens) ---------- */
+  let updateTower = () => {};
+  const tocLinks = [...document.querySelectorAll(".toc a")];
+  if (tocLinks.length && window.matchMedia) {
+    const wide = matchMedia("(min-width: 1360px) and (min-height: 600px)");
+    const CODES = { origins: "ORI", "grand-prix": "GPX", garage: "GAR", "le-mans": "LEM", timeline: "TLN", cars: "CAR", titles: "TTL", accidents: "ACC", words: "WRD", "off-track": "OFF", "start-test": "LTS", "pit-stop": "PIT", sources: "SRC" };
+    const tower = document.createElement("div");
+    tower.className = "tower";
+    tower.setAttribute("aria-hidden", "true");
+    tower.innerHTML = `<div class="tw-head"><span class="tw-mw">MW</span><span class="tw-lap">Lap <b>–</b>/${tocLinks.length}</span></div><ol class="tower-list"></ol>`;
+    const list = tower.querySelector(".tower-list"), lapEl = tower.querySelector(".tw-lap b");
+    const rows = tocLinks.map((a, i) => ({ id: a.getAttribute("href").slice(1), name: a.textContent, lap: i + 1 }))
+      .filter((r) => (r.el = document.getElementById(r.id)))
+      .map((r, i) => {
+        r.t = 0;
+        r.li = document.createElement("li");
+        r.li.className = "tw-row";
+        r.li.innerHTML = `<a href="#${r.id}" tabindex="-1"><span class="tw-pos">${i + 1}</span><span class="tw-code">${CODES[r.id] || r.name.slice(0, 3).toUpperCase()}</span><span class="tw-time">–</span></a>`;
+        list.append(r.li);
+        return r;
+      });
+    document.body.append(tower);
+    const hero = document.querySelector(".cine");
+    let lead = null;
+    const overtake = (r) => {
+      const before = new Map([...list.children].map((li) => [li, li.getBoundingClientRect().top]));
+      list.prepend(r.li);
+      [...list.children].forEach((li, i) => (li.querySelector(".tw-pos").textContent = i + 1));
+      if (reduce) return;
+      // FLIP: start every row where it was, then let it slide to its new place.
+      for (const li of list.children) {
+        const dy = before.get(li) - li.getBoundingClientRect().top;
+        if (dy) { li.style.transition = "none"; li.style.transform = `translateY(${dy}px)`; }
+      }
+      list.offsetHeight;
+      for (const li of list.children) { li.style.transition = ""; li.style.transform = ""; }
+      r.li.classList.remove("gain"); void r.li.offsetWidth; r.li.classList.add("gain");
+    };
+    updateTower = () => {
+      if (!wide.matches) return;
+      tower.classList.toggle("on", !hero || scrollY > hero.offsetHeight - 60);
+      let cur = null;
+      for (const r of rows) if (r.el.getBoundingClientRect().top < innerHeight * 0.4) cur = r;
+      if (!cur || cur === lead) return;
+      lead = cur;
+      rows.forEach((r) => r.li.classList.toggle("lead", r === cur));
+      cur.li.classList.add("read");
+      lapEl.textContent = cur.lap;
+      if (list.firstElementChild !== cur.li) overtake(cur);
+    };
+    setInterval(() => {
+      if (!lead || document.hidden || !wide.matches || !tower.classList.contains("on")) return;
+      lead.t++;
+      lead.li.querySelector(".tw-time").textContent = `${Math.floor(lead.t / 60)}:${String(lead.t % 60).padStart(2, "0")}`;
+    }, 1000);
+  }
+
+  /* ---------- Channel flips: static and a rolling picture as you enter each big scene ---------- */
+  let updateFlips = () => {};
+  if (!reduce) {
+    const flips = [["#timeline .road", ".road-stage", "1", "Timeline"], ["#cars .fly-run", ".fly-stage", "2", "The cars"], ["#words .ride", ".ride-stage", "3", "In his words"]]
+      .map(([runSel, stageSel, n, name]) => {
+        const run = document.querySelector(runSel), stage = run && run.querySelector(stageSel);
+        if (!stage) return null;
+        const chan = document.createElement("div");
+        chan.className = "chan";
+        chan.setAttribute("aria-hidden", "true");
+        chan.innerHTML = `<b class="chan-n">${n}<small>${name}</small></b>`;
+        stage.append(chan);
+        return { run, stage, done: false };
+      }).filter(Boolean);
+    updateFlips = () => {
+      if (!root.classList.contains("tv")) return;
+      for (const f of flips) {
+        if (f.done || !f.run.closest(".road-on, .fly-on, .ride-on")) continue;
+        const r = f.run.getBoundingClientRect();
+        if (r.top > 1 || r.bottom < innerHeight - 1) continue;
+        f.done = true;
+        f.stage.classList.add("flipping");
+        setTimeout(() => f.stage.classList.remove("flipping"), 750);
+      }
+    };
+  }
+
+  /* ---------- Closedown: stay at the very end with the TV on and the station signs off ---------- */
+  const closedown = document.querySelector(".closedown");
+  let updateClosedown = () => {};
+  if (closedown && !reduce) {
+    let timer = 0;
+    const wake = () => {
+      clearTimeout(timer); timer = 0;
+      if (!closedown.classList.contains("on")) return;
+      closedown.classList.remove("on");
+      tvBoot();
+    };
+    updateClosedown = () => {
+      const atEnd = root.classList.contains("tv") && scrollY >= root.scrollHeight - innerHeight - 4;
+      if (!atEnd) { wake(); return; }
+      if (!timer && !closedown.classList.contains("on")) timer = setTimeout(() => { timer = 0; closedown.classList.add("on"); }, 3000);
+    };
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach((e) => addEventListener(e, () => { if (closedown.classList.contains("on")) wake(); }, { passive: true }));
+  }
 
   /* ---------- Reading progress, the timeline's lap line, and everything scroll-driven ---------- */
   const progress = document.querySelector(".progress");
@@ -2585,6 +2813,9 @@ html.tv-booting .tv-boot::after{content:"";position:absolute;left:0;right:0;top:
     updateRide();
     updateFly();
     updateRoad();
+    updateTower();
+    updateFlips();
+    updateClosedown();
     kickTrack();
   };
   const relayout = () => { measureCalls(); layoutTrack(); update(); };
