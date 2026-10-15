@@ -18,19 +18,21 @@
   --measure:66ch; --wide:72rem;
   --flap-bg:#1F1E18; --asphalt:#3A3934; --edge-line:#F1EFE7; --skid:rgba(20,19,15,.42); --smoke:#8C897E;
   --kerb-red:#C8231B; --kerb-white:#F4F2EA; --night-tint:rgba(18,28,70,.17); --star:rgba(255,255,255,.9); --track-w:0px;
+  --asphalt-wet:#26262A; --spray:#E8EDF5; --rain:#46607F; --wet-sky:rgba(40,55,80,.10);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --paper:#121210; --panel:#1B1A16; --band:#191915; --ink:#ECEAE1; --muted:#A9A597; --rule:#33312A;
-    --tower-edge:#3A3830; --asphalt:#2E2D28; --skid:rgba(0,0,0,.55); --smoke:#D2CFC4; --night-tint:rgba(70,100,220,.14); --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
+    --tower-edge:#3A3830; --asphalt:#2E2D28; --skid:rgba(0,0,0,.55); --smoke:#D2CFC4; --night-tint:rgba(70,100,220,.14); --asphalt-wet:#1D1D21; --rain:#C8D6EA; --wet-sky:rgba(0,0,0,.25); --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --paper:#121210; --panel:#1B1A16; --band:#191915; --ink:#ECEAE1; --muted:#A9A597; --rule:#33312A;
-  --tower-edge:#3A3830; --asphalt:#2E2D28; --skid:rgba(0,0,0,.55); --smoke:#D2CFC4; --night-tint:rgba(70,100,220,.14); --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
+  --tower-edge:#3A3830; --asphalt:#2E2D28; --skid:rgba(0,0,0,.55); --smoke:#D2CFC4; --night-tint:rgba(70,100,220,.14); --asphalt-wet:#1D1D21; --rain:#C8D6EA; --wet-sky:rgba(0,0,0,.25); --ret:#F0857B; --fin:#79C99A; --dnq:#A9A597; color-scheme:dark;
 }
 
 *,*::before,*::after{box-sizing:border-box;}
+[hidden]{display:none!important;}
 body{margin:0;overflow-x:clip;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.6;}
 a{color:inherit;text-decoration-color:var(--helmet);text-decoration-thickness:.18em;text-underline-offset:.18em;}
 a:hover{text-decoration-color:currentColor;}
@@ -327,6 +329,50 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
 .flag{display:block;width:100%;height:auto;aspect-ratio:8/5;}
 .finish-title{margin:0 0 var(--s0);font-family:var(--f-display);font-weight:900;font-stretch:70%;text-transform:uppercase;font-size:clamp(1.8rem,4vw,2.6rem);line-height:.95;color:var(--ink);}
 
+/* ---------- Round 3 ---------- */
+/* Speed lettering */
+.h2-text{min-width:0;}
+.word{display:inline-block;white-space:nowrap;transform:skewX(var(--lean,0deg));transform-origin:50% 100%;}
+.ltr{display:inline-block;}
+h2.in .ltr{animation:slip .75s cubic-bezier(.16,.84,.3,1) both;animation-delay:calc(var(--d,0ms) + var(--li,0) * 24ms);}
+@keyframes slip{0%{opacity:0;transform:translateX(-.8em) skewX(-26deg);filter:blur(5px);}60%{opacity:1;filter:blur(0);}100%{opacity:1;transform:none;filter:none;}}
+
+/* Control dock: engine and weather */
+.dock{position:fixed;z-index:6;left:max(16px,env(safe-area-inset-left,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap-reverse;align-items:center;gap:6px;max-width:calc(100vw - 32px - 116px);}
+.dock-btn,.engine-pick button{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #3A3830;background:var(--tower-bg);color:var(--tower-label);font:600 .7rem/1 var(--f-data);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:0;}
+.dock-btn svg{width:16px;height:16px;flex:none;}
+.dock-btn:hover,.engine-pick button:hover{color:#F4F2EA;border-color:#6E6A5D;}
+.dock-btn[aria-pressed="true"],.engine-pick button[aria-pressed="true"]{background:var(--helmet);color:var(--helmet-ink);border-color:var(--helmet-ink);}
+.engine-pick{display:inline-flex;}
+.engine-pick button{padding:8px 9px;}
+.engine-pick button + button{border-left:0;}
+.tach{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;background:var(--tower-bg);border:1px solid #3A3830;color:var(--tower-fg);font:600 .7rem/1 var(--f-data);font-variant-numeric:tabular-nums;}
+.tach-bar{position:relative;width:96px;height:9px;background:linear-gradient(90deg,#3FAF5A 0 62%,#F5C400 62% 86%,#E5322B 86%);}
+.tach-bar::after{content:"";position:absolute;top:0;bottom:0;right:0;left:calc(var(--rev,0) * 100%);background:#24231C;}
+.tach-light{width:9px;height:9px;border-radius:50%;background:#3A1512;}
+.tach.shift .tach-light{background:#FF3B2F;box-shadow:0 0 10px 3px rgba(255,59,47,.7);}
+.tach-read{min-width:9.5em;}
+
+/* Beat the lights */
+.rt{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:var(--s2);margin-top:var(--s2);}
+.rt-pad{display:grid;justify-items:center;align-content:center;gap:var(--s2);min-height:280px;padding:var(--s3) var(--s1);background:var(--tower-bg);border:2px solid var(--tower-line);color:#F4F2EA;font:inherit;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:border-color .2s,box-shadow .2s;}
+.rt-pad:hover{border-color:#6E6A5D;}
+.rt-pad .gantry{box-shadow:none;}
+.rt-status{font-family:var(--f-data);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#C9C5B3;}
+.rt-pad[data-state="go"]{border-color:var(--helmet);box-shadow:0 0 0 4px rgba(245,196,0,.25);}
+.rt-pad[data-state="go"] .rt-status{color:var(--helmet);}
+.rt-pad[data-state="jump"]{border-color:#E5322B;animation:shake .35s linear;}
+.rt-pad[data-state="jump"] .rt-status{color:#FF8A80;}
+.rt .board{grid-template-columns:minmax(0,1fr);align-content:stretch;}
+
+/* Rain */
+.rain{display:none;position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;}
+html.wet .rain{display:block;}
+html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,var(--wet-sky),transparent 60%);}
+.drops circle{fill:rgba(255,255,255,.6);stroke:rgba(18,17,8,.28);stroke-width:1;opacity:0;transition:opacity .6s;}
+.drops.on circle{opacity:1;transition-delay:var(--dd,0s);animation:creep 9s var(--dd,0s) ease-in forwards;}
+@keyframes creep{to{transform:translateY(var(--dy,12px));}}
+
 @media (max-width:700px){
   .hero{grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s3) var(--s2);}
   .crest{grid-template-columns:96px minmax(0,1fr);justify-items:start;text-align:left;align-items:center;gap:var(--s1);}
@@ -336,6 +382,13 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
   .book dl{grid-template-columns:minmax(0,1fr);gap:0;}
   .book dd{margin-bottom:var(--s0);}
   .finish{grid-template-columns:minmax(0,1fr);gap:var(--s1);}
+  .rt{grid-template-columns:minmax(0,1fr);}
+  .rt-pad{min-height:220px;}
+  .dock-btn{padding:9px;}
+  .dock-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .engine-pick .pre{display:none;}
+  .tach-bar{width:48px;}
+  .tach-read{min-width:0;}
   .flag{max-width:260px;}
 }
 @media (prefers-reduced-motion:reduce){
@@ -377,6 +430,13 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
 </script>
 <div class="track" aria-hidden="true"><canvas></canvas></div>
 <div class="corner-call" aria-hidden="true"><b></b><span></span></div>
+<canvas class="rain" aria-hidden="true"></canvas>
+<div class="dock" role="group" aria-label="Page effects" hidden>
+  <button type="button" class="dock-btn" id="engine-btn" aria-pressed="false" title="Engine sound. Scroll to rev it"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16l5-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.8" fill="currentColor"/></svg><span>Engine</span></button>
+  <span class="engine-pick" hidden><button type="button" data-engine="v8" aria-pressed="true"><span class="pre">DFV </span>V8</button><button type="button" data-engine="v12" aria-pressed="false"><span class="pre">BRM </span>V12</button></span>
+  <span class="tach" hidden aria-hidden="true"><span class="tach-light"></span><span class="tach-bar"></span><span class="tach-read">G1 · 3,000 rpm</span></span>
+  <button type="button" class="dock-btn" id="rain-btn" aria-pressed="false" title="Make it rain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.3 1.5A3.3 3.3 0 0 0 7 15z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Rain</span></button>
+</div>
 
 <header class="masthead">
   <div class="stripe" aria-hidden="true"></div>
@@ -391,6 +451,7 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
         <defs><path id="dmd" d="M0-84 8-72 0-60-8-72Z"/><radialGradient id="shellShade" cx="38%" cy="32%" r="78%"><stop offset="0" stop-color="#FFE470"/><stop offset=".55" stop-color="#F5C400"/><stop offset="1" stop-color="#C79800"/></radialGradient></defs>
         <circle class="shell" r="95"/>
         <ellipse class="shine" cx="-30" cy="-34" rx="34" ry="20" transform="rotate(-35 -30 -34)"/>
+        <g class="drops"></g>
         <g class="lift"><g class="ring-spin"><g class="ring">
           <use href="#dmd"/>
           <use href="#dmd" transform="rotate(22.5)"/>
@@ -432,6 +493,7 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
       <li><a href="#titles">Titles</a></li>
       <li><a href="#accidents">Accidents</a></li>
       <li><a href="#off-track">Off track</a></li>
+      <li><a href="#start-test">Beat the lights</a></li>
       <li><a href="#sources">Sources</a></li>
     </ul>
   </nav>
@@ -660,6 +722,22 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
   </div>
 </section>
 
+<section class="wrap section" id="start-test" aria-labelledby="st-h">
+  <h2 id="st-h">Beat the lights</h2>
+  <p>Wilds made his first Grand Prix start at Watkins Glen in 1974. Try your own. Five red lights come on one by one, then go out together. Press the panel, or the space bar, the moment they go out. Press too early and it's a jump start.</p>
+  <div class="rt wide">
+    <button type="button" class="rt-pad" id="rt-pad" data-state="idle">
+      <span class="gantry"><span class="pod"><span></span><span class="lamp"></span></span><span class="pod"><span></span><span class="lamp"></span></span><span class="pod"><span></span><span class="lamp"></span></span><span class="pod"><span></span><span class="lamp"></span></span><span class="pod"><span></span><span class="lamp"></span></span></span>
+      <span class="rt-status" id="rt-status" aria-live="polite">Press to start</span>
+    </button>
+    <dl class="board" aria-label="Your start">
+      <div><dt>Your reaction, seconds</dt><dd id="rt-time">-.---</dd></div>
+      <div><dt>Your best in this browser</dt><dd id="rt-best">-.---</dd></div>
+      <div><dt>Grid slot</dt><dd id="rt-slot" class="rt-slot">Not started</dd></div>
+    </dl>
+  </div>
+</section>
+
 <section class="wrap section" id="sources" aria-labelledby="so-h">
   <h2 id="so-h">Sources</h2>
   <p>Every fact on this page comes from one of these published sources. Quotes are from the 2005 <i>Motor Sport</i> interview unless noted.</p>
@@ -707,9 +785,26 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
   const CORNERS = [
     ["origins", "Paddock Hill Bend"], ["grand-prix", "Druids"], ["le-mans", "Graham Hill Bend"],
     ["timeline", "Surtees"], ["titles", "Hawthorn Bend"], ["accidents", "Westfield"],
-    ["words", "Sheene Curve"], ["off-track", "Stirlings"], ["sources", "Clearways"],
+    ["words", "Sheene Curve"], ["off-track", "Stirlings"], ["start-test", "Clearways"], ["sources", "Clark Curve"],
   ];
   const docTop = (el) => el.getBoundingClientRect().top + scrollY;
+
+  // Shared scroll speed (pixels per frame, smoothed) for everything that reacts to how fast you scroll.
+  const weather = { wet: false };
+  const speed = { v: 0, last: scrollY, running: false, subs: [] };
+  speed.kick = () => {
+    if (speed.running) return;
+    speed.running = true;
+    const tick = () => {
+      // Cap each frame so a jump (Home key, find-in-page) reads as a short burst, not a teleport.
+      const y = scrollY, dy = clamp(y - speed.last, -120, 120);
+      speed.last = y;
+      speed.v += (dy - speed.v) * 0.2;
+      if (Math.abs(speed.v) > 0.05 || dy !== 0) { speed.subs.forEach((f) => f(speed.v)); raf(tick); }
+      else { speed.v = 0; speed.running = false; speed.subs.forEach((f) => f(0)); }
+    };
+    raf(tick);
+  };
 
   /* ---------- Split-flap timing board ---------- */
   function makeFlap() {
@@ -725,11 +820,14 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
       el.dataset.ch = next;
       setTimeout(() => { if (el.dataset.ch === next) bot.textContent = next; }, 190);
     };
-    return { el, run: (steps, delay) => steps.forEach((ch, i) => setTimeout(() => flip(ch), delay + i * 105)) };
+    let pending = [];
+    const api = { el, run: (steps, delay) => { pending.forEach(clearTimeout); pending = steps.map((ch, i) => setTimeout(() => flip(ch), delay + i * 105)); } };
+    el._flap = api;
+    return api;
   }
   function flipBoard() {
     if (reduce) return;
-    document.querySelectorAll(".board dd").forEach((dd, i) => {
+    document.querySelectorAll(".masthead .board dd").forEach((dd, i) => {
       const final = dd.textContent.trim();
       const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = final;
       const row = document.createElement("span"); row.className = "flaps"; row.setAttribute("aria-hidden", "true");
@@ -772,7 +870,7 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
 
   /* ---------- Scroll reveals (only content below the first screen is ever hidden) ---------- */
   if (!reduce && "IntersectionObserver" in window) {
-    const selector = ".section h2, .section > p, .lm-main > p, .sheet, .story, .timeline li, .titles li, .hurt article, .quotes figure, .facts li, .book, .sources li, .notes";
+    const selector = ".section h2, .section > p, .lm-main > p, .sheet, .rt, .story, .timeline li, .titles li, .hurt article, .quotes figure, .facts li, .book, .sources li, .notes";
     const fold = innerHeight * 0.92;
     document.querySelectorAll(".sheet tbody tr").forEach((tr) => tr.style.setProperty("--r", tr.sectionRowIndex));
     const io = new IntersectionObserver((entries) => {
@@ -792,8 +890,26 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
         }
       }
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    const splitLetters = (h) => {
+      const text = h.textContent.trim();
+      const wrap = document.createElement("span");
+      wrap.className = "h2-text";
+      wrap.setAttribute("aria-hidden", "true");
+      let li = 0;
+      text.split(" ").forEach((word, wi) => {
+        if (wi) wrap.append(" ");
+        const w = document.createElement("span");
+        w.className = "word";
+        for (const ch of word) { const l = document.createElement("span"); l.className = "ltr"; l.textContent = ch; l.style.setProperty("--li", li++); w.append(l); }
+        wrap.append(w);
+      });
+      h.setAttribute("aria-label", text);
+      h.textContent = "";
+      h.append(wrap);
+    };
     document.querySelectorAll(selector).forEach((el) => {
       if (el.getBoundingClientRect().top < fold) return;
+      if (el.tagName === "H2") splitLetters(el);
       el.classList.add("reveal");
       io.observe(el);
     });
@@ -876,7 +992,8 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
     const curve = (y) => (xAt(y + 14) - 2 * xAt(y) + xAt(y - 14)) / 196;
     recolourTrack = () => {
       col = { asphalt: token("--asphalt"), edge: token("--edge-line"), skid: token("--skid"), smoke: token("--smoke"),
-        red: token("--kerb-red"), white: token("--kerb-white"), yellow: token("--helmet"), ink: token("--helmet-ink") };
+        red: token("--kerb-red"), white: token("--kerb-white"), yellow: token("--helmet"), ink: token("--helmet-ink"),
+        wet: token("--asphalt-wet"), spray: token("--spray") };
       draw();
     };
     layoutTrack = () => {
@@ -935,7 +1052,8 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
       g.setLineDash([]);
       const road = () => { g.beginPath(); for (let y = y0; y <= y1; y += 6) { const x = xAt(y); y === y0 ? g.moveTo(x, y - top) : g.lineTo(x, y - top); } };
       road(); g.strokeStyle = col.edge; g.lineWidth = 24; g.stroke();
-      road(); g.strokeStyle = col.asphalt; g.lineWidth = 20; g.stroke();
+      road(); g.strokeStyle = weather.wet ? col.wet : col.asphalt; g.lineWidth = 20; g.stroke();
+      if (weather.wet) { road(); g.strokeStyle = "rgba(255,255,255,.12)"; g.lineWidth = 6; g.stroke(); }
       // Start and finish lines
       for (const ly of [gridY, finishY]) {
         if (ly < top - 20 || ly > top + H + 20) continue;
@@ -956,7 +1074,7 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
       g.strokeStyle = col.skid; g.lineWidth = 2.2; g.beginPath();
       for (const m of marks) { if (m[1] > top - 10 && m[1] < top + H + 10) { g.moveTo(m[0], m[1] - top); g.lineTo(m[2], m[3] - top); } }
       g.stroke();
-      g.fillStyle = col.smoke;
+      g.fillStyle = weather.wet ? col.spray : col.smoke;
       for (const p of smoke) { g.globalAlpha = Math.max(0, p.a) * 0.45; g.beginPath(); g.arc(p.x, p.y - top, p.r, 0, 6.283); g.fill(); }
       g.globalAlpha = 1;
       // The car
@@ -976,11 +1094,14 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
       const phi = facing - Math.atan(slope(wy)) + slip + Math.PI / 2, cos = Math.cos(phi), sin = Math.sin(phi), cx = xAt(wy);
       const wheel = (lx, ly) => [cx + lx * cos - ly * sin, wy + lx * sin + ly * cos];
       const rear = [wheel(-9, -8), wheel(-9, 8)];
-      if (sliding) {
-        if (prevRear) { marks.push([prevRear[0][0], prevRear[0][1], rear[0][0], rear[0][1]], [prevRear[1][0], prevRear[1][1], rear[1][0], rear[1][1]]); if (marks.length > 1800) marks.splice(0, marks.length - 1800); }
-        for (const w of rear) smoke.push({ x: w[0], y: w[1], r: 2 + Math.random() * 2, a: 0.9, vx: (Math.random() - 0.5) * 0.7, vy: (Math.random() - 0.5) * 0.7 - vel * 0.04 });
+      const marking = sliding || (weather.wet && Math.abs(vel) > 2);
+      if (marking && prevRear) { marks.push([prevRear[0][0], prevRear[0][1], rear[0][0], rear[0][1]], [prevRear[1][0], prevRear[1][1], rear[1][0], rear[1][1]]); if (marks.length > 1800) marks.splice(0, marks.length - 1800); }
+      if (sliding && !weather.wet) for (const w of rear) smoke.push({ x: w[0], y: w[1], r: 2 + Math.random() * 2, a: 0.9, vx: (Math.random() - 0.5) * 0.7, vy: (Math.random() - 0.5) * 0.7 - vel * 0.04 });
+      if (weather.wet && Math.abs(vel) > 1) {
+        const n = Math.min(4, Math.ceil(Math.abs(vel) / 10));
+        for (const w of rear) for (let k = 0; k < n; k++) smoke.push({ x: w[0] + (Math.random() - 0.5) * 4, y: w[1], r: 1 + Math.random() * 2, a: 0.75, vx: (Math.random() - 0.5) * 1.8, vy: -vel * (0.12 + Math.random() * 0.1) });
       }
-      prevRear = sliding ? rear : null;
+      prevRear = marking ? rear : null;
       for (const p of smoke) { p.x += p.vx; p.y += p.vy; p.r += 0.38; p.a -= 0.022; }
       smoke = smoke.filter((p) => p.a > 0);
       if (smoke.length > 240) smoke.splice(0, smoke.length - 240);
@@ -1060,6 +1181,242 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
     }
   }
 
+  /* ---------- Speed lettering: the name stretches and leans when you scroll fast ---------- */
+  const nameEl = document.querySelector(".name");
+  if (nameEl && !reduce) {
+    let w = 62, wv = 0, sk = 0, skv = 0, active = false;
+    const step = () => {
+      const v = speed.v;
+      const tw = 62 + Math.min(56, Math.abs(v) * 1.2), ts = clamp(-v * 0.35, -14, 14);
+      wv = (wv + (tw - w) * 0.2) * 0.7; w += wv;
+      skv = (skv + (ts - sk) * 0.2) * 0.7; sk += skv;
+      nameEl.style.fontStretch = `${w.toFixed(1)}%`;
+      nameEl.style.transform = `skewX(${sk.toFixed(2)}deg)`;
+      if (Math.abs(v) > 0.05 || Math.abs(tw - w) + Math.abs(wv) + Math.abs(ts - sk) + Math.abs(skv) > 0.05) raf(step);
+      else { active = false; nameEl.style.fontStretch = ""; nameEl.style.transform = ""; }
+    };
+    speed.subs.push(() => { if (!active && nameEl.getBoundingClientRect().bottom > -200) { active = true; raf(step); } });
+    let lastLean = 0;
+    speed.subs.push((v) => {
+      const lean = clamp(-v * 0.22, -10, 10);
+      if (Math.abs(lean - lastLean) > 0.15 || (lean === 0 && lastLean !== 0)) { lastLean = lean; document.body.style.setProperty("--lean", `${lean.toFixed(2)}deg`); }
+    });
+  }
+
+  /* ---------- Beat the lights: a reaction test on the start gantry ---------- */
+  const pad = document.getElementById("rt-pad");
+  if (pad) {
+    const lamps = pad.querySelectorAll(".lamp"), status = document.getElementById("rt-status");
+    const timeEl = document.getElementById("rt-time"), bestEl = document.getElementById("rt-best"), slotEl = document.getElementById("rt-slot");
+    let state = "idle", timers = [], outAt = 0, best = null;
+    const fmt = (ms) => (ms / 1000).toFixed(3);
+    const slot = (ms) => (ms < 200 ? "Pole position" : ms < 250 ? "Front row" : ms < 300 ? "Top ten" : ms < 400 ? "Midfield" : "Back of the grid");
+    const setState = (st, msg) => { state = st; pad.dataset.state = st; status.textContent = msg; };
+    const lightsOff = () => lamps.forEach((l) => l.classList.remove("on"));
+    const clear = () => { timers.forEach(clearTimeout); timers = []; };
+    const show = (el, text) => {
+      if (reduce) { el.textContent = text; return; }
+      let row = el.querySelector(".flaps"), sr = el.querySelector(".sr");
+      if (!row || row.childElementCount !== text.length) {
+        el.textContent = "";
+        sr = document.createElement("span"); sr.className = "sr";
+        row = document.createElement("span"); row.className = "flaps"; row.setAttribute("aria-hidden", "true");
+        for (let i = 0; i < text.length; i++) row.append(makeFlap().el);
+        el.append(sr, row);
+      }
+      sr.textContent = text;
+      [...row.children].forEach((f, k) => {
+        const ch = text[k], n = 3 + k * 2;
+        f._flap.run(Array.from({ length: n }, (_, i) => (i === n - 1 ? ch : /\d/.test(ch) ? String(Math.floor(Math.random() * 10)) : ch)), k * 40);
+      });
+    };
+    try { best = Number(localStorage.getItem("mw-best")) || null; } catch (e) {}
+    if (best) bestEl.textContent = fmt(best);
+    const start = () => {
+      clear(); lightsOff();
+      setState("lights", "Wait for the lights to go out");
+      lamps.forEach((l, i) => timers.push(setTimeout(() => l.classList.add("on"), 500 + i * 700)));
+      timers.push(setTimeout(() => { lightsOff(); outAt = performance.now(); setState("go", "Go!"); }, 500 + 4 * 700 + 400 + Math.random() * 2600));
+    };
+    const press = (stamp) => {
+      if (state === "lights") {
+        clear(); lightsOff();
+        setState("jump", "Jump start. Press to try again");
+        show(timeEl, "JUMP"); slotEl.textContent = "Drive-through penalty";
+      } else if (state === "go") {
+        const ms = Math.max(1, Math.round(stamp - outAt));
+        setState("done", `${ms} milliseconds. Press to go again`);
+        show(timeEl, fmt(ms)); slotEl.textContent = slot(ms);
+        if (!best || ms < best) { best = ms; show(bestEl, fmt(ms)); try { localStorage.setItem("mw-best", String(ms)); } catch (e) {} }
+      } else start();
+    };
+    pad.addEventListener("pointerdown", (e) => { if (e.button > 0) return; e.preventDefault(); press(performance.now()); });
+    pad.addEventListener("keydown", (e) => { if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); press(performance.now()); } });
+  }
+
+  /* ---------- Engine sound: scrolling is the throttle ---------- */
+  const dock = document.querySelector(".dock");
+  if (dock) dock.hidden = false;
+  const engineBtn = document.getElementById("engine-btn");
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (engineBtn && AC) {
+    // Sound design only: rev ranges and tones are a sketch, not a recording of either engine.
+    const ENGINES = {
+      v8: { cyl: 8, idle: 3000, max: 10500, cut: [650, 3600], parts: [["sawtooth", 1, 0.5], ["sawtooth", 0.5, 0.32], ["square", 2, 0.07]], noise: 0.07 },
+      v12: { cyl: 12, idle: 3600, max: 11800, cut: [1000, 5200], parts: [["sawtooth", 1, 0.42], ["triangle", 2, 0.26], ["sawtooth", 1.5, 0.12]], noise: 0.045 },
+    };
+    const RATIOS = [0.24, 0.42, 0.6, 0.8, 1];
+    const pick = dock.querySelector(".engine-pick"), tach = dock.querySelector(".tach"), tachRead = tach.querySelector(".tach-read");
+    let ac = null, rig = null, kind = "v8", on = false, loop = 0, sv = 0, gear = 1, rpm = 3000, cutUntil = 0, blipUntil = 0, lastThrottle = 0, noiseBuf = null;
+    const shaperCurve = (k) => { const n = 1024, c = new Float32Array(n); for (let i = 0; i < n; i++) { const x = (i / (n - 1)) * 2 - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); } return c; };
+    const build = (spec) => {
+      const t = ac.currentTime;
+      const master = ac.createGain(); master.gain.value = 0;
+      const comp = ac.createDynamicsCompressor();
+      master.connect(comp).connect(ac.destination);
+      const lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.Q.value = 4; lp.frequency.value = spec.cut[0];
+      const shaper = ac.createWaveShaper(); shaper.curve = shaperCurve(2.6); shaper.oversample = "2x";
+      const body = ac.createGain(); body.gain.value = 0.55;
+      body.connect(shaper).connect(lp).connect(master);
+      const oscs = spec.parts.map(([type, mult, gain]) => { const o = ac.createOscillator(); o.type = type; const g = ac.createGain(); g.gain.value = gain; o.connect(g).connect(body); o.start(t); return { o, mult, g }; });
+      const ns = ac.createBufferSource(); ns.buffer = noiseBuf; ns.loop = true;
+      const bp = ac.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.9;
+      const ng = ac.createGain(); ng.gain.value = spec.noise;
+      ns.connect(bp).connect(ng).connect(lp); ns.start(t);
+      const lfo = ac.createOscillator(); lfo.frequency.value = 7;
+      const lg = ac.createGain(); lg.gain.value = 0.14;
+      lfo.connect(lg).connect(body.gain); lfo.start(t);
+      const sources = [...oscs.map((x) => x.o), ns, lfo];
+      const nodes = [master, comp, lp, shaper, body, bp, ng, lg, ...oscs.map((x) => x.g), ...sources];
+      return {
+        spec, master, lp, bp, lfo, lg, oscs,
+        stop: () => {
+          master.gain.setTargetAtTime(0, ac.currentTime, 0.06);
+          sources.forEach((n) => n.stop(ac.currentTime + 0.35));
+          setTimeout(() => nodes.forEach((n) => n.disconnect()), 600);
+        },
+      };
+    };
+    const pop = () => {
+      const t = ac.currentTime + Math.random() * 0.35;
+      const src = ac.createBufferSource(); src.buffer = noiseBuf;
+      const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 900 + Math.random() * 900; f.Q.value = 1.2;
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+      src.connect(f).connect(g).connect(ac.destination);
+      src.start(t, Math.random()); src.stop(t + 0.09);
+    };
+    const frame = () => {
+      if (!on || !rig) { loop = 0; return; }
+      const spec = rig.spec, now = performance.now(), t = ac.currentTime;
+      const target = clamp(Math.abs(speed.v) / 45, 0, 1);
+      sv += (target - sv) * (target > sv ? 0.035 : 0.012);
+      let throttle = target > sv + 0.02 ? 1 : target < sv - 0.02 ? 0 : 0.35;
+      let r = sv / RATIOS[gear - 1];
+      if (r > 0.97 && gear < 5) { gear++; cutUntil = now + 90; r = sv / RATIOS[gear - 1]; }
+      else if (gear > 1 && sv / RATIOS[gear - 2] < 0.62) { gear--; blipUntil = now + 130; r = sv / RATIOS[gear - 1]; }
+      if (now < blipUntil) throttle = 1;
+      rpm += (spec.idle + (spec.max - spec.idle) * clamp(r, 0, 1.02) - rpm) * 0.35;
+      if (lastThrottle > 0.9 && throttle === 0 && rpm > spec.max * 0.55) for (let i = 0, n = 3 + Math.floor(Math.random() * 4); i < n; i++) pop();
+      lastThrottle = throttle;
+      const fire = (rpm / 60) * (spec.cyl / 2);
+      rig.oscs.forEach(({ o, mult }) => o.frequency.setTargetAtTime(fire * mult, t, 0.012));
+      rig.bp.frequency.setTargetAtTime(fire * 3, t, 0.03);
+      rig.lp.frequency.setTargetAtTime(spec.cut[0] + throttle * spec.cut[1] + (rpm / spec.max) * 1400, t, 0.03);
+      rig.lfo.frequency.setTargetAtTime(fire / 12, t, 0.05);
+      rig.lg.gain.setTargetAtTime(0.16 * (1 - rpm / spec.max), t, 0.05);
+      const cutting = now < cutUntil;
+      rig.master.gain.setTargetAtTime(cutting ? 0.015 : 0.05 + throttle * 0.11 + (rpm / spec.max) * 0.04, t, cutting ? 0.01 : 0.04);
+      tach.style.setProperty("--rev", (rpm / spec.max).toFixed(3));
+      tach.classList.toggle("shift", r > 0.9 && gear < 5);
+      tachRead.textContent = `G${gear} · ${(Math.round(rpm / 50) * 50).toLocaleString("en-GB")} rpm`;
+      loop = raf(frame);
+    };
+    const fresh = () => { if (rig) rig.stop(); rig = build(ENGINES[kind]); sv = 0; gear = 1; rpm = ENGINES[kind].idle; };
+    engineBtn.addEventListener("click", () => {
+      on = !on;
+      engineBtn.setAttribute("aria-pressed", String(on));
+      pick.hidden = tach.hidden = !on;
+      if (on) {
+        ac = ac || new AC();
+        if (!noiseBuf) { noiseBuf = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+        if (ac.state === "suspended") ac.resume();
+        fresh();
+        if (!loop) loop = raf(frame);
+      } else if (rig) {
+        rig.stop(); rig = null;
+        setTimeout(() => { if (!on && ac) ac.suspend(); }, 700);
+      }
+    });
+    pick.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-engine]");
+      if (!b || b.dataset.engine === kind) return;
+      kind = b.dataset.engine;
+      pick.querySelectorAll("[data-engine]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      if (on) fresh();
+    });
+    document.addEventListener("visibilitychange", () => { if (!ac) return; if (document.hidden) ac.suspend(); else if (on) ac.resume(); });
+  } else if (engineBtn) engineBtn.hidden = true;
+
+  /* ---------- Rain: a wet race across the whole page ---------- */
+  const rainBtn = document.getElementById("rain-btn");
+  const rainCv = document.querySelector(".rain");
+  if (rainBtn && rainCv && !reduce) {
+    const rc = rainCv.getContext("2d"), drops = document.querySelector(".drops");
+    let W = 0, H = 0, dpr = 1, list = [], running = false, colour = "";
+    const size = () => {
+      W = innerWidth; H = innerHeight; dpr = Math.min(1.5, devicePixelRatio || 1);
+      rainCv.width = Math.round(W * dpr); rainCv.height = Math.round(H * dpr);
+      const n = clamp(Math.round((W * H) / 8000), 60, 240);
+      list = Array.from({ length: n }, () => ({ x: Math.random() * (W + 80), y: Math.random() * H, z: 0.35 + Math.random() * 0.65, len: 10 + Math.random() * 14 }));
+      colour = token("--rain");
+    };
+    const frame = () => {
+      if (!weather.wet) { running = false; rc.setTransform(1, 0, 0, 1, 0, 0); rc.clearRect(0, 0, rainCv.width, rainCv.height); return; }
+      const v = speed.v;
+      rc.setTransform(dpr, 0, 0, dpr, 0, 0);
+      rc.clearRect(0, 0, W, H);
+      rc.strokeStyle = colour; rc.lineCap = "round";
+      for (const p of list) {
+        const vx = -1.6 * p.z, vy = 9 * p.z + 4 - v * 0.9 * p.z;
+        p.x += vx; p.y += vy;
+        if (p.y > H + 30) { p.y = -30; p.x = Math.random() * (W + 80); } else if (p.y < -30) { p.y = H + 30; p.x = Math.random() * (W + 80); }
+        if (p.x < -40) p.x += W + 80;
+        const k = (p.len * (1 + Math.min(4, Math.abs(v) * 0.05))) / Math.max(1, Math.hypot(vx, vy));
+        rc.globalAlpha = 0.18 + p.z * 0.32; rc.lineWidth = 0.6 + p.z;
+        rc.beginPath(); rc.moveTo(p.x, p.y); rc.lineTo(p.x - vx * k, p.y - vy * k); rc.stroke();
+      }
+      rc.globalAlpha = 1;
+      raf(frame);
+    };
+    const wetHelmet = (wet) => {
+      if (!drops) return;
+      if (wet && !drops.childElementCount) {
+        const ns = "http://www.w3.org/2000/svg";
+        for (let i = 0; i < 16; i++) {
+          const a = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * 82;
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("cx", (Math.cos(a) * rr).toFixed(1));
+          c.setAttribute("cy", (Math.sin(a) * rr).toFixed(1));
+          c.setAttribute("r", (2 + Math.random() * 3.5).toFixed(1));
+          c.style.setProperty("--dd", `${(Math.random() * 2.5).toFixed(2)}s`);
+          c.style.setProperty("--dy", `${Math.round(6 + Math.random() * 22)}px`);
+          drops.append(c);
+        }
+      }
+      drops.classList.toggle("on", wet);
+    };
+    rainBtn.addEventListener("click", () => {
+      weather.wet = !weather.wet;
+      rainBtn.setAttribute("aria-pressed", String(weather.wet));
+      root.classList.toggle("wet", weather.wet);
+      wetHelmet(weather.wet);
+      recolourTrack();
+      if (weather.wet && !running) { size(); running = true; raf(frame); }
+    });
+    addEventListener("resize", () => { if (weather.wet) size(); });
+  } else if (rainBtn) rainBtn.hidden = true;
+
   /* ---------- Reading progress, the timeline's lap line, and everything scroll-driven ---------- */
   const progress = document.querySelector(".progress");
   const timeline = document.querySelector(".timeline");
@@ -1081,7 +1438,7 @@ html.intro-on :is(.stripe,.ring,.name span,.eyebrow,.lede,.toc,.crest svg,.board
     kickTrack();
   };
   const relayout = () => { measureCalls(); layoutTrack(); update(); };
-  addEventListener("scroll", () => { if (!queued) { queued = true; raf(update); } }, { passive: true });
+  addEventListener("scroll", () => { speed.kick(); if (!queued) { queued = true; raf(update); } }, { passive: true });
   addEventListener("resize", relayout);
   addEventListener("load", relayout);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
