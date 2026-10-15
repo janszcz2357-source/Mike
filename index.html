@@ -383,6 +383,68 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
 .drops.on circle{opacity:1;transition-delay:var(--dd,0s);animation:creep 9s var(--dd,0s) ease-in forwards;}
 @keyframes creep{to{transform:translateY(var(--dy,12px));}}
 
+/* ---------- Round 4 ---------- */
+/* 3D garage */
+.garage{display:grid;gap:var(--s1);margin-top:var(--s2);}
+.garage-stage{position:relative;aspect-ratio:16/8;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#2A2820,#0E0D0A 70%);border:2px solid var(--tower-line);}
+.garage-stage canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;}
+.garage-stage canvas:active{cursor:grabbing;}
+.garage-wait{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:var(--s1);padding:var(--s2);text-align:center;color:#C9C5B3;font:600 .8rem/1.4 var(--f-data);letter-spacing:.08em;text-transform:uppercase;}
+.garage-spin{width:22px;height:22px;background:var(--helmet);border:3px solid var(--helmet-ink);transform:rotate(45deg);animation:wait-spin 1s linear infinite;}
+@keyframes wait-spin{to{transform:rotate(405deg);}}
+.garage-label{position:absolute;left:0;top:0;opacity:0;pointer-events:none;white-space:nowrap;padding:4px 7px;background:var(--helmet);color:var(--helmet-ink);border:1px solid var(--helmet-ink);font:600 .68rem/1 var(--f-data);letter-spacing:.06em;text-transform:uppercase;}
+.garage-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.garage-bar .dock-btn:disabled{opacity:.5;cursor:default;}
+.garage-hint{font-family:var(--f-data);font-size:.75rem;color:var(--muted);}
+
+/* Drive the page */
+.drive{display:none;position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;}
+html.driving .drive{display:block;}
+html.driving body{cursor:crosshair;}
+
+/* Champagne podium and effects layer */
+.fx{position:fixed;inset:0;width:100%;height:100%;z-index:8;pointer-events:none;}
+.rt{position:relative;}
+.podium{position:absolute;z-index:3;left:50%;bottom:0;width:min(360px,80%);display:flex;align-items:flex-end;justify-content:center;gap:4px;opacity:0;transform:translate(-50%,110%);transition:transform .55s cubic-bezier(.2,.9,.25,1.2),opacity .3s;pointer-events:none;}
+.podium.on{opacity:1;transform:translate(-50%,0);}
+.step{position:relative;display:grid;justify-items:center;align-content:start;width:33%;padding-top:8px;background:var(--helmet);color:var(--helmet-ink);border:2px solid var(--helmet-ink);font-family:var(--f-display);font-weight:900;font-stretch:70%;font-size:2.2rem;line-height:1;}
+.step b{font-weight:900;}
+.s1{height:150px;}
+.s2{height:108px;}
+.s3{height:84px;}
+.step em{position:absolute;top:-34px;padding:5px 9px;background:var(--helmet-ink);color:var(--helmet);font:600 .75rem/1 var(--f-data);font-style:normal;letter-spacing:.1em;text-transform:uppercase;}
+
+/* Pit stop */
+.pit{display:grid;justify-items:center;align-content:start;gap:var(--s1);padding:var(--s2) var(--s1);background:var(--tower-bg);border:2px solid var(--tower-line);color:#F4F2EA;}
+.pit-box{position:relative;width:min(100%,300px);aspect-ratio:3/4;overflow:hidden;background:#2B2A26;background-image:repeating-linear-gradient(90deg,transparent 0 9px,rgba(255,255,255,.025) 9px 10px);}
+.pit-box::before{content:"";position:absolute;inset:7% 13%;border:3px solid var(--helmet);}
+.pit-box::after{content:"BOX";position:absolute;left:50%;bottom:2%;transform:translateX(-50%);color:var(--helmet);font:600 .8rem/1 var(--f-data);letter-spacing:.4em;}
+.pit-car{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:100/190;margin-left:-23%;margin-top:-43.7%;transform:translateY(-150%);transition:transform .9s cubic-bezier(.2,.8,.25,1);}
+.pit-car svg{display:block;width:100%;height:100%;}
+.pit[data-state="in"] .pit-car,.pit[data-state="go"] .pit-car,.pit[data-state="done"] .pit-car{transform:none;}
+.pit.leave .pit-car{transform:translateY(175%);transition:transform .7s cubic-bezier(.6,0,.85,.4);}
+.pit.reset .pit-car{transform:translateY(-150%);transition:none;}
+.pit.drop .pit-car{animation:jack .4s cubic-bezier(.3,1.6,.5,1);}
+@keyframes jack{0%{scale:1.04;}100%{scale:1;}}
+.pit-wheel{position:absolute;padding:0;border:0;background:none;cursor:pointer;transform:translate(-50%,-50%);}
+.pit-wheel:disabled{cursor:default;}
+.pit-wheel i{display:block;width:100%;height:100%;border-radius:5px;background:repeating-linear-gradient(0deg,#141414 0 5px,#262626 5px 7px);box-shadow:inset 0 0 0 2px #000;}
+.pit-wheel[data-w="fl"]{left:13%;top:17.9%;width:18%;height:15.8%;--out:-130%;}
+.pit-wheel[data-w="fr"]{left:87%;top:17.9%;width:18%;height:15.8%;--out:130%;}
+.pit-wheel[data-w="rl"]{left:11%;top:78.9%;width:22%;height:18.9%;--out:-130%;}
+.pit-wheel[data-w="rr"]{left:89%;top:78.9%;width:22%;height:18.9%;--out:130%;}
+.pit[data-state="go"] .pit-wheel:not(.done) i{animation:pulse 1s ease-in-out infinite;}
+.pit-wheel.swap i{animation:swap .26s ease-in-out;}
+.pit-wheel.done i{box-shadow:inset 0 0 0 2px #000,0 0 0 3px var(--fin);background:repeating-linear-gradient(0deg,#141414 0 5px,#2E2E2E 5px 7px);}
+@keyframes pulse{0%,100%{box-shadow:inset 0 0 0 2px #000,0 0 0 2px rgba(245,196,0,.4);}50%{box-shadow:inset 0 0 0 2px #000,0 0 0 5px var(--helmet);}}
+@keyframes swap{0%{transform:none;opacity:1;}45%,55%{transform:translateX(var(--out,130%));opacity:0;}100%{transform:none;opacity:1;}}
+.pit-status{min-height:1.4em;font-family:var(--f-data);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:#C9C5B3;font-variant-numeric:tabular-nums;}
+.pit[data-state="go"] .pit-status{color:var(--helmet);}
+.gbtn{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid #3A3830;background:var(--tower-bg);color:var(--tower-label);font:600 .72rem/1 var(--f-data);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:0;}
+.gbtn:hover{color:#F4F2EA;border-color:#6E6A5D;}
+.gbtn[aria-pressed="true"]{background:var(--helmet);color:var(--helmet-ink);border-color:var(--helmet-ink);}
+.gbtn:disabled{opacity:.5;cursor:default;}
+
 @media (max-width:700px){
   .hero{grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s3) var(--s2);}
   .crest{grid-template-columns:96px minmax(0,1fr);justify-items:start;text-align:left;align-items:center;gap:var(--s1);}
@@ -394,6 +456,10 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
   .finish{grid-template-columns:minmax(0,1fr);gap:var(--s1);}
   .rt{grid-template-columns:minmax(0,1fr);}
   .rt-pad{min-height:220px;}
+  .garage-stage{aspect-ratio:1/1;}
+  .s1{height:120px;}
+  .s2{height:88px;}
+  .s3{height:68px;}
   .dock-btn{padding:9px;}
   .dock-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   .engine-pick .pre{display:none;}
@@ -442,10 +508,13 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
 <div class="track" aria-hidden="true"><canvas></canvas></div>
 <div class="corner-call" aria-hidden="true"><b></b><span></span></div>
 <canvas class="rain" aria-hidden="true"></canvas>
+<canvas class="drive" aria-hidden="true"></canvas>
+<canvas class="fx" aria-hidden="true"></canvas>
 <div class="dock" role="group" aria-label="Page effects" hidden>
   <button type="button" class="dock-btn" id="engine-btn" aria-pressed="false" title="Engine sound. Scroll to rev it"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 16l5-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.8" fill="currentColor"/></svg><span>Engine</span></button>
   <span class="engine-pick" hidden><button type="button" data-engine="v8" aria-pressed="true"><span class="pre">DFV </span>V8</button><button type="button" data-engine="v12" aria-pressed="false"><span class="pre">BRM </span>V12</button></span>
   <span class="tach" hidden aria-hidden="true"><span class="tach-light"></span><span class="tach-bar"></span><span class="tach-read">G1 · 3,000 rpm</span></span>
+  <button type="button" class="dock-btn" id="drive-btn" aria-pressed="false" title="Drive the page with the pointer or arrow keys. Esc to park"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M3.8 11h6M14.2 11h6M12 14v6.3" stroke="currentColor" stroke-width="2"/></svg><span>Drive</span></button>
   <button type="button" class="dock-btn" id="rain-btn" aria-pressed="false" title="Make it rain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.3 1.5A3.3 3.3 0 0 0 7 15z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Rain</span></button>
 </div>
 
@@ -499,12 +568,14 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
     <ul>
       <li><a href="#origins">Origins</a></li>
       <li><a href="#grand-prix">Grand Prix</a></li>
+      <li><a href="#garage">Garage</a></li>
       <li><a href="#le-mans">Le Mans</a></li>
       <li><a href="#timeline">Timeline</a></li>
       <li><a href="#titles">Titles</a></li>
       <li><a href="#accidents">Accidents</a></li>
       <li><a href="#off-track">Off track</a></li>
       <li><a href="#start-test">Beat the lights</a></li>
+      <li><a href="#pit-stop">Pit stop</a></li>
       <li><a href="#sources">Sources</a></li>
     </ul>
   </nav>
@@ -559,6 +630,21 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
       <p>After testing a BRM P160, Wilds drove the P201 in the first two rounds of 1975. The V12 failed in Argentina and the clutch in Brazil. When he criticised the engine and argued the team would be better off with a Ford Cosworth DFV, Louis Stanley dropped him. Bob Evans had the car for South Africa.</p>
       <p>In 1976 he tried once more, at Brands Hatch in Team P.R. Reilly's Shadow DN3B, and did not qualify. He looked back plainly: "To be honest I wasn't the best driver in the world."</p>
     </article>
+  </div>
+</section>
+
+<section class="wrap section" id="garage" aria-labelledby="ga-h" data-state="idle">
+  <h2 id="ga-h">In the garage</h2>
+  <p>A 1970s Formula One car in 3D, painted in the colours of Wilds' helmet. It is an illustration of the type, not a model of any one chassis. Drag to turn it, pinch or hold Ctrl and scroll to zoom, and take it apart to see the main pieces.</p>
+  <div class="garage wide">
+    <div class="garage-stage" role="img" aria-label="Interactive 3D drawing of a yellow 1970s Formula One car with black diamonds, on a turntable">
+      <div class="garage-wait"><span class="garage-spin" aria-hidden="true"></span><span>Rolling the car out of the garage</span></div>
+    </div>
+    <div class="garage-bar">
+      <button type="button" class="gbtn" id="explode-btn" aria-pressed="false"><span>Take it apart</span></button>
+      <button type="button" class="gbtn" id="spin-btn" aria-pressed="true"><span>Turntable</span></button>
+      <span class="garage-hint">Drag to turn · Pinch or Ctrl + scroll to zoom</span>
+    </div>
   </div>
 </section>
 
@@ -746,6 +832,38 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
       <div><dt>Your best in this browser</dt><dd id="rt-best">-.---</dd></div>
       <div><dt>Grid slot</dt><dd id="rt-slot" class="rt-slot">Not started</dd></div>
     </dl>
+    <div class="podium" aria-hidden="true"><span class="step s2"><b>2</b></span><span class="step s1"><em>You</em><b>1</b></span><span class="step s3"><b>3</b></span></div>
+  </div>
+</section>
+
+<section class="wrap section" id="pit-stop" aria-labelledby="ps-h">
+  <h2 id="ps-h">Pit stop</h2>
+  <p>Call the car in, then change all four tyres by pressing each wheel. The clock runs from the moment the car stops in its box until the last wheel is on.</p>
+  <div class="rt wide">
+    <div class="pit" data-state="idle">
+      <div class="pit-box">
+        <div class="pit-car">
+          <svg viewBox="-50 -95 100 190" aria-hidden="true">
+            <rect x="-42" y="-93" width="84" height="10" fill="#121108"/><rect x="-44" y="-90" width="6" height="12" fill="#F5C400"/><rect x="38" y="-90" width="6" height="12" fill="#F5C400"/>
+            <path d="M-30-61H30M-32 55H32" stroke="#9A978C" stroke-width="3"/>
+            <path d="M-9-86H9L14-20H-14Z" fill="#F5C400" stroke="#121108" stroke-width="2"/>
+            <rect x="-34" y="0" width="68" height="42" rx="6" fill="#F5C400" stroke="#121108" stroke-width="2"/>
+            <path d="M-14-20H14L20 10 22 58H-22L-20 10Z" fill="#F5C400" stroke="#121108" stroke-width="2"/>
+            <path d="M-29 12l5-5 5 5-5 5zM19 12l5-5 5 5-5 5zM-29 30l5-5 5 5-5 5zM19 30l5-5 5 5-5 5z" fill="#121108"/>
+            <ellipse cx="0" cy="-8" rx="9" ry="14" fill="#121108"/><circle cx="0" cy="-5" r="7" fill="#F5C400" stroke="#121108" stroke-width="2"/>
+            <rect x="-7" y="12" width="14" height="26" rx="3" fill="#121108"/><rect x="-12" y="58" width="24" height="20" fill="#3A3934"/><rect x="-44" y="78" width="88" height="12" fill="#121108"/>
+          </svg>
+          <button type="button" class="pit-wheel" data-w="fl" aria-label="Front left wheel" disabled><i></i></button><button type="button" class="pit-wheel" data-w="fr" aria-label="Front right wheel" disabled><i></i></button><button type="button" class="pit-wheel" data-w="rl" aria-label="Rear left wheel" disabled><i></i></button><button type="button" class="pit-wheel" data-w="rr" aria-label="Rear right wheel" disabled><i></i></button>
+        </div>
+      </div>
+      <button type="button" class="gbtn" id="pit-start"><span>Call the car in</span></button>
+      <span class="pit-status" aria-live="polite">Box, box</span>
+    </div>
+    <dl class="board" aria-label="Your pit stop">
+      <div><dt>Your stop, seconds</dt><dd id="pit-time">-.--</dd></div>
+      <div><dt>Your best in this browser</dt><dd id="pit-best">-.--</dd></div>
+      <div><dt>Crew rating</dt><dd id="pit-rate">Not started</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -802,6 +920,7 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
 
   // Shared scroll speed (pixels per frame, smoothed) for everything that reacts to how fast you scroll.
   const weather = { wet: false };
+  let driveSpeed = 0;
   const speed = { v: 0, last: scrollY, running: false, subs: [] };
   speed.kick = () => {
     if (speed.running) return;
@@ -852,6 +971,36 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
       });
     });
   }
+
+  // Writes text onto a row of split flaps (plain text when motion is reduced).
+  const flapText = (el, text) => {
+    if (reduce) { el.textContent = text; return; }
+    let row = el.querySelector(".flaps"), sr = el.querySelector(".sr");
+    if (!row || row.childElementCount !== text.length) {
+      el.textContent = "";
+      sr = document.createElement("span"); sr.className = "sr";
+      row = document.createElement("span"); row.className = "flaps"; row.setAttribute("aria-hidden", "true");
+      for (let i = 0; i < text.length; i++) row.append(makeFlap().el);
+      el.append(sr, row);
+    }
+    sr.textContent = text;
+    [...row.children].forEach((f, k) => {
+      const ch = text[k], n = 3 + k * 2;
+      f._flap.run(Array.from({ length: n }, (_, i) => (i === n - 1 ? ch : /\d/.test(ch) ? String(Math.floor(Math.random() * 10)) : ch)), k * 40);
+    });
+  };
+
+  // A top-down 1970s Formula One car, nose pointing along +x, about 34 units long.
+  const paintCar = (c, ink, yellow) => {
+    c.fillStyle = "rgba(0,0,0,.22)"; c.fillRect(-15, -8, 34, 18);
+    c.fillStyle = ink;
+    c.fillRect(-17, -9, 4, 18); c.fillRect(-13, -10, 8, 5); c.fillRect(-13, 5, 8, 5);
+    c.fillRect(7, -9, 6, 4); c.fillRect(7, 5, 6, 4); c.fillRect(14, -8, 3, 16);
+    c.fillStyle = yellow; c.strokeStyle = ink; c.lineWidth = 1;
+    c.beginPath(); c.rect(-9, -7, 10, 14); c.fill(); c.stroke();
+    c.beginPath(); c.moveTo(-12, -4.5); c.lineTo(6, -3.5); c.lineTo(15, -1.5); c.lineTo(15, 1.5); c.lineTo(6, 3.5); c.lineTo(-12, 4.5); c.closePath(); c.fill(); c.stroke();
+    c.beginPath(); c.arc(-1, 0, 2.6, 0, 6.283); c.fill(); c.lineWidth = 1.4; c.stroke();
+  };
 
   /* ---------- Lights-out intro ---------- */
   let heroStarted = false;
@@ -1033,16 +1182,7 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
       gridY = H * 0.62 - 26;
       recolourTrack();
     };
-    const drawCar = (c) => {
-      c.fillStyle = "rgba(0,0,0,.22)"; c.fillRect(-15, -8, 34, 18);
-      c.fillStyle = col.ink;
-      c.fillRect(-17, -9, 4, 18); c.fillRect(-13, -10, 8, 5); c.fillRect(-13, 5, 8, 5);
-      c.fillRect(7, -9, 6, 4); c.fillRect(7, 5, 6, 4); c.fillRect(14, -8, 3, 16);
-      c.fillStyle = col.yellow; c.strokeStyle = col.ink; c.lineWidth = 1;
-      c.beginPath(); c.rect(-9, -7, 10, 14); c.fill(); c.stroke();
-      c.beginPath(); c.moveTo(-12, -4.5); c.lineTo(6, -3.5); c.lineTo(15, -1.5); c.lineTo(15, 1.5); c.lineTo(6, 3.5); c.lineTo(-12, 4.5); c.closePath(); c.fill(); c.stroke();
-      c.beginPath(); c.arc(-1, 0, 2.6, 0, 6.283); c.fill(); c.lineWidth = 1.4; c.stroke();
-    };
+    const drawCar = (c) => paintCar(c, col.ink, col.yellow);
     function draw() {
       if (!W || !pts.length) return;
       const top = scrollY, y0 = Math.floor((top - 40) / 6) * 6, y1 = top + H + 40;
@@ -1225,22 +1365,7 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
     const setState = (st, msg) => { state = st; pad.dataset.state = st; status.textContent = msg; };
     const lightsOff = () => lamps.forEach((l) => l.classList.remove("on"));
     const clear = () => { timers.forEach(clearTimeout); timers = []; };
-    const show = (el, text) => {
-      if (reduce) { el.textContent = text; return; }
-      let row = el.querySelector(".flaps"), sr = el.querySelector(".sr");
-      if (!row || row.childElementCount !== text.length) {
-        el.textContent = "";
-        sr = document.createElement("span"); sr.className = "sr";
-        row = document.createElement("span"); row.className = "flaps"; row.setAttribute("aria-hidden", "true");
-        for (let i = 0; i < text.length; i++) row.append(makeFlap().el);
-        el.append(sr, row);
-      }
-      sr.textContent = text;
-      [...row.children].forEach((f, k) => {
-        const ch = text[k], n = 3 + k * 2;
-        f._flap.run(Array.from({ length: n }, (_, i) => (i === n - 1 ? ch : /\d/.test(ch) ? String(Math.floor(Math.random() * 10)) : ch)), k * 40);
-      });
-    };
+    const show = flapText;
     try { best = Number(localStorage.getItem("mw-best")) || null; } catch (e) {}
     if (best) bestEl.textContent = fmt(best);
     const start = () => {
@@ -1258,6 +1383,8 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
         const ms = Math.max(1, Math.round(stamp - outAt));
         setState("done", `${ms} milliseconds. Press to go again`);
         show(timeEl, fmt(ms)); slotEl.textContent = slot(ms);
+        pad.dataset.ms = String(ms);
+        if (ms < 250) celebrate();
         if (!best || ms < best) { best = ms; show(bestEl, fmt(ms)); try { localStorage.setItem("mw-best", String(ms)); } catch (e) {} }
       } else start();
     };
@@ -1320,7 +1447,7 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
     const frame = () => {
       if (!on || !rig) { loop = 0; return; }
       const spec = rig.spec, now = performance.now(), t = ac.currentTime;
-      const target = clamp(Math.abs(speed.v) / 45, 0, 1);
+      const target = Math.max(clamp(Math.abs(speed.v) / 45, 0, 1), driveSpeed);
       sv += (target - sv) * (target > sv ? 0.035 : 0.012);
       let throttle = target > sv + 0.02 ? 1 : target < sv - 0.02 ? 0 : 0.35;
       let r = sv / RATIOS[gear - 1];
@@ -1427,6 +1554,413 @@ html.wet body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:
     });
     addEventListener("resize", () => { if (weather.wet) size(); });
   } else if (rainBtn) rainBtn.hidden = true;
+
+  /* ---------- Effects layer: champagne and confetti ---------- */
+  const fxCv = document.querySelector(".fx");
+  const fx = (() => {
+    if (!fxCv || reduce) return { confetti() {}, champagne() {} };
+    const c = fxCv.getContext("2d");
+    let W = 0, H = 0, d = 1, list = [], sprays = [], running = false;
+    const size = () => { W = innerWidth; H = innerHeight; d = Math.min(2, devicePixelRatio || 1); fxCv.width = Math.round(W * d); fxCv.height = Math.round(H * d); };
+    const frame = () => {
+      const now = performance.now();
+      sprays = sprays.filter((s) => now < s.until);
+      for (const s of sprays) for (let i = 0; i < 6; i++) {
+        const a = s.angle + (Math.random() - 0.5) * 0.5, v = 9 + Math.random() * 7;
+        list.push({ k: "drop", x: s.x, y: s.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, r: 1.5 + Math.random() * 2.5, foam: Math.random() < 0.3 });
+      }
+      for (const p of list) {
+        const drop = p.k === "drop";
+        p.vy += drop ? 0.35 : 0.12; p.vx *= drop ? 0.99 : 0.985;
+        p.x += p.vx; p.y += p.vy;
+        p.life -= drop ? 0.012 : 0.006;
+        if (!drop) p.rot += p.spin;
+      }
+      list = list.filter((p) => p.life > 0 && p.y < H + 40);
+      c.setTransform(d, 0, 0, d, 0, 0);
+      c.clearRect(0, 0, W, H);
+      for (const p of list) {
+        c.globalAlpha = Math.min(1, p.life * 1.5);
+        if (p.k === "drop") { c.fillStyle = p.foam ? "#FFFDF2" : "#F3E3A0"; c.beginPath(); c.arc(p.x, p.y, p.r, 0, 6.283); c.fill(); }
+        else { c.save(); c.translate(p.x, p.y); c.rotate(p.rot); c.scale(1, Math.abs(Math.cos(p.rot * 1.7)) + 0.15); c.fillStyle = p.col; c.fillRect(-p.s / 2, -p.s / 2, p.s, p.s); c.restore(); }
+      }
+      c.globalAlpha = 1;
+      if (list.length || sprays.length) raf(frame); else { running = false; c.clearRect(0, 0, W, H); }
+    };
+    const kick = () => { if (!running) { size(); running = true; raf(frame); } };
+    return {
+      confetti(x, y, n = 140) {
+        for (let i = 0; i < n; i++) {
+          const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.2, v = 6 + Math.random() * 10;
+          list.push({ k: "conf", x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, rot: Math.random() * 6, spin: (Math.random() - 0.5) * 0.3, s: 7 + Math.random() * 7, col: Math.random() < 0.65 ? "#F5C400" : "#121108" });
+        }
+        kick();
+      },
+      champagne(x, y, angle, ms = 1600) { sprays.push({ x, y, angle, until: performance.now() + ms }); kick(); },
+    };
+  })();
+
+  /* ---------- Champagne podium for a quick start ---------- */
+  const podium = document.querySelector(".podium");
+  let podiumTimer = 0;
+  const celebrate = () => {
+    if (!podium) return;
+    podium.classList.add("on");
+    clearTimeout(podiumTimer);
+    podiumTimer = setTimeout(() => podium.classList.remove("on"), 4500);
+    setTimeout(() => {
+      const r = podium.getBoundingClientRect(), top = r.top + 10;
+      fx.champagne(r.left + r.width * 0.36, top, -Math.PI * 0.64);
+      fx.champagne(r.left + r.width * 0.64, top, -Math.PI * 0.36);
+      fx.confetti(r.left + r.width / 2, r.top);
+    }, 450);
+  };
+
+  /* ---------- Pit stop: change four tyres against the clock ---------- */
+  const pit = document.querySelector("#pit-stop .pit");
+  if (pit) {
+    const startBtn = document.getElementById("pit-start"), car = pit.querySelector(".pit-car"), wheels = [...pit.querySelectorAll(".pit-wheel")];
+    const status = pit.querySelector(".pit-status"), timeEl = document.getElementById("pit-time"), bestEl = document.getElementById("pit-best"), rateEl = document.getElementById("pit-rate");
+    let t0 = 0, changed = 0, best = null, timers = [];
+    const fmt = (ms) => (ms / 1000).toFixed(2);
+    const rate = (ms) => (ms < 2500 ? "Crew of the year" : ms < 4000 ? "Quick" : ms < 6000 ? "Steady" : "Long stop");
+    const set = (st, msg) => { pit.dataset.state = st; status.textContent = msg; };
+    try { best = Number(localStorage.getItem("mw-pit")) || null; } catch (e) {}
+    if (best) bestEl.textContent = fmt(best);
+    const clock = () => { if (pit.dataset.state !== "go") return; status.textContent = `${fmt(performance.now() - t0)} s`; raf(clock); };
+    const finish = () => {
+      const ms = performance.now() - t0;
+      set("done", `Jack down. ${fmt(ms)} seconds`);
+      wheels.forEach((w) => (w.disabled = true));
+      flapText(timeEl, fmt(ms));
+      rateEl.textContent = rate(ms);
+      if (!best || ms < best) { best = Math.round(ms); flapText(bestEl, fmt(ms)); try { localStorage.setItem("mw-pit", String(best)); } catch (e) {} }
+      if (ms < 2500) { const r = car.getBoundingClientRect(); fx.confetti(r.left + r.width / 2, r.top + r.height / 2, 90); }
+      pit.classList.add("drop");
+      timers.push(setTimeout(() => { pit.classList.remove("drop"); pit.classList.add("leave"); }, reduce ? 0 : 450));
+    };
+    startBtn.addEventListener("click", () => {
+      if (pit.dataset.state === "in" || pit.dataset.state === "go") return;
+      timers.forEach(clearTimeout); timers = [];
+      wheels.forEach((w) => { w.classList.remove("done", "swap"); w.disabled = true; });
+      pit.classList.remove("leave", "drop");
+      pit.classList.add("reset"); void car.offsetWidth; pit.classList.remove("reset");
+      set("in", "Car coming in");
+      timers.push(setTimeout(() => {
+        changed = 0; t0 = performance.now();
+        wheels.forEach((w) => (w.disabled = false));
+        set("go", "0.00 s");
+        raf(clock);
+      }, reduce ? 50 : 950));
+    });
+    wheels.forEach((w) => w.addEventListener("click", () => {
+      if (pit.dataset.state !== "go" || w.classList.contains("done") || w.classList.contains("swap")) return;
+      w.classList.add("swap");
+      setTimeout(() => {
+        w.classList.remove("swap"); w.classList.add("done");
+        if (++changed === 4) finish();
+      }, reduce ? 0 : 260);
+    }));
+  }
+
+  /* ---------- Drive the page: the pointer or the arrow keys steer a little car ---------- */
+  const driveBtn = document.getElementById("drive-btn"), driveCv = document.querySelector(".drive");
+  if (driveBtn && driveCv && !reduce) {
+    const dc = driveCv.getContext("2d"), marks = document.createElement("canvas"), mc = marks.getContext("2d");
+    const keys = new Set();
+    let W = 0, H = 0, d = 1, on = false, running = false, frameNo = 0, target = null, lastScroll = scrollY, smoke = [], prevRear = null;
+    const car = { x: 0, y: 0, a: -Math.PI / 2, vx: 0, vy: 0 };
+    const size = () => {
+      W = innerWidth; H = innerHeight; d = Math.min(2, devicePixelRatio || 1);
+      driveCv.width = marks.width = Math.round(W * d); driveCv.height = marks.height = Math.round(H * d);
+    };
+    const frame = () => {
+      if (!on) { running = false; driveSpeed = 0; return; }
+      frameNo++;
+      // Marks and smoke belong to the page, so they move when it scrolls; the car stays on screen.
+      const sy = scrollY - lastScroll;
+      if (sy) {
+        mc.save(); mc.setTransform(1, 0, 0, 1, 0, 0); mc.globalCompositeOperation = "copy"; mc.drawImage(marks, 0, -sy * d); mc.restore();
+        smoke.forEach((p) => (p.y -= sy));
+        if (prevRear) prevRear.forEach((w) => (w[1] -= sy));
+        lastScroll = scrollY;
+      }
+      const fx0 = Math.cos(car.a), fy0 = Math.sin(car.a);
+      let fwd = car.vx * fx0 + car.vy * fy0, throttle = 0, steer = 0;
+      if (keys.size) {
+        throttle = keys.has("ArrowUp") ? 1 : keys.has("ArrowDown") ? -0.6 : 0;
+        steer = (keys.has("ArrowRight") ? 1 : 0) - (keys.has("ArrowLeft") ? 1 : 0);
+      } else if (target) {
+        const dx = target.x - car.x, dy = target.y - car.y, dist = Math.hypot(dx, dy);
+        const diff = ((Math.atan2(dy, dx) - car.a + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+        steer = clamp(diff * 2, -1, 1);
+        throttle = dist > 40 ? clamp(dist / 250, 0.25, 1) * (Math.abs(diff) > 2 ? 0.4 : 1) : fwd > 1 ? -0.5 : 0;
+      }
+      car.a += steer * 0.075 * clamp(Math.abs(fwd) / 4, 0, 1) * (fwd < 0 ? -1 : 1);
+      const fx = Math.cos(car.a), fy = Math.sin(car.a);
+      car.vx += fx * throttle * 0.55; car.vy += fy * throttle * 0.55;
+      fwd = car.vx * fx + car.vy * fy;
+      let lat = -car.vx * fy + car.vy * fx;
+      fwd = clamp(fwd * 0.975, -6, 14); lat *= 0.9;
+      car.vx = fwd * fx - lat * fy; car.vy = fwd * fy + lat * fx;
+      car.x += car.vx; car.y += car.vy;
+      if (car.x < 24 || car.x > W - 24) { car.vx *= -0.5; car.x = clamp(car.x, 24, W - 24); }
+      if (car.y < 24 || car.y > H - 24) { car.vy *= -0.5; car.y = clamp(car.y, 24, H - 24); }
+      driveSpeed = clamp(Math.abs(fwd) / 12, 0, 1);
+      // Tyre marks and smoke when the rear steps out or the wheels spin
+      const sliding = Math.abs(lat) > 1.5 || (throttle > 0.8 && Math.abs(fwd) > 0.5 && Math.abs(fwd) < 3);
+      const rear = [-1, 1].map((s) => [car.x - fx * 16 - fy * s * 11, car.y - fy * 16 + fx * s * 11]);
+      if (sliding && prevRear) {
+        mc.setTransform(d, 0, 0, d, 0, 0); mc.strokeStyle = token("--skid"); mc.lineWidth = 3.5; mc.lineCap = "round";
+        mc.beginPath(); rear.forEach((w, i) => { mc.moveTo(prevRear[i][0], prevRear[i][1]); mc.lineTo(w[0], w[1]); }); mc.stroke();
+        rear.forEach((w) => smoke.push({ x: w[0], y: w[1], r: 3, a: 0.8, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8 }));
+      }
+      prevRear = sliding ? rear : null;
+      if (frameNo % 4 === 0) { mc.setTransform(1, 0, 0, 1, 0, 0); mc.globalCompositeOperation = "destination-out"; mc.fillStyle = "rgba(0,0,0,0.03)"; mc.fillRect(0, 0, marks.width, marks.height); mc.globalCompositeOperation = "source-over"; }
+      smoke.forEach((p) => { p.x += p.vx; p.y += p.vy; p.r += 0.45; p.a -= 0.025; });
+      smoke = smoke.filter((p) => p.a > 0).slice(-160);
+      dc.setTransform(1, 0, 0, 1, 0, 0); dc.clearRect(0, 0, driveCv.width, driveCv.height);
+      dc.drawImage(marks, 0, 0);
+      dc.setTransform(d, 0, 0, d, 0, 0);
+      dc.fillStyle = token("--smoke");
+      smoke.forEach((p) => { dc.globalAlpha = p.a * 0.45; dc.beginPath(); dc.arc(p.x, p.y, p.r, 0, 6.283); dc.fill(); });
+      dc.globalAlpha = 1;
+      dc.save(); dc.translate(car.x, car.y); dc.rotate(car.a); dc.scale(1.6, 1.6); paintCar(dc, token("--helmet-ink"), token("--helmet")); dc.restore();
+      raf(frame);
+    };
+    const setOn = (next) => {
+      on = next;
+      driveBtn.setAttribute("aria-pressed", String(on));
+      root.classList.toggle("driving", on);
+      if (on) {
+        size();
+        mc.clearRect(0, 0, marks.width, marks.height);
+        Object.assign(car, { x: 90, y: H - 110, a: -Math.PI / 2, vx: 0, vy: -2 });
+        target = null; smoke = []; prevRear = null; lastScroll = scrollY;
+        if (!running) { running = true; raf(frame); }
+      } else { keys.clear(); driveSpeed = 0; }
+    };
+    driveBtn.addEventListener("click", () => setOn(!on));
+    addEventListener("pointermove", (e) => { if (on && e.pointerType === "mouse") target = { x: e.clientX, y: e.clientY }; }, { passive: true });
+    addEventListener("pointerdown", (e) => { if (on && e.pointerType !== "mouse" && !e.target.closest(".dock")) target = { x: e.clientX, y: e.clientY }; }, { passive: true });
+    document.addEventListener("mouseleave", () => { target = null; });
+    addEventListener("keydown", (e) => {
+      if (!on) return;
+      if (e.key === "Escape") { setOn(false); return; }
+      if (e.key.startsWith("Arrow")) { e.preventDefault(); keys.add(e.key); }
+    });
+    addEventListener("keyup", (e) => keys.delete(e.key));
+    addEventListener("resize", () => { if (on) size(); });
+  } else if (driveBtn) driveBtn.hidden = true;
+
+  /* ---------- 3D garage: a 1970s Formula One car on a turntable (three.js, loaded when needed) ---------- */
+  const garage = document.getElementById("garage");
+  if (garage) {
+    const stage = garage.querySelector(".garage-stage");
+    const explodeBtn = document.getElementById("explode-btn"), spinBtn = document.getElementById("spin-btn");
+    if (reduce) spinBtn.setAttribute("aria-pressed", "false");
+    const fail = (msg) => {
+      garage.dataset.state = "error";
+      const wait = stage.querySelector(".garage-wait");
+      if (wait) { wait.querySelector(".garage-spin")?.remove(); wait.lastElementChild.textContent = msg; }
+      explodeBtn.disabled = spinBtn.disabled = true;
+    };
+    const hasGL = () => {
+      try {
+        const c = document.createElement("canvas"), gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+        if (gl) gl.getExtension("WEBGL_lose_context")?.loseContext();
+        return !!gl;
+      } catch (e) { return false; }
+    };
+    const startGarage = (THREE) => {
+      let renderer;
+      try { renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); } catch (e) { fail("This browser can't draw 3D, so the garage stays shut."); return; }
+      renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.setClearColor(0x0e0d0a, 1);
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x0e0d0a, 11, 22);
+      const camera = new THREE.PerspectiveCamera(32, 2, 0.1, 60);
+      scene.add(new THREE.HemisphereLight(0xfff2d0, 0x15140f, 0.65));
+      const key = new THREE.SpotLight(0xffffff, 1.3, 30, Math.PI / 5, 0.45, 1);
+      key.position.set(3.5, 7, 3.2); key.castShadow = true; key.shadow.mapSize.set(1024, 1024); key.shadow.bias = -0.0005;
+      scene.add(key, key.target);
+      const rim = new THREE.DirectionalLight(0xf5c400, 0.55); rim.position.set(-5, 2.5, -4); scene.add(rim);
+      const fill = new THREE.PointLight(0xffffff, 0.35, 15); fill.position.set(-3, 2, 4); scene.add(fill);
+      const ring = new THREE.Mesh(new THREE.RingGeometry(4.3, 4.42, 96), new THREE.MeshBasicMaterial({ color: 0xf5c400 }));
+      ring.rotation.x = -Math.PI / 2; ring.position.y = 0.002; scene.add(ring);
+      const table = new THREE.Group(); scene.add(table);
+      const floor = new THREE.Mesh(new THREE.CircleGeometry(4.25, 72), new THREE.MeshStandardMaterial({ color: 0x1f1e18, roughness: 0.9 }));
+      floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; table.add(floor);
+      const diamondMat = new THREE.MeshBasicMaterial({ color: 0xf5c400 });
+      for (let i = 0; i < 24; i++) {
+        const dm = new THREE.Mesh(new THREE.PlaneGeometry(0.17, 0.17), diamondMat), a = (i / 24) * Math.PI * 2;
+        dm.position.set(Math.cos(a) * 3.95, 0.004, Math.sin(a) * 3.95); dm.rotation.set(-Math.PI / 2, 0, Math.PI / 4); table.add(dm);
+      }
+      const M = {
+        yellow: new THREE.MeshStandardMaterial({ color: 0xf5c400, roughness: 0.32, metalness: 0.08 }),
+        ink: new THREE.MeshStandardMaterial({ color: 0x141310, roughness: 0.55 }),
+        tyre: new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.95 }),
+        metal: new THREE.MeshStandardMaterial({ color: 0x9a978c, roughness: 0.3, metalness: 0.85 }),
+        dark: new THREE.MeshStandardMaterial({ color: 0x3a3934, roughness: 0.5, metalness: 0.6 }),
+      };
+      const mesh = (geo, mat) => { const m = new THREE.Mesh(geo, mat); m.castShadow = m.receiveShadow = true; return m; };
+      const extrude = (pts, depth, mat) => {
+        const s = new THREE.Shape();
+        pts.forEach(([x, y], i) => (i ? s.lineTo(x, y) : s.moveTo(x, y)));
+        const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 2 });
+        g.translate(0, 0, -depth / 2);
+        return mesh(g, mat);
+      };
+      const rod = (a, b, r, mat) => {
+        const va = new THREE.Vector3(...a), vb = new THREE.Vector3(...b), m = mesh(new THREE.CylinderGeometry(r, r, va.distanceTo(vb), 8), mat);
+        m.position.copy(va).add(vb).multiplyScalar(0.5);
+        m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
+        return m;
+      };
+      // Parts: each is a group anchored at its centre, with a direction to fly when the car comes apart.
+      const parts = [];
+      const part = (label, at, off) => {
+        const g = new THREE.Group();
+        g.position.set(...at);
+        g.userData = { base: new THREE.Vector3(...at), off: new THREE.Vector3(...off) };
+        table.add(g); parts.push({ g, label });
+        return g;
+      };
+      const put = (g, m, x = 0, y = 0, z = 0) => { m.position.add(new THREE.Vector3(x, y, z)).sub(g.userData.base); g.add(m); return m; };
+      const helmetTexture = () => {
+        const c = document.createElement("canvas"); c.width = 512; c.height = 256;
+        const x = c.getContext("2d");
+        x.fillStyle = "#F5C400"; x.fillRect(0, 0, 512, 256);
+        x.fillStyle = "#121108";
+        for (let i = 0; i < 16; i++) { const cx = (i + 0.5) * 32, cy = 56; x.beginPath(); x.moveTo(cx, cy - 13); x.lineTo(cx + 9, cy); x.lineTo(cx, cy + 13); x.lineTo(cx - 9, cy); x.closePath(); x.fill(); }
+        x.fillStyle = "#1B2430"; x.fillRect(200, 112, 112, 34);
+        const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+      };
+
+      const tub = part("Monocoque", [0.4, 0.4, 0], [0, 0, 0]);
+      put(tub, extrude([[-0.95, 0.14], [0.95, 0.14], [0.95, 0.5], [0.3, 0.6], [-0.95, 0.62]], 0.66, M.yellow));
+      put(tub, extrude([[0.95, 0.14], [2.05, 0.17], [2.05, 0.29], [0.95, 0.5]], 0.4, M.yellow));
+      put(tub, mesh(new THREE.BoxGeometry(1.9, 0.035, 0.75), M.ink), 0, 0.33, 0);
+      const hoop = put(tub, mesh(new THREE.TorusGeometry(0.2, 0.025, 8, 20, Math.PI), M.metal), -0.2, 0.68, 0); hoop.rotation.y = Math.PI / 2;
+      for (const s of [-1, 1]) {
+        [[[1.25, 0.3, s * 0.2], [1.25, 0.3, s * 0.6]], [[1.05, 0.2, s * 0.2], [1.25, 0.24, s * 0.6]], [[-0.95, 0.34, s * 0.32], [-1.25, 0.38, s * 0.62]], [[-1.45, 0.25, s * 0.22], [-1.25, 0.3, s * 0.62]]]
+          .forEach(([a, b]) => put(tub, rod(a, b, 0.018, M.metal)));
+      }
+      [-1, 1].forEach((s, i) => {
+        const sp = part(i ? "" : "Sidepods", [-0.15, 0.3, s * 0.5], [0, 0, s * 0.75]);
+        put(sp, mesh(new THREE.BoxGeometry(1.3, 0.3, 0.34), M.yellow), -0.15, 0.3, s * 0.5);
+        put(sp, mesh(new THREE.BoxGeometry(0.02, 0.22, 0.28), M.ink), 0.51, 0.3, s * 0.5);
+        for (let k = 0; k < 3; k++) { const dm = put(sp, mesh(new THREE.BoxGeometry(0.1, 0.1, 0.01), M.ink), -0.55 + k * 0.28, 0.3, s * 0.672); dm.rotation.z = Math.PI / 4; }
+      });
+      const air = part("Airbox", [-0.35, 0.85, 0], [0, 0.95, 0]);
+      put(air, extrude([[-0.62, 0.6], [-0.12, 0.6], [-0.05, 1.08], [-0.48, 1.1]], 0.3, M.yellow));
+      put(air, mesh(new THREE.BoxGeometry(0.02, 0.2, 0.22), M.ink), -0.03, 0.97, 0);
+      const driver = part("Driver", [0.18, 0.8, 0], [0, 1.7, 0]);
+      put(driver, mesh(new THREE.SphereGeometry(0.17, 32, 24), new THREE.MeshStandardMaterial({ map: helmetTexture(), roughness: 0.25, metalness: 0.1 })), 0.18, 0.8, 0);
+      put(driver, mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.2, 16), M.ink), 0.18, 0.62, 0);
+      const engine = part("Engine", [-1.25, 0.42, 0], [-0.95, 0.4, 0]);
+      put(engine, mesh(new THREE.BoxGeometry(0.72, 0.3, 0.44), M.dark), -1.25, 0.38, 0);
+      for (let k = 0; k < 4; k++) for (const s of [-1, 1]) put(engine, mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.14, 10), M.metal), -1.5 + k * 0.17, 0.6, s * 0.1);
+      for (const s of [-1, 1]) put(engine, rod([-1.0, 0.3, s * 0.24], [-1.85, 0.42, s * 0.3], 0.035, M.metal));
+      const box = part("Gearbox", [-1.75, 0.34, 0], [-1.6, 0.1, 0]);
+      put(box, mesh(new THREE.BoxGeometry(0.4, 0.22, 0.3), M.dark), -1.75, 0.34, 0);
+      const rear = part("Rear wing", [-1.95, 1.02, 0], [-1.0, 0.95, 0]);
+      put(rear, mesh(new THREE.BoxGeometry(0.5, 0.045, 1.34), M.yellow), -1.95, 1.04, 0).rotation.z = -0.12;
+      for (const s of [-1, 1]) put(rear, mesh(new THREE.BoxGeometry(0.52, 0.34, 0.03), M.ink), -1.95, 1.0, s * 0.68);
+      put(rear, mesh(new THREE.BoxGeometry(0.08, 0.5, 0.06), M.ink), -1.85, 0.75, 0);
+      const front = part("Front wing", [1.88, 0.2, 0], [0.95, 0, 0]);
+      for (const s of [-1, 1]) {
+        put(front, mesh(new THREE.BoxGeometry(0.42, 0.03, 0.55), M.ink), 1.88, 0.2, s * 0.48);
+        put(front, mesh(new THREE.BoxGeometry(0.4, 0.14, 0.02), M.yellow), 1.88, 0.24, s * 0.76);
+      }
+      [[1.25, 0.28, 0.72, 0.28, 0.26], [-1.25, 0.36, 0.8, 0.36, 0.42]].forEach(([x, y, z, r, w], row) => [-1, 1].forEach((s, i) => {
+        const g = part(row === 1 && i === 1 ? "Wheels" : "", [x, y, s * z], [0, 0.08, s * 1.05]);
+        put(g, mesh(new THREE.CylinderGeometry(r, r, w, 40), M.tyre), x, y, s * z).rotation.x = Math.PI / 2;
+        put(g, mesh(new THREE.CylinderGeometry(r * 0.6, r * 0.6, w * 1.02, 24), M.metal), x, y, s * z).rotation.x = Math.PI / 2;
+        put(g, mesh(new THREE.TorusGeometry(r * 0.82, 0.012, 6, 40), M.yellow), x, y, s * (z + w / 2 + 0.003));
+      }));
+
+      // Camera, labels and controls
+      const wait = stage.querySelector(".garage-wait");
+      stage.prepend(renderer.domElement);
+      const labels = parts.filter((p) => p.label).map((p) => { const el = document.createElement("span"); el.className = "garage-label"; el.textContent = p.label; stage.append(el); return { el, p, lw: el.offsetWidth, lh: el.offsetHeight }; });
+      const look = new THREE.Vector3(0, 0.45, 0), v = new THREE.Vector3();
+      let w = 0, h = 0, yaw = -0.6, yawVel = 0, elev = 0.32, dist = 8.4, distT = 8.4, ex = 0, exTarget = 0, dragging = false, visible = false, looping = false;
+      let auto = spinBtn.getAttribute("aria-pressed") === "true";
+      const size = () => { w = stage.clientWidth; h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+      const render = () => {
+        if (!dragging) { yaw += yawVel; yawVel *= 0.94; if (auto && Math.abs(yawVel) < 0.002) yaw += 0.0045; }
+        table.rotation.y = yaw;
+        dist += (distT - dist) * 0.12;
+        ex += reduce ? exTarget - ex : (exTarget - ex) * 0.08;
+        const e = ex * ex * (3 - 2 * ex);
+        parts.forEach(({ g }) => g.position.copy(g.userData.base).addScaledVector(g.userData.off, e));
+        camera.position.set(Math.cos(elev) * Math.cos(0.75) * dist, look.y + Math.sin(elev) * dist, Math.cos(elev) * Math.sin(0.75) * dist);
+        camera.lookAt(look);
+        renderer.render(scene, camera);
+        // Project each label, then push any label that would sit on top of another one further down.
+        const placed = labels.map((l) => { l.p.g.getWorldPosition(v); v.y += 0.32; v.project(camera); return { ...l, x: ((v.x + 1) / 2) * w, y: ((1 - v.y) / 2) * h }; }).sort((a, b) => a.y - b.y);
+        for (let i = 1; i < placed.length; i++) for (let j = 0; j < i; j++) {
+          const a = placed[j], b = placed[i];
+          if (Math.abs(a.x - b.x) < (a.lw + b.lw) / 2 + 4 && b.y - a.y < b.lh + 3) b.y = a.y + b.lh + 3;
+        }
+        placed.forEach(({ el, x, y }) => {
+          el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%)`;
+          el.style.opacity = e.toFixed(2);
+        });
+        if (visible) raf(render); else looping = false;
+      };
+      const kick = () => { if (visible && !looping) { looping = true; raf(render); } };
+      const cv = renderer.domElement, pointers = new Map();
+      let lastX = 0, lastY = 0, pinch = 0;
+      cv.addEventListener("pointerdown", (e) => {
+        cv.setPointerCapture(e.pointerId); pointers.set(e.pointerId, [e.clientX, e.clientY]);
+        dragging = true; lastX = e.clientX; lastY = e.clientY;
+        if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch = Math.hypot(a[0] - b[0], a[1] - b[1]); }
+      });
+      cv.addEventListener("pointermove", (e) => {
+        if (!pointers.has(e.pointerId)) return;
+        pointers.set(e.pointerId, [e.clientX, e.clientY]);
+        if (pointers.size === 2) { const [a, b] = [...pointers.values()], dd = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch) distT = clamp((distT * pinch) / dd, 4.2, 12); pinch = dd; return; }
+        const dx = e.clientX - lastX, dy = e.clientY - lastY;
+        lastX = e.clientX; lastY = e.clientY;
+        yaw += dx * 0.01; yawVel = dx * 0.01; elev = clamp(elev + dy * 0.006, 0.05, 1.25);
+      });
+      const release = (e) => { pointers.delete(e.pointerId); if (!pointers.size) dragging = false; pinch = 0; };
+      cv.addEventListener("pointerup", release);
+      cv.addEventListener("pointercancel", release);
+      cv.addEventListener("wheel", (e) => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); distT = clamp(distT * (1 + e.deltaY * 0.0015), 4.2, 12); }, { passive: false });
+      explodeBtn.addEventListener("click", () => {
+        exTarget = exTarget ? 0 : 1;
+        explodeBtn.setAttribute("aria-pressed", String(!!exTarget));
+        explodeBtn.lastChild.textContent = exTarget ? "Put it back together" : "Take it apart";
+      });
+      spinBtn.addEventListener("click", () => { auto = !auto; spinBtn.setAttribute("aria-pressed", String(auto)); });
+      new ResizeObserver(size).observe(stage);
+      size();
+      new IntersectionObserver(([en]) => { visible = en.isIntersecting; kick(); }).observe(stage);
+      wait?.remove();
+      garage.dataset.state = "ready";
+    };
+    const load = () => {
+      if (garage.dataset.state !== "idle") return;
+      if (!hasGL()) { fail("This browser can't draw 3D, so the garage stays shut."); return; }
+      garage.dataset.state = "loading";
+      if (window.THREE) { startGarage(window.THREE); return; }
+      const sc = document.createElement("script");
+      sc.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+      sc.onload = () => (window.THREE ? startGarage(window.THREE) : fail("The 3D library didn't load. Reload the page to try again."));
+      sc.onerror = () => fail("The 3D library didn't load. Reload the page to try again.");
+      document.head.append(sc);
+    };
+    if ("IntersectionObserver" in window) {
+      const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { near.disconnect(); load(); } }, { rootMargin: "900px 0px" });
+      near.observe(garage);
+    } else load();
+  }
 
   /* ---------- Reading progress, the timeline's lap line, and everything scroll-driven ---------- */
   const progress = document.querySelector(".progress");
